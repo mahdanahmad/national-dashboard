@@ -1,0 +1,25 @@
+@mixin clearfix {
+    &:before, &:after { content: " "; display: table; }
+    &:after { clear: both; }
+}
+
+@mixin nopadding {
+	padding: 0px!important; margin: 0px!important;
+}
+
+@mixin noselect {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+@mixin transform($transforms...) {
+	-moz-transform: $transforms;
+	-o-transform: $transforms;
+	-ms-transform: $transforms;
+	-webkit-transform: $transforms;
+	transform: $transforms;
+}
