@@ -1,0 +1,35 @@
+{
+  "name": "national-dashboard",
+  "version": "0.0.1",
+  "description": "re-designed National Dashboard for Pulselab Jakarta",
+  "main": "./app/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"start": "nodemon ./app/server.js localhost"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/mahdanahmad/national-dashboard.git"
+  },
+  "author": "mahdan.hasan@un.or.id",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mahdanahmad/national-dashboard/issues"
+  },
+  "homepage": "https://github.com/mahdanahmad/national-dashboard#readme",
+  "dependencies": {
+    "async": "^2.6.0",
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "lodash": "^4.17.4",
+    "moment": "^2.19.3",
+    "mysql": "^2.15.0"
+  },
+  "devDependencies": {
+    "light-server": "^2.2.1",
+    "nodemon": "^1.12.1"
+  }
+}
