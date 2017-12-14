@@ -6,6 +6,22 @@
     font-family: "SF Bold";
     src: url("/font/System San Francisco Display Bold.ttf");
 }
+@font-face {
+    font-family: "TG Bold";
+    src: url("/font/TradeGothic-Bold.ttf");
+}
+@font-face {
+    font-family: "TG CondEighteen";
+    src: url("/font/TradeGothic-CondEighteen.ttf");
+}
+@font-face {
+    font-family: "TG LightOblique";
+    src: url("/font/TradeGothic-LightOblique.ttf");
+}
 
-$def-font-stack : "SF Regular";
-$default-back   : #eee;
+$def-font-stack : "TG CondEighteen";
+$default-back   : white;
+$base-color		: #3d8fb1;
+
+$active-clr		: #16aeec;
+$nonactive-clr	: #a8a8a8;

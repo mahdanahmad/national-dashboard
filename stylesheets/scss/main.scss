@@ -25,9 +25,39 @@ input::-webkit-inner-spin-button, input::-webkit-outer-spin-button { -webkit-app
 .hidden { display: none; }
 html, body, body > div#root {
 	width: 100%; height: 100%; margin: 0px; padding: 0px; overflow: hidden; font-family: $def-font-stack; font-size: 14px;
-	-webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; color: black;
+	-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; color: black;
 }
 div#root {
-    background: $default-back;
-
+    background: $default-back; position: relative;
+	$header-height: 90px;
+	#header {
+		height: $header-height; padding: 0px 35px; position: relative;
+		img#header-logo { height: 40px; width: auto; position: absolute; top: calc(50% + 1px); @include transform(translate(0px, -50%)); }
+		span { color: $base-color; font-size: 30px; font-style: italic; line-height: $header-height; margin-left: 50px; font-family: 'TG Bold'; }
+	}
+	$panel-width: 300px;
+	#panel-wrapper {
+		width: calc(#{$panel-width} - 30px); height: calc(100% - #{$header-height}); display: inline-block; float: left; padding: 0px 15px;
+		.panel {
+			background: #f1f1f1; margin-bottom: 15px; @include clearfix();
+			.panel-title {
+				padding: 10px 15px;
+				i { color: #a8a8a8; font-size: 20px; }
+				span { color: $active-clr; text-transform: uppercase; font-size: 13px; margin-left: 5px; vertical-align: top; line-height: 20px; font-family: 'TG Bold'; }
+			}
+			.panel-value {
+				&#datasource {
+					.datasource-opt.active { background: $active-clr; }
+				}
+				&#area {
+					background: white; border: 2px solid #f1f1f1; border-top: none;
+					select { width: 100%; height: 27px; background: white; border-color: white; }
+				}
+				.selections { width: 49.5%; display: inline-block; float: left; text-align: center; padding: 5px 0px; background: $nonactive-clr; color: white; &:nth-child(odd) { margin-right: 1%; }}
+			}
+		}
+	}
+	#content-wrapper {
+		width: calc(100% - #{$panel-width}); height: calc(100% - #{$header-height}); display: inline-block; float: right; background: maroon;
+	}
 }

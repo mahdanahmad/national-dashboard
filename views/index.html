@@ -22,7 +22,7 @@
 
         <link rel="stylesheet" href="css/main.css">
 
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
@@ -30,10 +30,39 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.11.0/d3.min.js"></script>
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script> -->
 
+		<script src="main.js"></script>
     </head>
     <body class="">
         <div id="root">
+			<div id="header">
+				<div id="header-title" class="cursor-default">
+					<img id="header-logo" src="/images/header_logo.png">
+					<span>National Citizen Feedback Dashboard</span>
+				</div>
+			</div>
+			<div id="panel-wrapper">
+				<div class="panel">
+					<div class="panel-title cursor-default">
+						<i class="fa fa-database" aria-hidden="true"></i>
+						<span>Data Source</span>
+					</div>
+					<div id="datasource" class="panel-value">
 
+					</div>
+				</div>
+				<div class="panel">
+					<div class="panel-title cursor-default">
+						<i class="fa fa-map-marker" aria-hidden="true"></i>
+						<span>Area</span>
+					</div>
+					<div id="area" class="panel-value">
+						<select id="area-opts"></select>
+					</div>
+				</div>
+			</div>
+			<div id="content-wrapper">
+
+			</div>
         </div>
     </body>
 </html>

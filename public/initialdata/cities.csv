@@ -1,0 +1,498 @@
+city_id, province_id, city_name, old_id
+'1101', '11', 'Simeulue', NULL
+'1102', '11', 'Aceh Singkil', NULL
+'1103', '11', 'Aceh Selatan', NULL
+'1104', '11', 'Aceh Tenggara', NULL
+'1105', '11', 'Aceh Timur', NULL
+'1106', '11', 'Aceh Tengah', NULL
+'1107', '11', 'Aceh Barat', NULL
+'1108', '11', 'Aceh Besar', NULL
+'1109', '11', 'Pidie', NULL
+'1110', '11', 'Bireuen', NULL
+'1111', '11', 'Aceh Utara', NULL
+'1112', '11', 'Aceh Barat Daya', NULL
+'1113', '11', 'Gayo Lues', NULL
+'1114', '11', 'Aceh Tamiang', NULL
+'1115', '11', 'Nagan Raya', NULL
+'1116', '11', 'Aceh Jaya', NULL
+'1117', '11', 'Bener Meriah', NULL
+'1118', '11', 'Pidie Jaya', NULL
+'1171', '11', 'Kota Banda Aceh', NULL
+'1172', '11', 'Kota Sabang', NULL
+'1173', '11', 'Kota Langsa', NULL
+'1174', '11', 'Kota Lhokseumawe', NULL
+'1175', '11', 'Kota Subulussalam', NULL
+'1201', '12', 'N i a s', NULL
+'1202', '12', 'Mandailing Natal', NULL
+'1203', '12', 'Tapanuli Selatan', NULL
+'1204', '12', 'Tapanuli Tengah', NULL
+'1205', '12', 'Tapanuli Utara', NULL
+'1206', '12', 'Toba Samosir', NULL
+'1207', '12', 'Labuhan Batu', NULL
+'1208', '12', 'Asahan', NULL
+'1209', '12', 'Simalungun', NULL
+'1210', '12', 'Dairi', NULL
+'1211', '12', 'K a r o', NULL
+'1212', '12', 'Deli Serdang', NULL
+'1213', '12', 'Langkat', NULL
+'1214', '12', 'Nias Selatan', NULL
+'1215', '12', 'Humbang Hasundutan', NULL
+'1216', '12', 'Pakpak Bharat', NULL
+'1217', '12', 'Samosir', NULL
+'1218', '12', 'Serdang Bedagai', NULL
+'1219', '12', 'Batu Bara', NULL
+'1220', '12', 'Padang Lawas Utara', NULL
+'1221', '12', 'Padang Lawas', NULL
+'1222', '12', 'Labuhan Batu Selatan', NULL
+'1223', '12', 'Labuhan Batu Utara', NULL
+'1224', '12', 'Nias Utara', NULL
+'1225', '12', 'Nias Barat', NULL
+'1271', '12', 'Kota Sibolga', NULL
+'1272', '12', 'Kota Tanjung Balai', NULL
+'1273', '12', 'Kota Pematang Siantar', NULL
+'1274', '12', 'Kota Tebing Tinggi', NULL
+'1275', '12', 'Kota Medan', NULL
+'1276', '12', 'Kota Binjai', NULL
+'1277', '12', 'Kota Padang Sidempuan', NULL
+'1278', '12', 'Kota Gunungsitoli', NULL
+'1301', '13', 'Kep. Mentawai', NULL
+'1302', '13', 'Pesisir Selatan', NULL
+'1303', '13', 'Solok', NULL
+'1304', '13', 'Sawahlunto/Sijunjung', NULL
+'1305', '13', 'Tanah Datar', NULL
+'1306', '13', 'Padang Pariaman', NULL
+'1307', '13', 'A g a m', NULL
+'1308', '13', 'Lima Puluh Koto', NULL
+'1309', '13', 'Pasaman', NULL
+'1310', '13', 'Solok Selatan', NULL
+'1311', '13', 'Dharmasraya', NULL
+'1312', '13', 'Pasaman Barat', NULL
+'1371', '13', 'Kota Padang', NULL
+'1372', '13', 'Kota Solok', NULL
+'1373', '13', 'Kota Sawahlunto', NULL
+'1374', '13', 'Kota Padang Panjang', NULL
+'1375', '13', 'Kota Bukit Tinggi', NULL
+'1376', '13', 'Kota Payakumbuh', NULL
+'1377', '13', 'Kota Pariaman', NULL
+'1401', '14', 'Kuantan Senggigi', NULL
+'1402', '14', 'Indragiri Hulu', NULL
+'1403', '14', 'Indragiri Hilir', NULL
+'1404', '14', 'Pelalawan', NULL
+'1405', '14', 'S i a k', NULL
+'1406', '14', 'Kampar', NULL
+'1407', '14', 'Rokan Hulu', NULL
+'1408', '14', 'Bengkalis', NULL
+'1409', '14', 'Rokan Hilir', NULL
+'1410', '14', 'Kepulauan Meranti', NULL
+'1471', '14', 'Kota Pekan Baru', NULL
+'1473', '14', 'Kota Dumai', NULL
+'1501', '15', 'Kerinci', NULL
+'1502', '15', 'Merangin', NULL
+'1503', '15', 'Sarolangun', NULL
+'1504', '15', 'Batang Hari', NULL
+'1505', '15', 'Muaro Jambi', NULL
+'1506', '15', 'Tjg Jabung Timur', NULL
+'1507', '15', 'Tjg Jabung Barat', NULL
+'1508', '15', 'T e b o', NULL
+'1509', '15', 'Bungo', NULL
+'1571', '15', 'Kota Jambi', NULL
+'1572', '15', 'Kota Sungai Penuh', NULL
+'1601', '16', 'Ogan Komering Ulu', NULL
+'1602', '16', 'Ogan Komering Ilir', NULL
+'1603', '16', 'Muara Enim', NULL
+'1604', '16', 'Lahat', NULL
+'1605', '16', 'Musi Rawas', NULL
+'1606', '16', 'Musi Banyuasin', NULL
+'1607', '16', 'Banyuasin', NULL
+'1608', '16', 'OKU Selatan', NULL
+'1609', '16', 'OKU Timur', NULL
+'1610', '16', 'Ogan Ilir', NULL
+'1611', '16', 'Empat Lawang', NULL
+'1671', '16', 'Kota Palembang', NULL
+'1672', '16', 'Kota Prabumulih', NULL
+'1673', '16', 'Kota Pagar Alam', NULL
+'1674', '16', 'Kota Lubuk Linggau', NULL
+'1701', '17', 'Bengkulu Selatan', NULL
+'1702', '17', 'Rejang Lebong', NULL
+'1703', '17', 'Bengkulu Utara', NULL
+'1704', '17', 'K a u r', NULL
+'1705', '17', 'Seluma', NULL
+'1706', '17', 'Muko Muko', NULL
+'1707', '17', 'Lebong', NULL
+'1708', '17', 'Kepahiang', NULL
+'1709', '17', 'Bengkulu Tengah', NULL
+'1771', '17', 'Kota Bengkulu', NULL
+'1801', '18', 'Lampung Barat', NULL
+'1802', '18', 'Tanggamus', NULL
+'1803', '18', 'Lampung Selatan', NULL
+'1804', '18', 'Lampung Timur', NULL
+'1805', '18', 'Lampung Tengah', NULL
+'1806', '18', 'Lampung Utara', NULL
+'1807', '18', 'Way Kanan', NULL
+'1808', '18', 'Tulang Bawang', NULL
+'1809', '18', 'Pesawaran', NULL
+'1810', '18', 'Pringsewu', NULL
+'1811', '18', 'Mesuji', NULL
+'1812', '18', 'Tulangbawang Barat', NULL
+'1871', '18', 'Kota Bandar Lampung', NULL
+'1872', '18', 'Kota Metro', NULL
+'1901', '19', 'Bangka', NULL
+'1902', '19', 'Belitung', NULL
+'1903', '19', 'Bangka Barat', NULL
+'1904', '19', 'Bangka Tengah', NULL
+'1905', '19', 'Bangka Selatan', NULL
+'1906', '19', 'Belitung Timur', NULL
+'1971', '19', 'Kota Pangkal Pinang', NULL
+'2101', '21', 'Karimun', NULL
+'2102', '21', 'Bintan', NULL
+'2103', '21', 'Natuna', NULL
+'2104', '21', 'Lingga', NULL
+'2105', '21', 'Kepulauan Anambas', NULL
+'2171', '21', 'Kota Batam', NULL
+'2172', '21', 'Kota Tanjung Pinang', NULL
+'3101', '31', 'Kepulauan Seribu', NULL
+'3171', '31', 'Kota Jakarta Selatan', NULL
+'3172', '31', 'Kota Jakarta Timur', NULL
+'3173', '31', 'Kota Jakarta Pusat', NULL
+'3174', '31', 'Kota Jakarta Barat', NULL
+'3175', '31', 'Kota Jakarta Utara', NULL
+'3201', '32', 'Bogor', NULL
+'3202', '32', 'Sukabumi', NULL
+'3203', '32', 'Cianjur', NULL
+'3204', '32', 'Bandung', NULL
+'3205', '32', 'Garut', NULL
+'3206', '32', 'Tasikmalaya', NULL
+'3207', '32', 'Ciamis', NULL
+'3208', '32', 'Kuningan', NULL
+'3209', '32', 'Cirebon', NULL
+'3210', '32', 'Majalengka', NULL
+'3211', '32', 'Sumedang', NULL
+'3212', '32', 'Indramayu', NULL
+'3213', '32', 'Subang', NULL
+'3214', '32', 'Purwakarta', NULL
+'3215', '32', 'Karawang', NULL
+'3216', '32', 'Bekasi', NULL
+'3217', '32', 'Bandung Barat', NULL
+'3271', '32', 'Kota Bogor', NULL
+'3272', '32', 'Kota Sukabumi', NULL
+'3273', '32', 'Kota Bandung', NULL
+'3274', '32', 'Kota Cirebon', NULL
+'3275', '32', 'Kota Bekasi', NULL
+'3276', '32', 'Kota Depok', NULL
+'3277', '32', 'Kota Cimahi', NULL
+'3278', '32', 'Kota Tasikmalaya', NULL
+'3279', '32', 'Kota Banjar', NULL
+'3301', '33', 'Cilacap', NULL
+'3302', '33', 'Banyumas', NULL
+'3303', '33', 'Purbalingga', NULL
+'3304', '33', 'Banjarnegara', NULL
+'3305', '33', 'Kebumen', NULL
+'3306', '33', 'Purworejo', NULL
+'3307', '33', 'Wonosobo', NULL
+'3308', '33', 'Magelang', NULL
+'3309', '33', 'Boyolali', NULL
+'3310', '33', 'Klaten', NULL
+'3311', '33', 'Sukoharjo', NULL
+'3312', '33', 'Wonogiri', NULL
+'3313', '33', 'Karanganyar', NULL
+'3314', '33', 'Sragen', NULL
+'3315', '33', 'Grobogan', NULL
+'3316', '33', 'Blora', NULL
+'3317', '33', 'Rembang', NULL
+'3318', '33', 'P a t i', NULL
+'3319', '33', 'Kudus', NULL
+'3320', '33', 'Jepara', NULL
+'3321', '33', 'Demak', NULL
+'3322', '33', 'Semarang', NULL
+'3323', '33', 'Temanggung', NULL
+'3324', '33', 'Kendal', NULL
+'3325', '33', 'Batang', NULL
+'3326', '33', 'Pekalongan', NULL
+'3327', '33', 'Pemalang', NULL
+'3328', '33', 'Tegal', NULL
+'3329', '33', 'Brebes', NULL
+'3371', '33', 'Kota Magelang', NULL
+'3372', '33', 'Kota Surakarta', NULL
+'3373', '33', 'Kota Salatiga', NULL
+'3374', '33', 'Kota Semarang', NULL
+'3375', '33', 'Kota Pekalongan', NULL
+'3376', '33', 'Kota Tegal', NULL
+'3401', '34', 'Kulon Progo', NULL
+'3402', '34', 'Bantul', NULL
+'3403', '34', 'Gunung Kidul', NULL
+'3404', '34', 'Sleman', NULL
+'3471', '34', 'Kota Yogyakarta', NULL
+'3501', '35', 'Pacitan', NULL
+'3502', '35', 'Ponorogo', NULL
+'3503', '35', 'Trenggalek', NULL
+'3504', '35', 'Tulungagung', NULL
+'3505', '35', 'Blitar', NULL
+'3506', '35', 'Kediri', NULL
+'3507', '35', 'Malang', NULL
+'3508', '35', 'Lumajang', NULL
+'3509', '35', 'Jember', NULL
+'3510', '35', 'Banyuwangi', NULL
+'3511', '35', 'Bondowoso', NULL
+'3512', '35', 'Situbondo', NULL
+'3513', '35', 'Probolinggo', NULL
+'3514', '35', 'Pasuruan', NULL
+'3515', '35', 'Sidoarjo', NULL
+'3516', '35', 'Mojokerto', NULL
+'3517', '35', 'Jombang', NULL
+'3518', '35', 'Nganjuk', NULL
+'3519', '35', 'Madiun', NULL
+'3520', '35', 'Magetan', NULL
+'3521', '35', 'Ngawi', NULL
+'3522', '35', 'Bojonegoro', NULL
+'3523', '35', 'Tuban', NULL
+'3524', '35', 'Lamongan', NULL
+'3525', '35', 'Gresik', NULL
+'3526', '35', 'Bangkalan', NULL
+'3527', '35', 'Sampang', NULL
+'3528', '35', 'Pamekasan', NULL
+'3529', '35', 'Sumenep', NULL
+'3571', '35', 'Kota Kediri', NULL
+'3572', '35', 'Kota Blitar', NULL
+'3573', '35', 'Kota Malang', NULL
+'3574', '35', 'Kota Probolinggo', NULL
+'3575', '35', 'Kota Pasuruan', NULL
+'3576', '35', 'Kota Mojokerto', NULL
+'3577', '35', 'Kota Madiun', NULL
+'3578', '35', 'Kota Surabaya', NULL
+'3579', '35', 'Kota Batu', NULL
+'3601', '36', 'Pandeglang', NULL
+'3602', '36', 'Lebak', NULL
+'3603', '36', 'Tangerang', NULL
+'3604', '36', 'Serang', NULL
+'3671', '36', 'Kota Tangerang', NULL
+'3672', '36', 'Kota Cilegon', NULL
+'3673', '36', 'Kota Serang', NULL
+'3674', '36', 'Kota Tangerang Selatan', NULL
+'5101', '51', 'Jembrana', NULL
+'5102', '51', 'Tabanan', NULL
+'5103', '51', 'Badung', NULL
+'5104', '51', 'Gianyar', NULL
+'5105', '51', 'Klungkung', NULL
+'5106', '51', 'Bangli', NULL
+'5107', '51', 'Karang Asem', NULL
+'5108', '51', 'Buleleng', NULL
+'5171', '51', 'Kota Denpasar', NULL
+'5201', '52', 'Lombok Barat', NULL
+'5202', '52', 'Lombok Tengah', NULL
+'5203', '52', 'Lombok Timur', NULL
+'5204', '52', 'Sumbawa', NULL
+'5205', '52', 'Dompu', NULL
+'5206', '52', 'B i m a', NULL
+'5207', '52', 'Sumbawa Barat', NULL
+'5208', '52', 'Lombok Utara', NULL
+'5271', '52', 'Kota Mataram', NULL
+'5272', '52', 'Kota Bima', NULL
+'5301', '53', 'Sumba Barat', NULL
+'5302', '53', 'Sumba Timur', NULL
+'5303', '53', 'Kupang', NULL
+'5304', '53', 'Timor Tengah Selatan', NULL
+'5305', '53', 'Timor Tengah Utara', NULL
+'5306', '53', 'B e l u', NULL
+'5307', '53', 'A l o r', NULL
+'5308', '53', 'Lembata', NULL
+'5309', '53', 'Flores Timur', NULL
+'5310', '53', 'Sikka', NULL
+'5311', '53', 'E n d e', NULL
+'5312', '53', 'Ngada', NULL
+'5313', '53', 'Manggarai', NULL
+'5314', '53', 'Rote Ndao', NULL
+'5315', '53', 'Manggarai Barat', NULL
+'5316', '53', 'Sumba Tengah', NULL
+'5317', '53', 'Sumba Barat Daya', NULL
+'5318', '53', 'Nagekeo', NULL
+'5319', '53', 'Manggarai Timur', NULL
+'5320', '53', 'Sabu Raijua', NULL
+'5371', '53', 'Kota Kupang', NULL
+'6101', '61', 'Sambas', NULL
+'6102', '61', 'Bengkayang', NULL
+'6103', '61', 'Landak', NULL
+'6104', '61', 'Pontianak', NULL
+'6105', '61', 'Sanggau', NULL
+'6106', '61', 'Ketapang', NULL
+'6107', '61', 'Sintang', NULL
+'6108', '61', 'Kapuas Hulu', NULL
+'6109', '61', 'Sekadau', NULL
+'6110', '61', 'Melawi', NULL
+'6111', '61', 'Kayong Utara', NULL
+'6112', '61', 'Kubu Raya', NULL
+'6171', '61', 'Kota Pontianak', NULL
+'6172', '61', 'Kota Singkawang', NULL
+'6201', '62', 'Kotawaringin Barat', NULL
+'6202', '62', 'Kotawaringin Timur', NULL
+'6203', '62', 'Kapuas', NULL
+'6204', '62', 'Barito Selatan', NULL
+'6205', '62', 'Barito Utara', NULL
+'6206', '62', 'Sukamara', NULL
+'6207', '62', 'Lamandau', NULL
+'6208', '62', 'Seruyan', NULL
+'6209', '62', 'Katingan', NULL
+'6210', '62', 'Pulang Pisau', NULL
+'6211', '62', 'Gunung Mas', NULL
+'6212', '62', 'Barito Timur', NULL
+'6213', '62', 'Murung Raya', NULL
+'6271', '62', 'Kota Palangka Raya', NULL
+'6301', '63', 'Tanah Laut', NULL
+'6302', '63', 'Kota Baru', NULL
+'6303', '63', 'Banjar', NULL
+'6304', '63', 'Barito Kuala', NULL
+'6305', '63', 'Tapin', NULL
+'6306', '63', 'Hulu Sungai Selatan', NULL
+'6307', '63', 'Hulu Sungai Tengah', NULL
+'6308', '63', 'Hulu Sungai Utara', NULL
+'6309', '63', 'Tabalong', NULL
+'6310', '63', 'Tanah Bumbu', NULL
+'6311', '63', 'Balangan', NULL
+'6371', '63', 'Kota Banjarmasin', NULL
+'6372', '63', 'Kota Banjar Baru', NULL
+'6401', '64', 'Pasir', NULL
+'6402', '64', 'Kutai Barat', NULL
+'6403', '64', 'Kutai', NULL
+'6404', '64', 'Kutai Timur', NULL
+'6405', '64', 'Berau', NULL
+'6409', '64', 'Penajam Paser Utara', NULL
+'6471', '64', 'Kota Balikpapan', NULL
+'6472', '64', 'Kota Samarinda', NULL
+'6474', '64', 'Kota Bontang', NULL
+'6501', '65', 'Bulungan', NULL
+'6502', '65', 'Malinau', NULL
+'6503', '65', 'Nunukan', NULL
+'6504', '65', 'Tana Tidung', NULL
+'6571', '65', 'Kota Tarakan', NULL
+'7101', '71', 'Bolaang Mongondow', NULL
+'7102', '71', 'Minahasa', NULL
+'7103', '71', 'Kep. Sangihe Talaud', NULL
+'7104', '71', 'Kep. Talaud', NULL
+'7105', '71', 'Minahasa Selatan', NULL
+'7106', '71', 'Minahasa Utara', NULL
+'7107', '71', 'Bolaang Mongondow Utara', NULL
+'7108', '71', 'Kep. Sitaro', NULL
+'7109', '71', 'Minahasa Tenggara', NULL
+'7110', '71', 'Bolaang Mongondow Selatan', NULL
+'7111', '71', 'Bolaang Mongondow Timur', NULL
+'7171', '71', 'Kota Manado', NULL
+'7172', '71', 'Kota Bitung', NULL
+'7173', '71', 'Kota Tomohon', NULL
+'7174', '71', 'Kota Kotamobagu', NULL
+'7201', '72', 'Banggai Kepulauan', NULL
+'7202', '72', 'Banggai', NULL
+'7203', '72', 'Morowali', NULL
+'7204', '72', 'P o s o', NULL
+'7205', '72', 'Donggala', NULL
+'7206', '72', 'Toli Toli', NULL
+'7207', '72', 'B u o l', NULL
+'7208', '72', 'Parigi Moutong', NULL
+'7209', '72', 'Tojo Una-Una', NULL
+'7210', '72', 'Sigi', NULL
+'7271', '72', 'Kota Palu', NULL
+'7301', '73', 'Selayar', NULL
+'7302', '73', 'Bulukumba', NULL
+'7303', '73', 'Bantaeng', NULL
+'7304', '73', 'Jeneponto', NULL
+'7305', '73', 'Takalar', NULL
+'7306', '73', 'G o w a', NULL
+'7307', '73', 'Sinjai', NULL
+'7308', '73', 'Maros', NULL
+'7309', '73', 'Pangkajene Kepulauan', NULL
+'7310', '73', 'Barru', NULL
+'7311', '73', 'B o n e', NULL
+'7312', '73', 'Soppeng', NULL
+'7313', '73', 'W a j o', NULL
+'7314', '73', 'Sidenreng Rappang', NULL
+'7315', '73', 'Pinrang', NULL
+'7316', '73', 'Enrekang', NULL
+'7317', '73', 'L u w u', NULL
+'7318', '73', 'Tana Toraja', NULL
+'7322', '73', 'Luwu Utara', NULL
+'7325', '73', 'Luwu Timur', NULL
+'7326', '73', 'Toraja Utara', NULL
+'7371', '73', 'Kota Makassar', NULL
+'7372', '73', 'Kota Pare Pare', NULL
+'7373', '73', 'Kota Palopo', NULL
+'7401', '74', 'Buton', NULL
+'7402', '74', 'M u n a', NULL
+'7403', '74', 'Konawe', NULL
+'7404', '74', 'Kolaka', NULL
+'7405', '74', 'Konawe Selatan', NULL
+'7406', '74', 'Bombana', NULL
+'7407', '74', 'Wakatobi', NULL
+'7408', '74', 'Kolaka Utara', NULL
+'7409', '74', 'Buton Utara', NULL
+'7410', '74', 'Konawe Utara', NULL
+'7471', '74', 'Kota Kendari', NULL
+'7472', '74', 'Kota Baubau', NULL
+'7501', '75', 'Boalemo', NULL
+'7502', '75', 'Gorontalo', NULL
+'7503', '75', 'Pohuwato', NULL
+'7504', '75', 'Bone Bolango', NULL
+'7505', '75', 'Gorontalo Utara', NULL
+'7571', '75', 'Kota Gorontalo', NULL
+'7601', '76', 'Majene', NULL
+'7602', '76', 'Polewali Mamasa', NULL
+'7603', '76', 'Mamasa', NULL
+'7604', '76', 'Mamuju', NULL
+'7605', '76', 'Mamuju Utara', NULL
+'8101', '81', 'Maluku Tenggara Barat', NULL
+'8102', '81', 'Maluku Tenggara', NULL
+'8103', '81', 'Maluku Tengah', NULL
+'8104', '81', 'B u r u', NULL
+'8105', '81', 'Kepulauan Aru', NULL
+'8106', '81', 'Seram Bagian Barat', NULL
+'8107', '81', 'Seram Bagian Timur', NULL
+'8108', '81', 'Maluku Barat Daya', NULL
+'8109', '81', 'Buru Selatan', NULL
+'8171', '81', 'Kota Ambon', NULL
+'8172', '81', 'Tual', NULL
+'8201', '82', 'Halmahera Barat', NULL
+'8202', '82', 'Halmahera Tengah', NULL
+'8203', '82', 'Kepulauan Sula', NULL
+'8204', '82', 'Halmahera Selatan', NULL
+'8205', '82', 'Halmahera Utara', NULL
+'8206', '82', 'Halmahera Timur', NULL
+'8207', '82', 'Pulau Morotai', NULL
+'8271', '82', 'Kota Ternate', NULL
+'8272', '82', 'Kota Tidore Kepulauan', NULL
+'9101', '91', 'Fakfak', NULL
+'9102', '91', 'Kaimana', NULL
+'9103', '91', 'Teluk Wondama', NULL
+'9104', '91', 'Teluk Bintuni', NULL
+'9105', '91', 'Manokwari', NULL
+'9106', '91', 'Sorong Selatan', NULL
+'9107', '91', 'Sorong', NULL
+'9108', '91', 'Raja Ampat', NULL
+'9109', '91', 'Tambrauw', NULL
+'9110', '91', 'Maybrat', NULL
+'9171', '91', 'Kota Sorong', NULL
+'9201', '92', 'Merauke', NULL
+'9202', '92', 'Jayawijaya', NULL
+'9203', '92', 'Jayapura', NULL
+'9204', '92', 'Nabire', NULL
+'9208', '92', 'Yapen Waropen', NULL
+'9209', '92', 'Biak Numfor', NULL
+'9210', '92', 'Paniai', NULL
+'9211', '92', 'Puncak Jaya', NULL
+'9212', '92', 'Mimika', NULL
+'9213', '92', 'Boven Digoel', NULL
+'9214', '92', 'Mappi', NULL
+'9215', '92', 'Asmat', NULL
+'9216', '92', 'Yahukimo', NULL
+'9217', '92', 'Pegunungan Bintang', NULL
+'9218', '92', 'Tolikara', NULL
+'9219', '92', 'Sarmi', NULL
+'9220', '92', 'Keerom', NULL
+'9226', '92', 'Waropen', NULL
+'9227', '92', 'Supiori', NULL
+'9228', '92', 'Mamberamo Raya', NULL
+'9229', '92', 'Nduga', NULL
+'9230', '92', 'Lanny Jaya', NULL
+'9231', '92', 'Mamberamo Tengah', NULL
+'9232', '92', 'Yalimo', NULL
+'9233', '92', 'Puncak', NULL
+'9234', '92', 'Dogiyai', NULL
+'9235', '92', 'Intan Jaya', NULL
+'9236', '92', 'Deiyai', NULL
+'9271', '92', 'Kota Jayapura', NULL
