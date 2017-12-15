@@ -1,14 +1,14 @@
 province_id, country_id, province_name, name_alt, old_id
-'11', 'ID', 'NANGROE ACEH DARUSSALAM', 'ACEH', NULL
-'12', 'ID', 'SUMATERA UTARA', 'SUMUT', NULL
-'13', 'ID', 'SUMATERA BARAT', 'SUMBAR', NULL
-'14', 'ID', 'RIAU', 'RIAU', NULL
-'15', 'ID', 'JAMBI', 'JAMBI', NULL
-'16', 'ID', 'SUMATERA SELATAN', 'SUMSEL', NULL
-'17', 'ID', 'BENGKULU', 'BENGKULU', NULL
-'18', 'ID', 'LAMPUNG', 'LAMPUNG', NULL
-'19', 'ID', 'KEPULAUAN BANGKA BELITUNG', 'BABEL', NULL
-'21', 'ID', 'KEPULAUAN RIAU', 'KEPRI', NULL
+'11', 'ID', 'Nagroe Aceh Darussalam', 'ACEH', NULL
+'12', 'ID', 'Sumatera Utara', 'SUMUT', NULL
+'13', 'ID', 'Sumatera Barat', 'SUMBAR', NULL
+'14', 'ID', 'Riau', 'RIAU', NULL
+'15', 'ID', 'Jambi', 'JAMBI', NULL
+'16', 'ID', 'Sumatera Selatan', 'SUMSEL', NULL
+'17', 'ID', 'Bengkulu', 'BENGKULU', NULL
+'18', 'ID', 'Lampung', 'LAMPUNG', NULL
+'19', 'ID', 'Kepulauan Bangka Belitung', 'BABEL', NULL
+'21', 'ID', 'Kepulauan Riau', 'KEPRI', NULL
 '31', 'ID', 'DKI Jakarta', NULL, NULL
 '32', 'ID', 'Jawa Barat', NULL, NULL
 '33', 'ID', 'Jawa Tengah', NULL, NULL

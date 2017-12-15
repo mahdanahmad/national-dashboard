@@ -30,8 +30,8 @@ connect.connect((err) => {
 				connect.query('TRUNCATE TABLE ' + tablename, (err, result) => {
 					if (err) { eachCallback(err); }
 
-					let params	= _.chain(data).head().keys().value();
-					connect.query('INSERT INTO ' + tablename + ' (' + params.join(', ') + ') VALUES ' + data.map((o) => ('(' + _.map(params, (d) => ('\'' + _.get(o, d, null) + '\'')).join(', ') + ')')).join(', ') + ';', (err, result) => eachCallback(err));
+					let colums	= _.chain(data).head().keys().value();
+					connect.query('INSERT INTO ' + tablename + ' (' + colums.join(', ') + ') VALUES ' + data.map((o) => ('(' + _.map(colums, (d) => ('\'' + _.get(o, d, null) + '\'')).join(', ') + ')')).join(', ') + ';', (err, result) => eachCallback(err));
 				});
 			});
 	}, (err) => {
