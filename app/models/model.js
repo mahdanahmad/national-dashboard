@@ -88,10 +88,14 @@ class Model {
 
 			// let cherry    = _.pickBy(update, (o, key) => (_.chain(this.fillable).difference(this.preserved).includes(key).value() && (!_.isEmpty(o) || _.isDate(o))));
 			let cherry    = _.pickBy(update, (o, key) => (_.chain(this.fillable).difference(this.preserved).includes(key).value()));
-			db.query('UPDATE ?? SET ' + _.map(cherry, (o, key) => (key + ' = ?')).join(',') + ' WHERE ' + this.tableId + ' = ?', [this.tableName, ..._.values(cherry), id], (err, result) => {
-				if (err) { return callback(globalError(err.code)); }
-				callback(null, _.keys(cherry));
-			});
+			if (!_.isEmpty(cherry)) {
+				db.query('UPDATE ?? SET ' + _.map(cherry, (o, key) => (key + ' = ?')).join(',') + ' WHERE ' + this.tableId + ' = ?', [this.tableName, ..._.values(cherry), id], (err, result) => {
+					if (err) { return callback(globalError(err.code)); }
+					callback(null, _.keys(cherry));
+				});
+			} else {
+				callback(null, []);
+			}
 		});
 	}
 
@@ -118,7 +122,10 @@ class Model {
 			default: callback = _.last(args);
 		}
 
-		db.query('SELECT COUNT(*) as jumlah FROM ??' + (!_.isNil(query) ? ' ' + query : ''), [this.tableName], (err, result) => {
+		let queryLine	= _.chain(query).map((o, key) => (_.chain(key).startCase().toUpper().value() + ' ' + o[0])).join(' ').value();
+		let queryValue	= _.chain(query).flatMap((o) => (o[1])).pullAll([null, undefined]).value();
+
+		db.query('SELECT COUNT(*) as jumlah FROM ??' + queryLine, [this.tableName, ...(queryValue ? queryValue : [])], (err, result) => {
 			if (err) { return callback(globalError(err.code)); }
 			callback(null, result[0].jumlah);
 		});
