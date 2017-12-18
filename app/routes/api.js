@@ -4,6 +4,7 @@ const router  		= express.Router();
 const provinces		= require('../controllers/provinces');
 const categories	= require('../controllers/categories');
 
+// provinces
 router.get('/provinces', (req, res, next) => {
 	provinces.index(req.query, (result) => { res.status(result.status_code).json(result); });
 });

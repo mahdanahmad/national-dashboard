@@ -20,15 +20,20 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"> -->
 
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-date-range-picker/0.16.1/daterangepicker.min.css">
+
         <link rel="stylesheet" href="css/main.css">
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.0/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.0/locale/id.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.11.0/d3.min.js"></script>
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script> -->
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-date-range-picker/0.16.1/jquery.daterangepicker.min.js"></script>
 
 		<script src="main.js"></script>
     </head>
@@ -46,9 +51,7 @@
 						<i class="fa fa-database" aria-hidden="true"></i>
 						<span>Data Source</span>
 					</div>
-					<div id="datasource" class="panel-value">
-
-					</div>
+					<div id="datasource" class="panel-value"></div>
 				</div>
 				<div class="panel">
 					<div class="panel-title cursor-default">
@@ -60,6 +63,25 @@
 							<option value="">National</option>
 						</select>
 					</div>
+				</div>
+				<div class="panel">
+					<div class="panel-title cursor-default">
+						<i class="fa fa-pie-chart" aria-hidden="true"></i>
+						<span>Category</span>
+					</div>
+					<div id="categories" class="panel-value"></div>
+				</div>
+				<div class="panel">
+					<div class="panel-title cursor-default">
+						<i class="fa fa-clock-o" aria-hidden="true"></i>
+						<span>Timeline</span>
+					</div>
+					<div id="datepicker" class="panel-value"><input id="datepicker-input"></div>
+					<div id="periodepicker" class="panel-value"></div>
+				</div>
+				<div class="panel">
+					<div id="save-button" class="panel-buttons uppercase">Save</div>
+					<div id="apply-button" class="panel-buttons uppercase">Apply</div>
 				</div>
 			</div>
 			<div id="content-wrapper">

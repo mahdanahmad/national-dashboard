@@ -16,7 +16,7 @@ module.exports.index = (monitor_id, input, callback) => {
 
 	const limit			= !_.isNil(input.limit)		? _.toInteger(input.limit)	: 0;
 	const offset		= !_.isNil(input.offset)	? _.toInteger(input.offset)	: 0;
-	const selected		= !_.isNil(input.selected)	? [input.selected]			: null;
+	const selected		= !_.isNil(input.selected)	? input.selected.split(',')	: null;
 
 	async.waterfall([
 		(flowCallback) => {
