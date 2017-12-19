@@ -36,8 +36,8 @@ const tables	= {
 		name: ['varchar(255)', 'NOT NULL'],
 		id_monitor: ['int(11)', 'NOT NULL'],
 		dataset: ['varchar(255)', 'NOT NULL'],
-		datestart: ['DATETIME', 'NOT NULL'],
-		dateend: ['DATETIME', 'NOT NULL'],
+		datestart: ['DATE', 'NOT NULL'],
+		dateend: ['DATE', 'NOT NULL'],
 		province: ['varchar(255)', 'NOT NULL'],
 		time: ['varchar(255)', 'NOT NULL'],
 		list: ['varchar(255)', 'NOT NULL'],
@@ -61,8 +61,8 @@ const tables	= {
 		id: ['int(11)', 'NOT NULL', 'AUTO_INCREMENT', 'PRIMARY KEY'],
 		name: ['varchar(255)', 'NOT NULL'],
 		description: ['text', 'NOT NULL'],
-		start: ['DATETIME', 'NOT NULL'],
-		end: ['DATETIME', 'NOT NULL'],
+		start: ['DATE', 'NOT NULL'],
+		end: ['DATE', 'NOT NULL'],
 		is_default: ['boolean'],
 	},
 
@@ -121,9 +121,7 @@ async.waterfall([
 		async.eachOf(tables, (column, tablename, eachCallback) => {
 			connect.query('CREATE TABLE ' + tablename + ' (' + (_.map(column, (o, key) => (
 				_.concat('`' + key + '`', o, (!_.includes(o, 'NOT NULL') ? ['DEFAULT NULL'] : [])).join(' ')
-			)).join(', ')) + ')', (err, result) => {
-				if (err) { return eachCallback(err); } else { return eachCallback(); }
-			});
+			)).join(', ')) + ')', (err, result) => eachCallback(err));
 		}, (err) => flowCallback(err));
 	},
 ], (err, result) => {

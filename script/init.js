@@ -31,7 +31,7 @@ connect.connect((err) => {
 					if (err) { eachCallback(err); }
 
 					let colums	= _.chain(data).head().keys().value();
-					connect.query('INSERT INTO ' + tablename + ' (' + colums.join(', ') + ') VALUES ' + data.map((o) => ('(' + _.map(colums, (d) => ('\'' + _.get(o, d, null) + '\'')).join(', ') + ')')).join(', ') + ';', (err, result) => eachCallback(err));
+					connect.query('INSERT INTO ' + tablename + ' (' + colums.join(', ') + ') VALUES ' + data.map((o) => ('(' + _.chain(colums).map((d) => (_.get(o, d, null))).map((d) => (d !== 'NULL' ? '\'' + d + '\'' : 'null')).value().join(', ') + ')')).join(', ') + ';', (err, result) => eachCallback(err));
 				});
 			});
 	}, (err) => {

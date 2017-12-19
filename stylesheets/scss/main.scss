@@ -77,6 +77,6 @@ div#root {
 		}
 	}
 	#content-wrapper {
-		width: calc(100% - #{$panel-width}); height: calc(100% - #{$header-height}); display: inline-block; float: right; background: maroon;
+		width: calc(100% - #{$panel-width}); height: calc(100% - #{$header-height}); display: inline-block; float: right;
 	}
 }

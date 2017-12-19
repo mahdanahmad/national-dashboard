@@ -1,0 +1,35 @@
+province_id, country_id, province_name, name_alt, old_id
+'11', 'ID', 'Aceh', 'ACEH', NULL
+'12', 'ID', 'Sumatera Utara', 'SUMUT', NULL
+'13', 'ID', 'Sumatera Barat', 'SUMBAR', NULL
+'14', 'ID', 'Riau', 'RIAU', NULL
+'15', 'ID', 'Jambi', 'JAMBI', NULL
+'16', 'ID', 'Sumatera Selatan', 'SUMSEL', NULL
+'17', 'ID', 'Bengkulu', 'BENGKULU', NULL
+'18', 'ID', 'Lampung', 'LAMPUNG', NULL
+'19', 'ID', 'Kepulauan Bangka Belitung', 'BABEL', NULL
+'21', 'ID', 'Kepulauan Riau', 'KEPRI', NULL
+'31', 'ID', 'DKI Jakarta', NULL, NULL
+'32', 'ID', 'Jawa Barat', NULL, NULL
+'33', 'ID', 'Jawa Tengah', NULL, NULL
+'34', 'ID', 'DI Yogyakarta', NULL, NULL
+'35', 'ID', 'Jawa Timur', NULL, NULL
+'36', 'ID', 'Banten', NULL, NULL
+'51', 'ID', 'Bali', NULL, NULL
+'52', 'ID', 'Nusa Tenggara Barat', NULL, NULL
+'53', 'ID', 'Nusa Tenggara Timur', NULL, NULL
+'61', 'ID', 'Kalimantan Barat', NULL, NULL
+'62', 'ID', 'Kalimantan Tengah', NULL, NULL
+'63', 'ID', 'Kalimantan Selatan', NULL, NULL
+'64', 'ID', 'Kalimantan Timur', NULL, NULL
+'65', 'ID', 'Kalimantan Utara', NULL, '64,2014'
+'71', 'ID', 'Sulawesi Utara', NULL, NULL
+'72', 'ID', 'Sulawesi Tengah', NULL, NULL
+'73', 'ID', 'Sulawesi Selatan', NULL, NULL
+'74', 'ID', 'Sulawesi Tenggara', NULL, NULL
+'75', 'ID', 'Gorontalo', NULL, NULL
+'76', 'ID', 'Sulawesi Barat', NULL, '73,2005'
+'81', 'ID', 'Maluku', NULL, NULL
+'82', 'ID', 'Maluku Utara', NULL, NULL
+'91', 'ID', 'Papua Barat', NULL, '92,2005'
+'92', 'ID', 'Papua', NULL, NULL
