@@ -19,10 +19,11 @@
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"> -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-dropdown/2.0.3/jquery.dropdown.min.css">
 
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-date-range-picker/0.16.1/daterangepicker.min.css">
 
-        <link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/main.css">
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
@@ -34,6 +35,7 @@
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script> -->
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-date-range-picker/0.16.1/jquery.daterangepicker.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-dropdown/2.0.3/jquery.dropdown.min.js"></script>
 
 		<script src="main.js"></script>
     </head>
@@ -41,52 +43,38 @@
         <div id="root">
 			<div id="header">
 				<div id="header-title" class="cursor-default">
-					<img id="header-logo" src="/images/header_logo.png">
-					<span>National Citizen Feedback Dashboard</span>
+					<span>National Citizen Feedback</span>
 				</div>
-			</div>
-			<div id="panel-wrapper">
-				<div class="panel">
-					<div class="panel-title cursor-default">
-						<i class="fa fa-database" aria-hidden="true"></i>
-						<span>Data Source</span>
+				<div id="header-options-wrapper">
+					<div class="header-options">
+						<div class="options-title">Data Source</div>
+						<div class="options-selector cursor-pointer" id="datasource" data-jq-dropdown="#dropdown-datasource">
+							<input type="text" class="cursor-pointer" disabled>
+							<div class="options-button"><i class="fa fa-th" aria-hidden="true"></i></div>
+						</div>
 					</div>
-					<div id="datasource" class="panel-value"></div>
-				</div>
-				<div class="panel">
-					<div class="panel-title cursor-default">
-						<i class="fa fa-map-marker" aria-hidden="true"></i>
-						<span>Area</span>
+					<div class="header-options">
+						<div class="options-title">Timeline</div>
+						<div class="options-selector cursor-pointer" id="timeline">
+							<input type="text" class="cursor-pointer">
+							<div class="options-button"><i class="fa fa-th" aria-hidden="true"></i></div>
+						</div>
 					</div>
-					<div id="area" class="panel-value">
-						<select id="area-opts">
-							<option value="">National</option>
-						</select>
+					<div class="header-options">
+						<div class="options-title">Region</div>
+						<div class="options-selector cursor-pointer" id="region" data-jq-dropdown="#dropdown-region">
+							<input type="text" class="cursor-pointer" value="Nasional" disabled>
+							<div class="options-button"><i class="fa fa-th" aria-hidden="true"></i></div>
+						</div>
 					</div>
-				</div>
-				<div class="panel">
-					<div class="panel-title cursor-default">
-						<i class="fa fa-pie-chart" aria-hidden="true"></i>
-						<span>Category</span>
-					</div>
-					<div id="categories" class="panel-value"></div>
-				</div>
-				<div class="panel">
-					<div class="panel-title cursor-default">
-						<i class="fa fa-clock-o" aria-hidden="true"></i>
-						<span>Timeline</span>
-					</div>
-					<div id="datepicker" class="panel-value"><input id="datepicker-input"></div>
-					<div id="periodepicker" class="panel-value"></div>
-				</div>
-				<div class="panel">
-					<div id="save-button" class="panel-buttons uppercase">Save</div>
-					<div id="apply-button" class="panel-buttons uppercase">Apply</div>
 				</div>
 			</div>
 			<div id="content-wrapper">
 
 			</div>
         </div>
+
+		<div id="dropdown-datasource" class="jq-dropdown jq-dropdown-tip jq-dropdown-anchor-right"><div class="jq-dropdown-panel"></div></div>
+		<div id="dropdown-region" class="jq-dropdown jq-dropdown-tip jq-dropdown-anchor-right"><ul class="jq-dropdown-menu cursor-pointer"><li value='0'>Nasional</li></ul></div>
     </body>
 </html>

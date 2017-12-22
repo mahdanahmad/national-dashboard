@@ -161,37 +161,37 @@ async.waterfall([
 	(flowCallback) => {
 		connect.connect((err) => flowCallback(err));
 	},
-	// (flowCallback) => {
-	// 	let data	= [];
-    //
-	// 	csv
-	// 		.fromPath('public/initialdata/taksonomi.csv', params)
-	// 		.on('data', (row) => { data.push(row); })
-	// 		.on('end', () => {
-	// 			connect.query('TRUNCATE TABLE categories', (err, result) => {
-	// 				if (err) { return flowCallback(err) } else {
-	// 					let query	= 	'INSERT INTO categories (' + columns.join(', ') + ')' +
-	// 									'VALUES ' + data.map((o) => ('(' + [1, 'NULL', '\'' + o.Kategori + '\'', 'NULL', '\'' + o.Taksonomi + '\''].join(', ') + ')')).join(', ') + ', ' +
-	// 									_.times(_.size(data), (i) => (kategori.map((o) => ('(' + [1, (i + 1), '\'' + o + '\'', 'NULL', '\'' + o + '\''].join(', ') + ')')).join(', '))).join(', ') + ';';
-    //
-	// 					connect.query(query, (err, result) => flowCallback(err));
-	// 				}
-	// 			});
-	// 		});
-	// },
-	// (flowCallback) => {
-	// 	connect.query('SHOW TABLES LIKE \'' + tablename + '\';', (err, result) => {
-	// 		if (err) {  return flowCallback(err); } else {
-	// 			if (result.length > 0) {
-	// 				connect.query('TRUNCATE TABLE ' + tablename, (err, result) => flowCallback(err));
-	// 			} else {
-	// 				connect.query('CREATE TABLE ' + tablename + ' (' + (_.map(tabledata, (o, key) => (
-	// 					_.concat('`' + key + '`', o, (!_.includes(o, 'NOT NULL') ? ['DEFAULT NULL'] : [])).join(' ')
-	// 				)).join(', ')) + ')', (err, result) => flowCallback(err));
-	// 			}
-	// 		}
-	// 	});
-	// },
+	(flowCallback) => {
+		let data	= [];
+
+		csv
+			.fromPath('public/initialdata/taksonomi.csv', params)
+			.on('data', (row) => { data.push(row); })
+			.on('end', () => {
+				connect.query('TRUNCATE TABLE categories', (err, result) => {
+					if (err) { return flowCallback(err) } else {
+						let query	= 	'INSERT INTO categories (' + columns.join(', ') + ')' +
+										'VALUES ' + data.map((o) => ('(' + [1, 'NULL', '\'' + o.Kategori + '\'', 'NULL', '\'' + o.Taksonomi + '\''].join(', ') + ')')).join(', ') + ', ' +
+										_.times(_.size(data), (i) => (kategori.map((o) => ('(' + [1, (i + 1), '\'' + o + '\'', 'NULL', '\'' + o + '\''].join(', ') + ')')).join(', '))).join(', ') + ';';
+
+						connect.query(query, (err, result) => flowCallback(err));
+					}
+				});
+			});
+	},
+	(flowCallback) => {
+		connect.query('SHOW TABLES LIKE \'' + tablename + '\';', (err, result) => {
+			if (err) {  return flowCallback(err); } else {
+				if (result.length > 0) {
+					connect.query('TRUNCATE TABLE ' + tablename, (err, result) => flowCallback(err));
+				} else {
+					connect.query('CREATE TABLE ' + tablename + ' (' + (_.map(tabledata, (o, key) => (
+						_.concat('`' + key + '`', o, (!_.includes(o, 'NOT NULL') ? ['DEFAULT NULL'] : [])).join(' ')
+					)).join(', ')) + ')', (err, result) => flowCallback(err));
+				}
+			}
+		});
+	},
 	(flowCallback) => {
 		connect.query('SELECT * FROM provinces', (err, result) => {
 			if (err) { return flowCallback(err); } else {

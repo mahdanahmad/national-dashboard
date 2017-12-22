@@ -19,9 +19,16 @@
     src: url("/font/TradeGothic-LightOblique.ttf");
 }
 
-$def-font-stack : "TG CondEighteen";
-$default-back   : white;
+$def-font-stack : "SF Regular";
+$default-back   : #525254;
 $base-color		: #3d8fb1;
+$header-clr		: #647e85;
 
 $active-clr		: #16aeec;
 $nonactive-clr	: #a8a8a8;
+
+$header-height: 80px;
+$title-width: 350px;
+$options-height: 28px;
+$input-back: #61757c;
+$input-clr: #b6c0c5;

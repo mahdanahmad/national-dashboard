@@ -3,6 +3,10 @@
     &:after { clear: both; }
 }
 
+@mixin ellipsis($max-width:none) {
+	max-width: $max-width; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;
+}
+
 @mixin nopadding {
 	padding: 0px!important; margin: 0px!important;
 }
@@ -29,4 +33,4 @@
     -o-transition: $transition;
     -webkit-transition: $transition;
     transition: $transition;
-}	
+}

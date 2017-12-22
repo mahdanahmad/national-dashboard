@@ -4,34 +4,57 @@ const monitor_id	= 1;
 const datasource	= ["KPK", "Ombudsman"];
 const periode		= ['Day', 'Week', 'Month', 'Year'];
 
+const dateFormat	= 'DD MMM YYYY';
+const defaultDate	= { start: moment().subtract(1, 'months').format(dateFormat), end: moment().format(dateFormat) };
 const dateOpts		= {
-	format: 'DD MMM YYYY',
+	format: dateFormat,
+	endDate: defaultDate.end,
 	language: 'id',
 	startOfWeek: 'monday',
 	customArrowPrevSymbol: '<i class="fa fa-arrow-circle-left"></i>',
-	customArrowNextSymbol: '<i class="fa fa-arrow-circle-right"></i>'
+	customArrowNextSymbol: '<i class="fa fa-arrow-circle-right"></i>',
 };
-const defaultDate	= { start: moment().subtract(1, 'months').format(dateOpts.format), end: moment().format(dateOpts.format) };
+
+const waitPeriod	= 1500;
 
 let opts	= {
 	datasource: _.clone(datasource),
 }
 
 $( document ).ready(function() {
-	$( '#datasource' ).html(datasource.map((o) => ("<div class='datasource-opt selections active cursor-pointer'>" + o + "</div>")));
+	$( '#dropdown-datasource > div' ).html(datasource.map((o) => ("<div class='datasource-opt active cursor-pointer'>" + o + "</div>")));
+	$( '#datasource > input' ).val(datasource.join(', '));
+	$( 'div.datasource-opt' ).click(function(e) {
+		if ($( this ).hasClass('active')) {
+			if ($( '.datasource-opt.active' ).length > 1) { $( this ).removeClass('active'); }
+		} else {
+			$( this ).addClass('active');
+		}
+		$( '#datasource > input' ).val( $( '.datasource-opt.active' ).map(function() { return $( this ).text(); }).get().join(', ') );
+	});
 
 	// Get Area Options
 	$.get( "api/provinces", ( data ) => {
-		$( '#area-opts' ).append(data.result.map((o) => ("<option value='" + o.id + "'>" + o.name + "</option>")).join(''));
+		$( '#dropdown-region > ul' ).append(data.result.map((o) => ("<li value='" + o.id + "'>" + o.name + "</li>")).join(''));
+		$( 'div#dropdown-region > ul > li' ).click(function(e) {
+			// console.log($( this ).val());
+			$( '#region > input' ).val($( this ).text());
+			$( '#dropdown-region' ).jqDropdown('hide');
+		});
 	});
 
 	// Get Categories
-	$.get( "api/categories/" + monitor_id + '?selected=name,color', ( data ) => {
-		$( '#categories' ).html(data.result.map((o) => ("<div class='categories-opt selections active cursor-pointer'>" + o.name + "</div>")));
-	});
+	// $.get( "api/categories/" + monitor_id + '?selected=name,color', ( data ) => {
+	// 	$( '#categories' ).html(data.result.map((o) => ("<div class='categories-opt selections active cursor-pointer'>" + o.name + "</div>")));
+	// });
 
 	// Create dateRangePicker
-	$('#datepicker-input').dateRangePicker(dateOpts);
-	$('#datepicker-input').data('dateRangePicker').setStart(defaultDate.start).setEnd(defaultDate.end);
-	$( '#periodepicker' ).html(periode.map((o) => ("<div class='periode-opt selections " + (o == 'Month' ? 'active ' : '') + "cursor-pointer'>" + o + "</div>")));
+	$('#timeline > input').dateRangePicker(dateOpts);
+	$('#timeline > input').data('dateRangePicker').setStart(defaultDate.start).setEnd(defaultDate.end);
+	$('#timeline > div').click((e) => {
+		e.stopPropagation();
+		$('#timeline > input').data('dateRangePicker').open();
+	});
+
+	// $( '#periodepicker' ).html(periode.map((o) => ("<div class='periode-opt selections " + (o == 'Month' ? 'active ' : '') + "cursor-pointer'>" + o + "</div>")));
 });

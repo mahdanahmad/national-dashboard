@@ -1,6 +1,7 @@
 const express 		= require('express');
 const router  		= express.Router();
 
+const chart			= require('../controllers/chart');
 const provinces		= require('../controllers/provinces');
 const categories	= require('../controllers/categories');
 
@@ -24,6 +25,11 @@ router.put('/categories/:monitor_id/:id', (req, res, next) => {
 });
 router.delete('/categories/:monitor_id/:id', (req, res, next) => {
 	categories.destroy(req.params.monitor_id, req.params.id, req.body, (result) => { res.status(result.status_code).json(result); });
+});
+
+// charts
+router.get('/map/:monitor_id', (req, res, next) => {
+	chart.map(req.params.monitor_id, req.query, (result) => { res.status(result.status_code).json(result); });
 });
 
 module.exports = router;

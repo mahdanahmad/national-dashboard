@@ -29,54 +29,62 @@ html, body, body > div#root {
 }
 div#root {
     background: $default-back; position: relative;
-	$header-height: 90px;
 	#header {
-		height: $header-height; padding: 0px 35px; position: relative;
-		img#header-logo { height: 40px; width: auto; position: absolute; top: calc(50% + 1px); @include transform(translate(0px, -50%)); }
-		span { color: $base-color; font-size: 30px; font-style: italic; line-height: $header-height; margin-left: 50px; font-family: 'TG Bold'; }
-	}
-	$panel-width: 300px;
-	#panel-wrapper {
-		width: calc(#{$panel-width} - 30px); height: calc(100% - #{$header-height}); display: inline-block; float: left; padding: 0px 15px;
-		.panel {
-			background: #f1f1f1; margin-bottom: 15px; @include clearfix();
-			.panel-title {
-				padding: 10px 15px;
-				i { color: #a8a8a8; font-size: 20px; }
-				span { color: $active-clr; text-transform: uppercase; font-size: 13px; margin-left: 5px; vertical-align: top; line-height: 20px; font-family: 'TG Bold'; }
-			}
-			.panel-value {
-				&#datasource {
-					.datasource-opt.active { background: $active-clr; }
+		height: $header-height; padding: 0px 35px; position: relative; background: $header-clr;
+		& > div { display: inline-block; }
+		div#header-title {
+			width: $title-width; float: left;
+			span { color: white; font-size: 25px; line-height: $header-height; font-family: 'SF Bold'; }
+		}
+		div#header-options-wrapper {
+			width: calc(100% - #{$title-width}); max-width: 1150px; float: right; padding-top: 5px; @include transform(translate(0px, 50%)); top: 50%;
+			div.header-options {
+				width: calc((100% - 150px) / 3); display: inline-block; float: left; line-height: $options-height; &:not(:first-child) { padding-left: 75px; }
+				.options-title { color: white; font-size: 13px; letter-spacing: .25px; width: 30%; display: inline-block; @include ellipsis(); }
+				.options-selector {
+					width: 70%; display: inline-block; float: right; background: $input-back;
+					input { width: calc(100% - #{$options-height + 21px}); display: inline-block; float: left; border: none; padding: 0px 10px; height: $options-height; background: transparent; color: $input-clr; }
+					.options-button { width: $options-height; display: inline-block; float: right; text-align: center; color: $input-clr; border-left: 1px solid #6a7e84; }
+					&:hover { input, .options-button { color: white; }}
 				}
-				&#area {
-					background: white; border: 2px solid #f1f1f1; border-top: none;
-					select { width: 100%; height: 27px; background: white; border-color: white; }
-				}
-				&#categories {
-					max-height: 200px; overflow-y: auto; @include clearfix();
-					.categories-opt { }
-				}
-				&#datepicker {
-					#datepicker-input {
-						width: calc(100% - 6px); border: none; text-align: center; padding: 7px 0px; margin: 0px 3px 5px;
-					}
-				}
-				&#periodepicker {
-					.periode-opt {
-						width: calc(25% - 1.5px)!important; &:not(:last-child) { margin-right: 2px; } &.active { background: $active-clr; }
-					}
-				}
-				.selections { width: calc(50% - 1px); display: inline-block; float: left; text-align: center; padding: 6px 0px; background: $nonactive-clr; color: white; margin: 1px 0; &:nth-child(odd) { margin-right: 2px; }}
-			}
-			.panel-buttons {
-				width: calc(50% - 1px); display: inline-block; float: left; text-align: center; padding: 10px 0px 8px; color: white; margin: 1px 0; &:not(:last-child) { margin-right: 2px; }
-				&#save-button { background: #478cb5; }
-				&#apply-button { background: #16aeec; }
 			}
 		}
 	}
-	#content-wrapper {
-		width: calc(100% - #{$panel-width}); height: calc(100% - #{$header-height}); display: inline-block; float: right;
+}
+.jq-dropdown > div { border: none; @include clearfix(); }
+#dropdown-datasource {
+	width: 300px;
+	.datasource-opt {
+		width: calc(50% - 1px); display: inline-block; float: left; text-align: center; padding: 6px 0px; background: $nonactive-clr; color: white; margin: 1px 0; border-radius: 3px; &:nth-child(odd) { margin-right: 2px; }
+		&.active { background-color: $header-clr; }
+	}
+}
+#dropdown-region {
+	ul {
+		max-height: 350px; overflow: auto;
+		li {
+			padding: 4px 20px; &:hover { background: lightgray; }
+		}
+	}
+}
+
+.date-picker-wrapper {
+	background: white; font-family: 'SF Regular'; border-radius: 3px; border: none;
+	.drp_top-bar {
+		.apply-btn { background-color: $header-clr; color: white; border: none; padding: 5px 15px; }
+		b { font-family: 'SF Bold'; color: $header-clr; }
+	}
+	.month-wrapper {
+		border-color: $header-clr;
+		.gap {
+			.gap-line .gap-1 { border-top-color: $header-clr; border-bottom-color: $header-clr; }
+			.gap-top-mask, .gap-bottom-mask { background-color: transparent; }
+		}
+		table {
+			thead { font-family: 'SF Bold'; color: $header-clr; }
+			.day.checked { background-color: $header-clr; color: white!important; }
+			.day.first-date-selected, .day.last-date-selected { background-color: $header-clr!important; }
+			.day.real-today { background-color: lightgray; }
+		}
 	}
 }
