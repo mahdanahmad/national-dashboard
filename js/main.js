@@ -3,6 +3,7 @@ moment.locale('id');
 const monitor_id	= 1;
 const datasource	= ["KPK", "Ombudsman"];
 const periode		= ['Day', 'Week', 'Month', 'Year'];
+const navigation	= ['Map', 'Daily Volume', 'Treemap', 'Keyword', 'Topic Breakdown', 'Spike Alert']
 
 const dateFormat	= 'DD MMM YYYY';
 const defaultDate	= { start: moment().subtract(1, 'months').format(dateFormat), end: moment().format(dateFormat) };
@@ -17,7 +18,7 @@ const dateOpts		= {
 
 const waitPeriod	= 1500;
 
-let opts	= {
+let opts			= {
 	datasource: _.clone(datasource),
 }
 
@@ -43,11 +44,6 @@ $( document ).ready(function() {
 		});
 	});
 
-	// Get Categories
-	// $.get( "api/categories/" + monitor_id + '?selected=name,color', ( data ) => {
-	// 	$( '#categories' ).html(data.result.map((o) => ("<div class='categories-opt selections active cursor-pointer'>" + o.name + "</div>")));
-	// });
-
 	// Create dateRangePicker
 	$('#timeline > input').dateRangePicker(dateOpts);
 	$('#timeline > input').data('dateRangePicker').setStart(defaultDate.start).setEnd(defaultDate.end);
@@ -56,5 +52,9 @@ $( document ).ready(function() {
 		$('#timeline > input').data('dateRangePicker').open();
 	});
 
-	// $( '#periodepicker' ).html(periode.map((o) => ("<div class='periode-opt selections " + (o == 'Month' ? 'active ' : '') + "cursor-pointer'>" + o + "</div>")));
+	// Create navigation on footer
+	$('#navigation > ul').html(navigation.map((o, i) => ("<li class='" + (i ? '' : 'active') + "'>" + o + "</li>")));
+
+	// Create category chart
+	createCategories(monitor_id);
 });

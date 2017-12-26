@@ -47,3 +47,37 @@ module.exports.map = (monitor_id, input, callback) => {
 		callback({ response, status_code, message, result });
 	});
 };
+
+module.exports.categories = (monitor_id, input, callback) => {
+	let response        = 'OK';
+	let status_code     = 200;
+	let message         = 'Get categories data success.';
+	let result          = null;
+
+	async.waterfall([
+		(flowCallback) => {
+			categories.findAll(['name', 'query', 'color'], { where: ['parent_id IS NULL AND monitor_id = ?', monitor_id] }, {}, (err, result) => flowCallback(err, result.map((o) => (_.assign(o, { query: _.chain(o.query).replace(/['"]+/g, '').toLower().split(new RegExp(/\sor\s/, 'i')).uniq().map((o) => ("\'%" + o + "%\'")).value() })))));
+		},
+		(cate_value, flowCallback) => {
+			let query	= 'SELECT ' + cate_value.map((o) => ('SUM(`' + o.id + '`) `' + o.id + '`')) + ' ' +
+							'FROM (' +
+								'SELECT ' + cate_value.map((o) => ('IF (' + o.query.map((d) => ('context LIKE ' + d)).join(' OR ') + ',1,0) AS \'' + o.id + '\'')).join(', ') + ' ' +
+								'FROM ??' +
+							') as labeled';
+			kpk.raw(query, (err, result) => {
+				if (err) { return flowCallback(err); } else {
+					flowCallback(null, _.map(cate_value, (o) => ({ id: o.id, name: o.name, color: o.color, count: _.get(result[0], o.id, 0) })));
+				}
+			});
+		},
+	], (err, asyncResult) => {
+		if (err) {
+			response    = 'FAILED';
+			status_code = 400;
+			message     = err;
+		} else {
+			result      = asyncResult;
+		}
+		callback({ response, status_code, message, result });
+	});
+};

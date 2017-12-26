@@ -31,5 +31,8 @@ router.delete('/categories/:monitor_id/:id', (req, res, next) => {
 router.get('/map/:monitor_id', (req, res, next) => {
 	chart.map(req.params.monitor_id, req.query, (result) => { res.status(result.status_code).json(result); });
 });
+router.get('/cat/:monitor_id', (req, res, next) => {
+	chart.categories(req.params.monitor_id, req.query, (result) => { res.status(result.status_code).json(result); });
+});
 
 module.exports = router;
