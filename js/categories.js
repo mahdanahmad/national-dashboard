@@ -16,7 +16,6 @@ function createCategories(monitor_id) {
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	$.get( "api/cat/" + monitor_id, ( data ) => {
-		console.log(data);
 		x.domain(data.result.map((d) => (d.name)));
 		y.domain([0, _.chain(data.result).maxBy('count').get('count', 0).multiply(1.1).value()]);
 

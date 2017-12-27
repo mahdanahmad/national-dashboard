@@ -57,4 +57,7 @@ $( document ).ready(function() {
 
 	// Create category chart
 	createCategories(monitor_id);
+
+	// Create Map (default)
+	createMap(monitor_id);
 });

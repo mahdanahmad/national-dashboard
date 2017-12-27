@@ -1,0 +1,20 @@
+#category-wrapper {
+	height: $cate-height;
+	& > div { display: inline-block; float: left; }
+	#cate-container {
+		width: calc(100% - #{$edge-width}); height: 100%;
+		svg {
+			.bar.fill { fill-opacity: .35; }
+			.grid line { stroke: lightgrey; stroke-opacity: 0.15; shape-rendering: crispEdges; }
+			.grid path, .axis path { stroke-width: 0; }
+			text { fill: white; }
+		}
+	}
+	#cate-buttons {
+		width: $edge-width; background: $active-clr; color: white; text-transform: uppercase; letter-spacing: .5px; height: 75%;
+		& > div {
+			height: calc((100% - 2px) / 3); display: flex; justify-content: center; align-items: center; cursor: pointer; @include noselect();
+			&:not(:last-child) { border-bottom: 1px solid; }
+		}
+	}
+}

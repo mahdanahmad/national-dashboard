@@ -22,20 +22,17 @@ module.exports.map = (monitor_id, input, callback) => {
 			categories.findAll(['name', 'query', 'color'], { where: ['parent_id IS NULL AND monitor_id = ?', monitor_id] }, {}, (err, result) => flowCallback(err, result.map((o) => (_.assign(o, { query: _.chain(o.query).replace(/['"]+/g, '').toLower().split(new RegExp(/\sor\s/, 'i')).uniq().map((o) => ("\'%" + o + "%\'")).value() })))));
 		},
 		(cate_value, flowCallback) => {
-			let query	= 'SELECT province_id, @max_val:=GREATEST(' + cate_value.map((o) => ('`' + o.id + '`')).join(', ') + ') as top_cate, CASE @max_val ' + cate_value.map((o) => ('WHEN ' + '`' + o.id + '` THEN ' + o.id)).join(' ') + ' END AS category FROM' +
+			let mappedColor	= _.chain(cate_value).keyBy('id').mapValues('color').value();
+
+			let query	= 'SELECT province_id, @max_val:=GREATEST(' + cate_value.map((o) => ('`' + o.id + '`')).join(', ') + ') as top_cate_value, CASE @max_val ' + cate_value.map((o) => ('WHEN ' + '`' + o.id + '` THEN ' + o.id)).join(' ') + ' END AS category_id FROM' +
 							'(SELECT province_id, ' + cate_value.map((o) => ('SUM(`' + o.id + '`) `' + o.id + '`')) + ' ' +
 							'FROM (' +
 								'SELECT province_id, ' + cate_value.map((o) => ('IF (' + o.query.map((d) => ('context LIKE ' + d)).join(' OR ') + ',1,0) AS \'' + o.id + '\'')).join(', ') + ' ' +
 								'FROM ??' +
 							') as labeled ' +
 							'GROUP BY province_id) as counted';
-			kpk.raw(query, (err, result) => flowCallback(err, result));
+			kpk.raw(query, (err, result) => flowCallback(err, result.map((o) => ({ province_id: o.province_id, color: mappedColor[o.category_id] }))));
 		}
-		// (query, flowCallback) => {
-		// 	kpk.findAll(['date', 'city_id', 'province_id'], { where: [_.times(query.length, _.constant('context LIKE ?')).join(' OR '), query] }, {}, (err, result) => {
-		// 		flowCallback(err, result);
-		// 	});
-		// },
 	], (err, asyncResult) => {
 		if (err) {
 			response    = 'FAILED';
