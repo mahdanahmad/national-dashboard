@@ -1,5 +1,5 @@
 svg#maps-viz {
 	rect#background { fill: none; pointer-events: all; }
-	.province { stroke: $default-back; }
-	.kabupaten { }
+	.province { stroke: $default-back; &.unintended { fill: black!important; } }
+	.kabupaten { stroke: $default-back; fill: #b0b1b5; }
 }

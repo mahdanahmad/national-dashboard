@@ -18,11 +18,12 @@ const tablename	= 'kpk_data';
 const tabledata	= {
 	id: ['int(11)', 'NOT NULL', 'AUTO_INCREMENT', 'PRIMARY KEY'],
 	date: ['DATE', 'NOT NULL'],
+	source: ['varchar(10)', 'NOT NULL'],
 	context: ['TEXT', 'NOT NULL'],
 	city_id: ['char(4)'],
 	province_id: ['char(2)'],
 }
-const tablecols	= ['date', 'context', 'city_id', 'province_id'];
+const tablecols	= ['date', 'context', 'source', 'city_id', 'province_id'];
 
 const params	= { headers: true, strictColumnHandling: true, trim: true, quote: "'", delimiter: ';' }
 const columns	= ['monitor_id', 'parent_id', 'name', 'description', 'query']
@@ -220,6 +221,7 @@ async.waterfall([
 					data.push({
 						date: moment(row.Tanggal, 'DD/MM/YY HH:mm').format('YYYY-MM-DD'),
 						context: [row.Delik, row.Instansi].join(' ').toLowerCase().replace('\'', ''),
+						source: 'kpk',
 						city_id: getID(row['Kabupaten/Kota'], 'cities'),
 						province_id,
 					});
@@ -241,6 +243,7 @@ async.waterfall([
 					data.push({
 						date: moment(row.Tanggal, 'DD/MM/YY HH:mm').format('YYYY-MM-DD'),
 						context: [row.jabatan_terlapor, row.id_dugaan_maladministrasi].join(' ').toLowerCase().replace('\'', ''),
+						source: 'ombudsman',
 						city_id: getID(row.kota_kab_terlapor, 'cities'),
 						province_id,
 					});

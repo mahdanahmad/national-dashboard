@@ -1,9 +1,9 @@
 const Model     = require('./model');
 
 const table     = 'kpk_data';
-const fillable  = ['date', 'context', 'city_id', 'province_id'];
-const required  = ['date', 'context', 'city_id'];
-const preserved	= ['date', 'context', 'city_id', 'province_id'];
+const fillable  = ['date', 'source', 'context', 'city_id', 'province_id'];
+const required  = ['date', 'source', 'context', 'city_id'];
+const preserved	= ['date', 'source', 'context', 'city_id', 'province_id'];
 const hidden	= [];
 const id_alias	= 'id';
 

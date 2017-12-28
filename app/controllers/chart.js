@@ -4,7 +4,7 @@ const async			= require('async');
 const kpk			= require('../models/kpk_data');
 const categories	= require('../models/categories');
 
-module.exports.map = (monitor_id, input, callback) => {
+module.exports.map = (monitor_id, prov_id, input, callback) => {
 	let response        = 'OK';
 	let status_code     = 200;
 	let message         = 'Get map data success.';
@@ -24,14 +24,14 @@ module.exports.map = (monitor_id, input, callback) => {
 		(cate_value, flowCallback) => {
 			let mappedColor	= _.chain(cate_value).keyBy('id').mapValues('color').value();
 
-			let query	= 'SELECT province_id, @max_val:=GREATEST(' + cate_value.map((o) => ('`' + o.id + '`')).join(', ') + ') as top_cate_value, CASE @max_val ' + cate_value.map((o) => ('WHEN ' + '`' + o.id + '` THEN ' + o.id)).join(' ') + ' END AS category_id FROM' +
-							'(SELECT province_id, ' + cate_value.map((o) => ('SUM(`' + o.id + '`) `' + o.id + '`')) + ' ' +
+			let query	= 'SELECT ' + (prov_id ? 'city_id' : 'province_id') + ', @max_val:=GREATEST(' + cate_value.map((o) => ('`' + o.id + '`')).join(', ') + ') as top_cate_value, CASE @max_val ' + cate_value.map((o) => ('WHEN ' + '`' + o.id + '` THEN ' + o.id)).join(' ') + ' END AS category_id FROM' +
+							'(SELECT ' + (prov_id ? 'city_id' : 'province_id') + ', ' + cate_value.map((o) => ('SUM(`' + o.id + '`) `' + o.id + '`')) + ' ' +
 							'FROM (' +
-								'SELECT province_id, ' + cate_value.map((o) => ('IF (' + o.query.map((d) => ('context LIKE ' + d)).join(' OR ') + ',1,0) AS \'' + o.id + '\'')).join(', ') + ' ' +
-								'FROM ??' +
+								'SELECT ' + (prov_id ? 'city_id' : 'province_id') + ', ' + cate_value.map((o) => ('IF (' + o.query.map((d) => ('context LIKE ' + d)).join(' OR ') + ',1,0) AS \'' + o.id + '\'')).join(', ') + ' ' +
+								'FROM ??' + (prov_id ? (' WHERE province_id=' + prov_id) : '') +
 							') as labeled ' +
-							'GROUP BY province_id) as counted';
-			kpk.raw(query, (err, result) => flowCallback(err, result.map((o) => ({ province_id: o.province_id, color: mappedColor[o.category_id] }))));
+							'GROUP BY ' + (prov_id ? 'city_id' : 'province_id') + ') as counted';
+			kpk.raw(query, (err, result) => flowCallback(err, result.map((o) => ({ province_id: o.province_id, city_id: o.city_id, color: mappedColor[o.category_id] }))));
 		}
 	], (err, asyncResult) => {
 		if (err) {
