@@ -19,7 +19,7 @@ function createMap(monitor_id) {
 		.translate([(width / 2) + 55, (height / 2) - 50]);
 	path	= d3.geoPath().projection(projection);
 
-	let svg = d3.select("#cate-container").append("svg")
+	let svg = d3.select("#content-wrapper").append("svg")
 		.attr("id", "maps-viz")
     	.attr("width", canvasWidth)
         .attr("height", canvasHeight)
