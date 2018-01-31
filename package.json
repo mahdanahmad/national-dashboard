@@ -5,7 +5,8 @@
   "main": "./app/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./app/server.js localhost"
+    "start": "nodemon ./app/server.js localhost",
+	"sass": "cd stylesheets && sass --watch scss:css --style compressed"
   },
   "repository": {
     "type": "git",

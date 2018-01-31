@@ -1,9 +1,7 @@
 let mappedGeoProv	= {};
 let centered, path;
 
-const defMapColor	= '#5a6569';
-
-function createMap(monitor_id) {
+function createMap() {
 	d3.select("#content-wrapper").selectAll("svg").remove();
 
 	let canvasWidth		= $('#content-wrapper').outerWidth(true);
@@ -30,16 +28,16 @@ function createMap(monitor_id) {
 		.attr('id', 'background')
 		.attr('width', width)
 		.attr('height', height)
-		.on('click', () => { zoomProv(null, monitor_id) });
+		.on('click', () => { zoomProv(null) });
 
 	d3.queue()
-		.defer(d3.json, 'api/map/' + monitor_id)
+		.defer(getVizMaps, null)
 		.defer(d3.json, 'json/indonesia.json')
 		.defer(d3.json, 'json/kabupaten.geojson')
 		.await((err, data, prov, kabs) => {
 			if (err) return console.error(err);
 
-			let mappedColor	= _.chain(data.result).keyBy('province_id').mapValues('color').value();
+			let mappedColor	= _.chain(data).keyBy('id').mapValues('color').value();
 
 			let states		= topojson.feature(prov, prov.objects.map);
 			mappedGeoProv	= _.chain(states).get('features', []).keyBy('properties.id_provinsi').value();
@@ -51,7 +49,7 @@ function createMap(monitor_id) {
 					.attr('d', path)
 					.attr('class', (o) => ('hidden kabupaten cursor-pointer prov-' + o.properties.id_provinsi))
 					.attr('vector-effect', 'non-scaling-stroke')
-					.on('click', (o) => { zoomProv(parseInt(o.properties.id_provinsi, monitor_id)); });
+					.on('click', (o) => { zoomProv(parseInt(o.properties.id_provinsi)); });
 
 			svg.selectAll("path.province")
 			    .data(states.features)
@@ -60,12 +58,12 @@ function createMap(monitor_id) {
 			        .attr("class", (o) => ("province cursor-pointer"))
 			        .attr("d", path)
 					.attr('vector-effect', 'non-scaling-stroke')
-					.style("fill", (o) => (mappedColor[o.properties.id_provinsi] || defMapColor))
-					.on("click", (o) => { zoomProv(o.properties.id_provinsi, monitor_id); });
+					.style("fill", (o) => (mappedColor[o.properties.id_provinsi] || defColor))
+					.on("click", (o) => { zoomProv(o.properties.id_provinsi); });
 		});
 }
 
-function zoomProv(prov_id, monitor_id) {
+function zoomProv(prov_id) {
 	let svg	= d3.select("svg#maps-viz > g");
 
 	if (path && svg.node()) {
@@ -74,10 +72,12 @@ function zoomProv(prov_id, monitor_id) {
 
 		// Compute centroid of the selected path
 		if (mappedGeoProv[prov_id] && centered !== prov_id) {
-			let centroid = path.centroid(mappedGeoProv[prov_id]);
+			let centroid 	= path.centroid(mappedGeoProv[prov_id]);
+			let bounds		= path.bounds(mappedGeoProv[prov_id]);
+
 			x = centroid[0];
 			y = centroid[1];
-			k = 4;
+			k = node.height * .7 / (bounds[1][1] - bounds[0][1]);
 
 			d3.select('.province#prov-' + centered).classed('hidden', false);
 			d3.selectAll('.kabupaten.prov-' + centered).classed('hidden', true);
@@ -89,10 +89,9 @@ function zoomProv(prov_id, monitor_id) {
 
 			d3.selectAll('.province:not(.prov-' + prov_id + ')').classed('unintended', true);
 
-			$.get( "api/map/" + monitor_id + '/' + prov_id, ( data ) => {
-				console.log(data);
-				data.result.forEach((o) => {
-					if (o.city_id) { d3.select('#kab-' + o.city_id).style('fill', (o.color || defMapColor)); }
+			getVizMaps(prov_id, (err, data) => {
+				data.forEach((o) => {
+					if (o.id) { d3.select('#kab-' + o.id).style('fill', (o.color || defColor)); }
 				});
 			});
 		} else {

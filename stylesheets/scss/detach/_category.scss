@@ -4,10 +4,19 @@
 	#cate-container {
 		width: calc(100% - #{$edge-width}); height: 100%;
 		svg {
-			.bar.fill { fill-opacity: .35; }
+			.group-bar {
+				.bar.fill { fill-opacity: .35; }
+				&.unintended {
+					.bar.cream { fill-opacity: .2; }
+					.bar.fill { fill-opacity: .05; }
+				}
+			}
 			.grid line { stroke: lightgrey; stroke-opacity: 0.15; shape-rendering: crispEdges; }
 			.grid path, .axis path { stroke-width: 0; }
-			text { fill: white; }
+			text {
+				fill: white;
+				&.unintended { fill-opacity: 0.35; }
+			}
 		}
 	}
 	#cate-buttons {

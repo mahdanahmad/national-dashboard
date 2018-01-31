@@ -53,9 +53,7 @@ async.waterfall([
 	(keys, final, flowCallback) => {
 		let cols	= _.concat(tablecols, keys);
 		async.each(final, (row, eachCallback) => {
-			// console.log('INSERT INTO ' + tablename + ' (' + cols.map((o) => ('`' + o + '`')).join(', ') + ') VALUES ' + ('(' + _.chain(cols).map((d) => (_.get(row, d, 'null'))).map((d) => (d !== 'NULL' ? d : 'null')).value().join(', ') + ')') + ';');
-			// eachCallback();
-			connect.query('INSERT INTO ' + tablename + ' (' + cols.map((o) => ('`' + o + '`')).join(', ') + ') VALUES ' + ('(' + _.chain(cols).map((d) => (_.get(row, d, 'null'))).map((d) => (d !== 'NULL' ? d : 'null')).value().join(', ') + ')') + ';', (err, result) => eachCallback(err));
+			connect.query('INSERT INTO ' + tablename + ' (' + cols.map((o) => ('`' + o + '`')).join(', ') + ') VALUES ' + ('(' + _.chain(cols).map((d) => (_.get(row, d, "'null'"))).map((d) => (d !== "'null'" ? d : 'NULL')).value().join(', ') + ')') + ';', (err, result) => eachCallback(err));
 		}, (err) => {
 			flowCallback(err);
 		});

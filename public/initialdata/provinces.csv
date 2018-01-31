@@ -22,6 +22,7 @@ province_id,country_id,province_name,name_alt,old_id
 62,ID,Kalimantan Tengah,NULL,NULL
 63,ID,Kalimantan Selatan,NULL,NULL
 64,ID,Kalimantan Timur,NULL,NULL
+65,ID,Kalimantan Utara,NULL,NULL
 71,ID,Sulawesi Utara,NULL,NULL
 72,ID,Sulawesi Tengah,NULL,NULL
 73,ID,Sulawesi Selatan,NULL,NULL

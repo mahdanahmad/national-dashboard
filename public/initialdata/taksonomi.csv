@@ -1,28 +1,20 @@
 Kategori;Taksonomi
 Agama;agama or KUA
 Aparatur Negara;aparatur or CPNS or BKD or kepegawaian or PAN or kemenpan
-Tata Ruang;pertanahan or BPN or perumahan or "tata kota"
-Bidang Lain;panwaslu or PDAM or "tata kota" or yayasan or BRI or BTPN or percetakan or navigasi or  "Pemilihan Umum" or "Adhi Karya" or KPK or PELINDO or TVRI or KPU or POS or pegadaian or PERHUTANI or BUMN or asuransi or "HUTAMA KARYA" or pertanahan or bapeten
-Transmigrasi;transmigrasi or "daerah tertinggal"
-ESDM;listrik or geofisika or air or migas or minyak or gas or pertamina or energi or "sumber daya mineral" or pertambangan
-Hukum dan HAM;kemenkumham or imigrasi or hukum or hak asasi or mahkamah or HAM or pengadilan or kejaksaan or saksi or konstitusi or satpol
-Kelautan;kelautan or perikanan or "kelautan dan perikanan"
-Kemendagri;"kepala desa" or lurah or kependudukan or kelurahan or kecamatan or dispendukcapil or "dinas kependudukan" or "catatan sipil" or camat or "sekretaris desa" or disdukcapil or camat"
-Kesehatan;kesehatan or sehat or RSUD or "rumah sakit" or posyandu or BPJS or RSUP or RS
+Agraria dan Tata Ruang;pertanahan or BPN or perumahan
+Bidang Lain;transmigrasi or "daerah tertinggal" or panwaslu or PDAM or "tata kota" or yayasan or BRI or BTPN or percetakan or navigasi or  "Pemilihan Umum" or "Adhi Karya" or KPK or PELINDO or TVRI or KPU or POS or pegadaian or PERHUTANI or BUMN or asuransi or "HUTAMA KARYA" or pertanahan or bapeten
+ESDM;listrik or air or migas or minyak or gas or pertamina or energi or "sumber daya mineral" or pertambangan or kehutanan or hutan or perkebunan
+Kelautan dan Perikanan;kelautan or perikanan or "kelautan dan perikanan"
+Pemerintah Daerah;sekda or "pemerintah kabupaten" or "pemerintah kota" or bupati or pemkot or pemkab or walikota or "wali kota" or "sekretariat daerah" or "kepala desa" or lurah or kependudukan or kelurahan or kecamatan or dispendukcapil or "dinas kependudukan" or "catatan sipil" or camat or "sekretaris desa" or disdukcapil
+Kesehatan;kesehatan or sehat or RSUD or "rumah sakit" or posyandu or BPJS or RSUP
 Ketenagakerjaan;transmigrasi or "tenaga kerja" or swasata or BNP2TKI or disnakertrans or kemenakertrans
-Keuangan;aset or uang or bank or keuangan or perbankan or pajak or bea or cukai or peruri or modal or samsat or BTPN or BRI
-Komunikasi;komunikasi or informasi or telkom
-Koperasi dan UKM;koperasi or UKM
+Keuangan;aset or uang or bank or keuangan or perbankan or pajak or bea or cukai or peruri or modal or samsat
 Legislatif;"dewan perwakilan" or dpd or dprd or DPR-RI
-Lingkungan Hidup;kehutanan or hutan or perkebunan or PERHUTANI
 Pariwisata;wisata or "objek wisata" or pariwisata or kebudayaan or budaya or "taman nasional"
-Pekerjaan Umum;PU or "Pekerjaan Umum" or "PU/Kimpraswil" or perumnas or kemenpera or "Adhi Karya" or PDAM
-Pemerintah;sekda or "pemerintah kabupaten" or "pemerintah kota" or bupati or pemkot or pemkab or walikota or "wali kota" or "sekretariat daerah"
+Pekerjaan Umum dan Perumahan Rakyat;PU or "Pekerjaan Umum" or "PU/Kimpraswil" or perumnas or kemenpera
 Pemuda dan Olahraga;atlet or "olah raga" or pemuda or kepemudaan or olahraga or KONI
 Pendidikan;pendidikan or kemendikbud or sekolah or universitas or poltekes or politeknik or SMPN or SMAN or SMA or madrasah or SDN or SMP or rektor or SMK
-Perdagangan;perdagangan or perindustrian or bulog
-Perhubungan;perhubungan or sungai or penyeberangan or udara or penerbangan or pelayaran or air or perkapalan or "angkasa pura" or perkeretaapian
-Pertahanan;polisi or kompol or kepolisian or resor or komando or polri or pertahanan or mabes or TNI or pertahanan or intelijen or polrestabes or kapolres or panglima
-Pertanian;tani or pertanian
-Teknologi;riset or teknologi or "riset dan teknologi" or BPPT or LIPI or penelitian
+Pariwisata, Perhubungan, dan Kelautan;perhubungan or sungai or penyeberangan or udara or penerbangan or pelayaran or perkapalan or "angkasa pura" or perkretaapian
+Perdagangan dan Perindustrian;perdagangan or perindustrian or bulog or koperasi or UKM
+Polhukam;polisi or kompol or kepolisian or resor or polri or pertahanan or mabes or TNI or intelijen or polrestabes or kapolres or panglima or imigrasi or hukum or hak asasi or mahkamah or HAM or pengadilan or kejaksaan or saksi or konstitusi or satpol
 Sosial;sosial or dinsosnaker
