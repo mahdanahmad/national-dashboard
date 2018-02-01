@@ -29,6 +29,7 @@ function createCategories() {
 			.selectAll(".tick text")
 			.call(wrap, x.bandwidth())
 			.attr("id", (o) => ( 'text-' + nameToId[o] ))
+			.attr("class", "text-on-category")
 			.on('click', (o) => { onClickHandler(nameToId[o]); });
 
 		svg.append("g")
