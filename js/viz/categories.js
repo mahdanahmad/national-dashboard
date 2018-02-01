@@ -23,52 +23,52 @@ function createCategories() {
 		let nameToId	= _.chain(data).map((o) => ([o.name, o.id])).fromPairs().value();
 
 		svg.append("g")
-		.attr("class", "axis axis--x cursor-pointer")
-		.attr("transform", "translate(0," + height + ")")
-		.call(d3.axisBottom(x).tickSize(0))
-		.selectAll(".tick text")
-		.call(wrap, x.bandwidth())
-		.attr("id", (o) => ( 'text-' + nameToId[o] ))
-		.on('click', (o) => { onClickHandler(nameToId[o]); });
+			.attr("class", "axis axis--x cursor-pointer")
+			.attr("transform", "translate(0," + height + ")")
+			.call(d3.axisBottom(x).tickSize(0))
+			.selectAll(".tick text")
+			.call(wrap, x.bandwidth())
+			.attr("id", (o) => ( 'text-' + nameToId[o] ))
+			.on('click', (o) => { onClickHandler(nameToId[o]); });
 
 		svg.append("g")
-		.attr("class", "grid")
-		.call(d3.axisLeft(y).ticks(5).tickSize(-width).tickFormat(""));
+			.attr("class", "grid")
+			.call(d3.axisLeft(y).ticks(5).tickSize(-width).tickFormat(""));
 
 		svg.append("g")
-		.attr("class", "grid")
-		.attr("transform", "translate(" + (x.bandwidth() / 2) + ",0)")
-		.call(d3.axisTop(x).tickSize(-height).tickFormat(""));
+			.attr("class", "grid")
+			.attr("transform", "translate(" + (x.bandwidth() / 2) + ",0)")
+			.call(d3.axisTop(x).tickSize(-height).tickFormat(""));
 
 		let grouped	= svg.append("g").attr("id", "categories");
 
 		let groupBar	= grouped.selectAll('group-bar').data(data).enter().append('g')
-		.attr('id', (o) => ('bar-' + o.id))
-		.attr("class", "group-bar cursor-pointer");
+			.attr('id', (o) => ('bar-' + o.id))
+			.attr("class", "group-bar cursor-pointer");
 
 		groupBar.append("rect")
-		.attr("class", "bar fill")
-		.attr("fill", (o) => (o.color || defColor))
-		.attr("x", (o) => (x(o.name)))
-		.attr("y", height)
-		.attr("width", x.bandwidth())
-		.attr("height", (o) => (0));
+			.attr("class", "bar fill")
+			.attr("fill", (o) => (o.color || defColor))
+			.attr("x", (o) => (x(o.name)))
+			.attr("y", height)
+			.attr("width", x.bandwidth())
+			.attr("height", (o) => (0));
 
 		groupBar.append("rect")
-		.attr("class", "bar cream")
-		.attr("fill", (o) => (o.color || defColor))
-		.attr("x", (o) => (x(o.name)))
-		.attr("y", height)
-		.attr("width", x.bandwidth())
-		.attr("height", 2);
+			.attr("class", "bar cream")
+			.attr("fill", (o) => (o.color || defColor))
+			.attr("x", (o) => (x(o.name)))
+			.attr("y", height - 2)
+			.attr("width", x.bandwidth())
+			.attr("height", 2);
 
 		groupBar.append("rect")
-		.attr("class", "overlay")
-		.attr("fill", "transparent")
-		.attr("x", (o) => (x(o.name)))
-		.attr("y", 0)
-		.attr("width", x.bandwidth())
-		.attr("height", height);
+			.attr("class", "overlay")
+			.attr("fill", "transparent")
+			.attr("x", (o) => (x(o.name)))
+			.attr("y", 0)
+			.attr("width", x.bandwidth())
+			.attr("height", height);
 
 		groupBar.on('click', (o) => { onClickHandler(o.id); });
 
@@ -86,14 +86,14 @@ function changeCateHeight(data) {
 	let height		= canvas.node().getBBox().height;
 
 	let y			= d3.scaleLinear().rangeRound([height, 0]).domain([0, _.chain(data).maxBy('count').get('count', 0).multiply(1.1).value()]);
-	let mapped		= _.chain(data).map((o) => ([o.id, y(o.count)])).fromPairs().value();
+	let mapped		= _.chain(data).map((o) => ([o.id, y(o.count) > height ? height : y(o.count)])).fromPairs().value();
 
 	canvas.selectAll('.bar.fill').transition(transition)
         .attr('y', (o) => (mapped[o.id]))
         .attr('height', (o) => (height - mapped[o.id]));
 
 	canvas.selectAll('.bar.cream').transition(transition)
-        .attr('y', (o) => (mapped[o.id]));
+        .attr('y', (o) => (mapped[o.id] - 2));
 
 }
 
@@ -133,20 +133,6 @@ function onClickHandler(o) {
 	categoryTimeout	= setTimeout(() => {
 		activeCate	= canvas.selectAll('g.group-bar:not(.unintended)').nodes().map(function(o) { return parseInt(d3.select(o).attr('id').replace('bar-', '')); });
 
-		switch (d3.select('#navigation li.active').text()) {
-			case 'Map':
-				getVizMaps(null, (err, data) => {
-					data.forEach((o) => { if (o.id) { d3.select('#prov-' + o.id).style('fill', (o.color || defColor)); } });
-				});
-				if (centered) {
-					getVizMaps(centered, (err, data) => {
-						data.forEach((o) => { if (o.id) { d3.select('#kab-' + o.id).style('fill', (o.color || defColor)); } });
-					});
-				}
-				break;
-			default:
-				console.log('undefined');
-		}
-
+		refreshContent();
 	}, awaitTime);
 }

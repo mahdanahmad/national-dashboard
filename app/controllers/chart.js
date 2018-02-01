@@ -13,6 +13,9 @@ module.exports.map = (monitor_id, prov_id, input, callback) => {
 	let result          = null;
 
 	const active		= input.categories ? JSON.parse(input.categories)	: null;
+	const startDate		= (input.startDate	|| null);
+	const endDate		= (input.endDate	|| null);
+	const datasource	= (input.datasource	|| null);
 
 	async.waterfall([
 		(flowCallback) => {
@@ -32,9 +35,14 @@ module.exports.map = (monitor_id, prov_id, input, callback) => {
 
 				let keys		= cate_value.map((o) => (o.id));
 
+				let where		= [];
+				if (startDate && endDate) { where.push('date BETWEEN \'' + startDate + '\' AND \'' + endDate + '\''); }
+				if (datasource) { where.push('`source` IN (' + datasource.split(',').map((o) => ('\'' + _.trim(o).toLowerCase() + '\'')) + ')'); }
+
 				let query	= 'SELECT `' + cate_value.map((o) => (o.id)).join('`,`') + '`,' + column + ' ' +
 				'FROM ?? ' +
-				'WHERE ' + cate_value.map((o) => ('`' + o.id + '` = 1')).join(' OR ') + ' AND ' + column + ' IS NOT NULL' + (prov_id ? ' AND province_id = ' + prov_id : '');
+				'WHERE (' + cate_value.map((o) => ('`' + o.id + '` = 1')).join(' OR ') + ') AND ' + column + ' IS NOT NULL' + (prov_id ? ' AND province_id = ' + prov_id : '') +
+				(!_.isEmpty(where) ? ' AND ' + where.join(' AND ') : '');
 
 				kpk.raw(query, (err, result) => {
 					if (err) { flowCallback(err) } else {
@@ -64,14 +72,22 @@ module.exports.categories = (monitor_id, input, callback) => {
 	let message         = 'Get categories data success.';
 	let result          = null;
 
+	const startDate		= (input.startDate	|| null);
+	const endDate		= (input.endDate	|| null);
+	const datasource	= (input.datasource	|| null);
+
 	async.waterfall([
 		(flowCallback) => {
 			categories.findAll(['name', 'color'], { where: ['parent_id IS NULL AND monitor_id = ?', monitor_id] }, {}, (err, result) => flowCallback(err, result));
 		},
 		(cate_value, flowCallback) => {
-			let query	= 'SELECT ' + cate_value.map((o) => ('SUM(`' + o.id + '`) as `' + o.id + '`')).join(', ') + ' FROM ??'
+			let where	= [];
+			if (startDate && endDate) { where.push('date BETWEEN \'' + startDate + '\' AND \'' + endDate + '\''); }
+			if (datasource) { where.push('`source` IN (' + datasource.split(',').map((o) => ('\'' + _.trim(o).toLowerCase() + '\'')) + ')'); }
 
-			kpk.raw(query, (err, result) => flowCallback(err, cate_value.map((o) => (_.assign(o, { count: _.get(result[0], o.id, 0) })))));
+			let query	= 'SELECT ' + cate_value.map((o) => ('SUM(`' + o.id + '`) as `' + o.id + '`')).join(', ') + ' FROM ??' + (!_.isEmpty(where) ? ' WHERE ' + where.join(' AND ') : '');
+
+			kpk.raw(query, (err, result) => flowCallback(err, cate_value.map((o) => (_.assign(o, { count: (result[0][o.id] || 0) })))));
 		},
 	], (err, asyncResult) => {
 		if (err) {

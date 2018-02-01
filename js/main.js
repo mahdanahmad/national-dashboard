@@ -14,6 +14,7 @@ $( document ).ready(function() {
 			$( this ).addClass('active');
 		}
 		$( '#datasource > input' ).val( $( '.datasource-opt.active' ).map(function() { return $( this ).text(); }).get().join(', ') );
+		getVizCategories((data) => { changeCateHeight(data); refreshContent(); });
 	});
 
 	// Get Area Options
@@ -28,7 +29,11 @@ $( document ).ready(function() {
 	});
 
 	// Create dateRangePicker
-	$('#timeline > input').dateRangePicker(dateOpts);
+	$('#timeline > input').dateRangePicker(dateOpts).bind('datepicker-change',(e, obj) => {
+		activeDate	= { start: moment(obj.date1).format(dateServer), end: moment(obj.date2).format(dateServer) };
+
+		getVizCategories((data) => { changeCateHeight(data); refreshContent(); });
+	});
 	$('#timeline > input').data('dateRangePicker').setStart(defaultDate.start).setEnd(defaultDate.end);
 	$('#timeline > div').click((e) => {
 		e.stopPropagation();

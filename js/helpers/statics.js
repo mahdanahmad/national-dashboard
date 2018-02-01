@@ -3,9 +3,11 @@ const periode		= ['Day', 'Week', 'Month', 'Year'];
 const navigation	= ['Map', 'Daily Volume', 'Treemap', 'Keyword', 'Topic Breakdown', 'Spike Alert']
 
 const dateFormat	= 'DD MMM YYYY';
-const defaultDate	= { start: moment().subtract(1, 'months').format(dateFormat), end: moment().format(dateFormat) };
+const dateServer	= 'YYYY-MM-DD';
+const defaultDate	= { start: moment([2014]).startOf('year').format(dateFormat), end: moment([2014]).endOf('year').format(dateFormat) };
 const dateOpts		= {
 	format: dateFormat,
+	startDate: defaultDate.start,
 	endDate: defaultDate.end,
 	language: 'id',
 	startOfWeek: 'monday',
@@ -21,6 +23,8 @@ const cate_dest		= '#cate-container';
 const cate_id		= 'cate-viz';
 
 const awaitTime		= 800;
-let activeCate		= null;
 
 let monitor_id		= 1;
+
+let activeCate		= null;
+let activeDate		= _.chain(defaultDate).clone().mapValues((o) => (moment(o, dateFormat).format(dateServer))).value();
