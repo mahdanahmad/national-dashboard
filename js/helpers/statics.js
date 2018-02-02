@@ -22,6 +22,10 @@ const defColor		= '#5a6569';
 const cate_dest		= '#cate-container';
 const cate_id		= 'cate-viz';
 
+const content_dest	= '#content-wrapper';
+const maps_id		= 'maps-viz';
+const treemap_id	= 'treemap-viz';
+
 const awaitTime		= 800;
 
 let monitor_id		= 1;

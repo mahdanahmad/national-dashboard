@@ -41,7 +41,7 @@ $( document ).ready(function() {
 	});
 
 	// Create navigation on footer
-	$( '#navigation > ul' ).html(navigation.map((o, i) => ("<li class='" + (i ? '' : 'active') + "'>" + o + "</li>")));
+	$( '#navigation > ul' ).html(navigation.map((o, i) => ("<li id='" + _.kebabCase(o) + "' class='" + (i ? '' : 'active') + "' onclick='changeContent(\"" + o + "\")'>" + o + "</li>")));
 
 	// Create category chart
 	createCategories();

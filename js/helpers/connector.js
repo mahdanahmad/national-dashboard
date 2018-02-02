@@ -10,7 +10,21 @@ function refreshContent() {
 				});
 			}
 			break;
+		case 'Treemap': createTreemap(); break;
 		default:
 			console.log('undefined');
+	}
+}
+
+function changeContent(val) {
+	let activeContent	= $('#navigation li.active').text();
+	if (activeContent !== val) {
+		$( '#navigation li.active' ).removeClass('active');
+		$( '#navigation li#' + _.kebabCase(val) ).addClass('active');
+		switch (val) {
+			case 'Map': createMap(); break;
+			case 'Treemap': createTreemap(); break;
+			default: d3.select(content_dest).selectAll("svg").remove();
+		}
 	}
 }

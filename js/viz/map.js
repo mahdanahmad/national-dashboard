@@ -2,10 +2,10 @@ let mappedGeoProv	= {};
 let centered, path;
 
 function createMap() {
-	d3.select("#content-wrapper").selectAll("svg").remove();
+	d3.select(content_dest).selectAll("svg").remove();
 
-	let canvasWidth		= $('#content-wrapper').outerWidth(true);
-	let canvasHeight	= $('#content-wrapper').outerHeight(true);
+	let canvasWidth		= $(content_dest).outerWidth(true);
+	let canvasHeight	= $(content_dest).outerHeight(true);
 
 	let margin 			= { top: 0, right: 0, bottom: 0, left: 0 };
 	let width			= canvasWidth - margin.right - margin.left;
@@ -18,7 +18,7 @@ function createMap() {
 	path	= d3.geoPath().projection(projection);
 
 	let svg = d3.select("#content-wrapper").append("svg")
-		.attr("id", "maps-viz")
+		.attr("id", maps_id)
     	.attr("width", canvasWidth)
         .attr("height", canvasHeight)
 		.append('g')

@@ -34,5 +34,8 @@ router.get('/map/:monitor_id/:prov_id?', (req, res, next) => {
 router.get('/cat/:monitor_id', (req, res, next) => {
 	chart.categories(req.params.monitor_id, req.query, (result) => { res.status(result.status_code).json(result); });
 });
+router.get('/treemap/:monitor_id', (req, res, next) => {
+	chart.treemap(req.params.monitor_id, req.query, (result) => { res.status(result.status_code).json(result); });
+});
 
 module.exports = router;

@@ -100,3 +100,60 @@ module.exports.categories = (monitor_id, input, callback) => {
 		callback({ response, status_code, message, result });
 	});
 };
+
+module.exports.treemap	= (monitor_id, input, callback) => {
+	let response        = 'OK';
+	let status_code     = 200;
+	let message         = 'Get categories data success.';
+	let result          = null;
+
+	const active		= input.categories ? JSON.parse(input.categories)	: null;
+	const startDate		= (input.startDate	|| null);
+	const endDate		= (input.endDate	|| null);
+	const datasource	= (input.datasource	|| null);
+
+	async.waterfall([
+		(flowCallback) => {
+			if (_.isEmpty(active) && _.isArray(active)) {
+				flowCallback(null, null);
+			} else {
+				let query	= {};
+				if (active) { query.where = ['parent_id IN (' + active.join(',') + ') OR id IN (' + active.join(',') + ')']; }
+
+				categories.findAll(['name', 'parent_id', 'color'], query, {}, (err, result) => flowCallback(err, result));
+			}
+		},
+		(cate_value, flowCallback) => {
+			if (cate_value) {
+				let child_keys	= _.chain(cate_value).reject(['parent_id', null]).map('id').value();
+				let where	= [];
+				if (startDate && endDate) { where.push('date BETWEEN \'' + startDate + '\' AND \'' + endDate + '\''); }
+				if (datasource) { where.push('`source` IN (' + datasource.split(',').map((o) => ('\'' + _.trim(o).toLowerCase() + '\'')) + ')'); }
+
+				let query	= 'SELECT ' + child_keys.map((o) => ('SUM(`' + o + '`) as `' + o + '`')).join(', ') + ' FROM ??' + (!_.isEmpty(where) ? ' WHERE ' + where.join(' AND ') : '');
+
+				kpk.raw(query, (err, result) => {
+					if (err) { flowCallback(err) } else {
+						let summed		= _.omitBy(result[0], (o) => (o == 0));
+						let summed_keys	= _.keys(summed).map((o) => parseInt(o));
+						let children	= _.chain(cate_value).filter((o) => (_.includes(summed_keys, o.id))).groupBy('parent_id').mapValues((o) => (o.map((d) => ({ name: d.name, size: (summed[d.id] || 0) })))).value();
+						// let children	= _.chain(cate_value).reject(['parent_id', null]).groupBy('parent_id').mapValues((o) => (o.map((d) => ({ name: d.name, size: (result[0][d.id] || 0) })))).value();
+
+						flowCallback(null, { name: 'treemap', children: _.chain(cate_value).filter(['parent_id', null]).map((o) => ({ name: o.name, color: o.color, children: (children[o.id] || []) })).value() });
+					}
+				});
+			} else {
+				flowCallback(null, { name: 'treemap', children: [] });
+			}
+		},
+	], (err, asyncResult) => {
+		if (err) {
+			response    = 'FAILED';
+			status_code = 400;
+			message     = err;
+		} else {
+			result      = asyncResult;
+		}
+		callback({ response, status_code, message, result });
+	});
+}
