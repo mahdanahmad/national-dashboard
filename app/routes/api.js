@@ -37,5 +37,8 @@ router.get('/cat/:monitor_id', (req, res, next) => {
 router.get('/treemap/:monitor_id', (req, res, next) => {
 	chart.treemap(req.params.monitor_id, req.query, (result) => { res.status(result.status_code).json(result); });
 });
+router.get('/volume/:monitor_id', (req, res, next) => {
+	chart.volume(req.params.monitor_id, req.query, (result) => { res.status(result.status_code).json(result); });
+});
 
 module.exports = router;

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ./app/server.js localhost",
-	"sass": "cd stylesheets && sass --watch scss:css --style compressed"
+    "serve": "pm2 start ./app/server.js --name=\"national-dashboard\" --watch",
+    "sass": "cd stylesheets && sass --watch scss:css --style compressed"
   },
   "repository": {
     "type": "git",
@@ -29,7 +30,7 @@
     "express": "^4.16.2",
     "fast-csv": "^2.4.1",
     "lodash": "^4.17.4",
-    "moment": "^2.19.3",
+    "moment": "^2.20.1",
     "mysql": "^2.15.0",
     "topojson": "^3.0.2"
   },

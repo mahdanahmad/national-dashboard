@@ -1,5 +1,6 @@
 const _				= require('lodash');
 const async			= require('async');
+const moment		= require('moment');
 
 const kpk			= require('../models/kpk_cache');
 const cities		= require('../models/cities');
@@ -145,6 +146,36 @@ module.exports.treemap	= (monitor_id, input, callback) => {
 			} else {
 				flowCallback(null, { name: 'treemap', children: [] });
 			}
+		},
+	], (err, asyncResult) => {
+		if (err) {
+			response    = 'FAILED';
+			status_code = 400;
+			message     = err;
+		} else {
+			result      = asyncResult;
+		}
+		callback({ response, status_code, message, result });
+	});
+}
+
+module.exports.volume	= (monitor_id, input, callback) => {
+	let response        = 'OK';
+	let status_code     = 200;
+	let message         = 'Get categories data success.';
+	let result          = null;
+
+	const dateFormat	= 'YYYY-MM-DD';
+
+	const active		= input.categories ? JSON.parse(input.categories)	: null;
+	const startDate		= (input.startDate	|| moment([2014]).startOf('year').format(dateFormat));
+	const endDate		= (input.endDate	|| moment([2014]).endOf('year').format(dateFormat));
+	const datasource	= (input.datasource	|| null);
+	const time			= (input.time		|| 'daily');
+
+	async.waterfall([
+		(flowCallback) => {
+			flowCallback(null, startDate);
 		},
 	], (err, asyncResult) => {
 		if (err) {

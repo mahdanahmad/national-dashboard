@@ -1,7 +1,7 @@
 #footer {
 	height: #{$footer-height / 2}; padding: #{$footer-height / 4}; padding-right: 0px;
 	#navigation {
-		width: calc(100% - #{$edge-width}); height: 100%; padding-left: 0px; background: rgba(black, .5); display: table; table-layout: fixed; float: left;
+		width: calc(100% - #{$edge-width * 1.5}); height: 100%; padding-left: 0px; background: rgba(black, .5); display: table; table-layout: fixed; float: left;
 		ul {
 			display: table-row; color: white;
 			li {
@@ -11,7 +11,10 @@
 			}
 		}
 	}
-	#logo-wrapper {
-		display: inline-block; float: right; width: $edge-width; height: 100%; img { height: 100%; width: auto; display: block; margin: 0 auto; }
+	.logo-wrapper {
+		display: inline-block; float: right; height: 100%;
+		img { display: block; margin: 0 auto; }
+		&#plj-logo { width: $edge-width * .85; img { height: 100%; width: auto; }}
+		&#kpk-logo { width: $edge-width * .65; img { width: 75%; margin: 5% 0 0 25%; }}
 	}
 }
