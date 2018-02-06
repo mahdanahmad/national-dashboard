@@ -47,8 +47,8 @@ module.exports.map = (monitor_id, prov_id, input, callback) => {
 
 				kpk.raw(query, (err, result) => {
 					if (err) { flowCallback(err) } else {
-						let colored	= _.chain(result).groupBy(column).map((o, key) => ([key, mappedColor[_.chain(keys).map((d) => ({ id: d, count: _.sumBy(o, d)})).maxBy('count').get('id').value()]])).fromPairs().value();
-						flowCallback(null, locations.map((o) => ({ id: o, color: _.get(colored, o, null) })));
+						let colored	= _.chain(result).groupBy(column).mapValues((o) => (_.chain(keys).map((d) => ({ id: d, count: _.sumBy(o, d)})).maxBy('count').value())).mapValues((o) => (_.chain(o).assign({ color: mappedColor[o.id] }).omit('id').value())).value();
+						flowCallback(null, locations.map((o) => ({ id: o, color: _.get(colored, o + '.color', null), count: _.get(colored, o + '.count', 0) })));
 					}
 				});
 			} else {

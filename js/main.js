@@ -19,7 +19,7 @@ $( document ).ready(function() {
 
 	// Get Area Options
 	getProvinces(( data ) => {
-		$( '#dropdown-region > ul' ).append(data.map((o) => ("<li value='" + o.id + "'>" + o.name + "</li>")).join(''));
+		$( '#dropdown-region > ul' ).append(data.map((o) => ("<li id='region-" + o.id + "' value='" + o.id + "'>" + o.name + "</li>")).join(''));
 		$( 'div#dropdown-region > ul > li' ).click(function(e) {
 			$( '#region > input' ).val($( this ).text());
 			$( '#dropdown-region' ).jqDropdown('hide');

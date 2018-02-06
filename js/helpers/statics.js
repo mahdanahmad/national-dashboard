@@ -32,3 +32,5 @@ let monitor_id		= 1;
 
 let activeCate		= null;
 let activeDate		= _.chain(defaultDate).clone().mapValues((o) => (moment(o, dateFormat).format(dateServer))).value();
+
+let countessa		= { provinces: {}, regencies: {} };

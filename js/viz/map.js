@@ -17,7 +17,7 @@ function createMap() {
 		.translate([(width / 2) + 55, (height / 2) - 50]);
 	path	= d3.geoPath().projection(projection);
 
-	let svg = d3.select("#content-wrapper").append("svg")
+	let svg = d3.select(content_dest).append("svg")
 		.attr("id", maps_id)
     	.attr("width", canvasWidth)
         .attr("height", canvasHeight)
@@ -49,7 +49,10 @@ function createMap() {
 					.attr('d', path)
 					.attr('class', (o) => ('hidden kabupaten cursor-pointer prov-' + o.properties.id_provinsi))
 					.attr('vector-effect', 'non-scaling-stroke')
-					.on('click', (o) => { zoomProv(parseInt(o.properties.id_provinsi)); });
+					.on('click', (o) => { zoomProv(parseInt(o.properties.id_provinsi)); })
+					.on('mouseover', onMouseover)
+					.on('mouseout', onMouseout)
+					.on('mousemove', (o) => { hoverHandler(o.properties.id_kabkota, o.properties.nm_kabkota) });
 
 			svg.selectAll("path.province")
 			    .data(states.features)
@@ -59,12 +62,25 @@ function createMap() {
 			        .attr("d", path)
 					.attr('vector-effect', 'non-scaling-stroke')
 					.style("fill", (o) => (mappedColor[o.properties.id_provinsi] || defColor))
-					.on("click", (o) => { zoomProv(o.properties.id_provinsi); });
+					.on("click", (o) => { zoomProv(o.properties.id_provinsi); })
+					.on('mouseover', onMouseover)
+					.on('mouseout', onMouseout)
+					.on('mousemove', (o) => { hoverHandler(o.properties.id_provinsi, o.properties.nm_provinsi) });
 		});
 }
 
+function onMouseover(o) { d3.select('#maps-tooltips').classed('hidden', false); }
+function onMouseout(o) { d3.select('#maps-tooltips').classed('hidden', true); }
+function hoverHandler(id, name) {
+	let currentPos	= d3.mouse(d3.select("svg#" + maps_id).node());
+	let tooltips	= $( '#maps-tooltips' );
+
+	tooltips.text(_.chain(name).lowerCase().startCase().value() + ': ' + (countessa[('' + id).length == 2 ? 'provinces' : 'regencies'][id] || 0));
+	tooltips.css({ top: currentPos[1] - tooltips.outerHeight(true) - 13, left: currentPos[0] - (tooltips.outerWidth(true) / 2) });
+}
+
 function zoomProv(prov_id) {
-	let svg	= d3.select("svg#maps-viz > g");
+	let svg	= d3.select("svg#" + maps_id + " > g");
 
 	if (path && svg.node()) {
 		let x, y, k;
@@ -106,6 +122,8 @@ function zoomProv(prov_id) {
 
 			d3.selectAll('.province').classed('unintended', false);
 		}
+
+		$( '#region > input' ).val($( '#region-' + (prov_id || 'def') ).text());
 
 		svg.transition()
 			.duration(750)
