@@ -24,7 +24,7 @@ $( document ).ready(function() {
 			$( '#region > input' ).val($( this ).text());
 			$( '#dropdown-region' ).jqDropdown('hide');
 
-			zoomProv($( this ).val());
+			changeFromRegion($( this ).val());
 		});
 	});
 

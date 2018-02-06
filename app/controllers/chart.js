@@ -112,6 +112,7 @@ module.exports.treemap	= (monitor_id, input, callback) => {
 	const startDate		= (input.startDate	|| null);
 	const endDate		= (input.endDate	|| null);
 	const datasource	= (input.datasource	|| null);
+	const province		= (input.province	|| null);
 
 	async.waterfall([
 		(flowCallback) => {
@@ -130,6 +131,7 @@ module.exports.treemap	= (monitor_id, input, callback) => {
 				let where	= [];
 				if (startDate && endDate) { where.push('date BETWEEN \'' + startDate + '\' AND \'' + endDate + '\''); }
 				if (datasource) { where.push('`source` IN (' + datasource.split(',').map((o) => ('\'' + _.trim(o).toLowerCase() + '\'')) + ')'); }
+				if (province) { where.push('`province_id` = ' + province); }
 
 				let query	= 'SELECT ' + child_keys.map((o) => ('SUM(`' + o + '`) as `' + o + '`')).join(', ') + ' FROM ??' + (!_.isEmpty(where) ? ' WHERE ' + where.join(' AND ') : '');
 

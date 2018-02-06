@@ -1,5 +1,5 @@
 function refreshContent() {
-	switch (d3.select('#navigation li.active').text()) {
+	switch ($('#navigation li.active').text()) {
 		case 'Map':
 			getVizMaps(null, (err, data) => {
 				data.forEach((o) => { if (o.id) { d3.select('#prov-' + o.id).style('fill', (o.color || defColor)); } });
@@ -26,5 +26,16 @@ function changeContent(val) {
 			case 'Treemap': createTreemap(); break;
 			default: d3.select(content_dest).selectAll("svg").remove();
 		}
+	}
+}
+
+function changeFromRegion(prov_id) {
+	let activeContent	= $('#navigation li.active').text();
+	if (activeContent !== 'Map') { centered	= prov_id; }
+	switch (activeContent) {
+		case 'Map': zoomProv(prov_id, true); break;
+		case 'Treemap': createTreemap(); break;
+		default:
+			console.log('undefined');
 	}
 }

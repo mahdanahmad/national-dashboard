@@ -9,4 +9,4 @@ function getVizTreemap(callback) { $.get( "api/treemap/" + monitor_id, construct
 function getProvinces(callback) { $.get( "api/provinces", (data) => { callback(data.result) }); }
 
 // HELPER
-function constructParams() { return _.omitBy({ categories: JSON.stringify(activeCate), startDate: activeDate.start, endDate: activeDate.end, datasource: $('#datasource > input').val() }, _.isNil); }
+function constructParams() { return _.omitBy({ categories: JSON.stringify(activeCate), startDate: activeDate.start, endDate: activeDate.end, province: centered, datasource: $('#datasource > input').val() }, _.isNil); }

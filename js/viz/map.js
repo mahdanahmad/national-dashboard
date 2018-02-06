@@ -1,5 +1,5 @@
 let mappedGeoProv	= {};
-let centered, path;
+let path;
 
 function createMap() {
 	d3.select(content_dest).selectAll("svg").remove();
@@ -66,6 +66,8 @@ function createMap() {
 					.on('mouseover', onMouseover)
 					.on('mouseout', onMouseout)
 					.on('mousemove', (o) => { hoverHandler(o.properties.id_provinsi, o.properties.nm_provinsi) });
+
+			if (centered) { zoomProv(centered, true); }
 		});
 }
 
@@ -79,7 +81,7 @@ function hoverHandler(id, name) {
 	tooltips.css({ top: currentPos[1] - tooltips.outerHeight(true) - 13, left: currentPos[0] - (tooltips.outerWidth(true) / 2) });
 }
 
-function zoomProv(prov_id) {
+function zoomProv(prov_id, intoodeep) {
 	let svg	= d3.select("svg#" + maps_id + " > g");
 
 	if (path && svg.node()) {
@@ -87,7 +89,7 @@ function zoomProv(prov_id) {
 		let node	= svg.node().getBBox();
 
 		// Compute centroid of the selected path
-		if (mappedGeoProv[prov_id] && centered !== prov_id) {
+		if (mappedGeoProv[prov_id] && (centered !== prov_id || intoodeep)) {
 			let centroid 	= path.centroid(mappedGeoProv[prov_id]);
 			let bounds		= path.bounds(mappedGeoProv[prov_id]);
 

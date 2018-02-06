@@ -19,7 +19,7 @@ module.exports.index = (input, callback) => {
 
 	async.waterfall([
 		(flowCallback) => {
-			provinces.findAll({ limit, offset }, (err, result) => (flowCallback(err, _.chain(result).map((o) => ({ id: o.province_id, name:o.province_name })).sortBy('name').value())));
+			provinces.findAll({ limit, offset }, (err, result) => (flowCallback(err, _.chain(result).map((o) => ({ id: o.province_id, name:o.province_name })).sortBy('id').value())));
 		}
 	], (err, asyncResult) => {
 		if (err) {
