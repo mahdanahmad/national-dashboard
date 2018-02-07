@@ -1,0 +1,9 @@
+svg#volume-viz {
+	#times-wrapper {
+		.group-time {
+			text { fill: white; }
+			rect { fill: transparent; fill-opacity: .3; }
+			&.active { rect { fill: black; }}
+		}
+	}
+}

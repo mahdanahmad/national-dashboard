@@ -24,7 +24,7 @@ $( document ).ready(function() {
 			$( '#region > input' ).val($( this ).text());
 			$( '#dropdown-region' ).jqDropdown('hide');
 
-			changeFromRegion($( this ).val());
+			changeFromRegion($( this ).val() || null);
 		});
 	});
 
@@ -47,7 +47,8 @@ $( document ).ready(function() {
 	createCategories();
 
 	// Create Map (default)
-	createMap();
+	// createMap();
+	createVolume();
 
 	$( '#cate-preset' ).click((e) => {
 

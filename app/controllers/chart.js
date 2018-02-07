@@ -173,12 +173,54 @@ module.exports.volume	= (monitor_id, input, callback) => {
 	const startDate		= (input.startDate	|| moment([2014]).startOf('year').format(dateFormat));
 	const endDate		= (input.endDate	|| moment([2014]).endOf('year').format(dateFormat));
 	const datasource	= (input.datasource	|| null);
+	const province		= (input.province	|| null);
 	const time			= (input.time		|| 'daily');
 
 	async.waterfall([
 		(flowCallback) => {
-			flowCallback(null, startDate);
+			categories.findAll(['color'], { where: ['parent_id IS NULL AND monitor_id = ?' + (active ? ' AND id IN (\'' + active.join("','") + '\')' : ''), monitor_id] }, {}, (err, result) => flowCallback(err, result));
 		},
+		(cate_value, flowCallback) => {
+			if (cate_value) {
+				let mappedColor	= _.chain(cate_value).keyBy('id').mapValues('color').value();
+
+				let keys		= cate_value.map((o) => (o.id));
+
+				let where		= [];
+				if (startDate && endDate) { where.push('date BETWEEN \'' + startDate + '\' AND \'' + endDate + '\''); }
+				if (datasource) { where.push('`source` IN (' + datasource.split(',').map((o) => ('\'' + _.trim(o).toLowerCase() + '\'')) + ')'); }
+				if (province) { where.push('`province_id` = ' + province); }
+
+				let query	= 'SELECT `date`, `' + cate_value.map((o) => (o.id)).join('`,`') + '` ' +
+				'FROM ?? ' +
+				'WHERE (' + cate_value.map((o) => ('`' + o.id + '` = 1')).join(' OR ') + ')' +
+				(!_.isEmpty(where) ? ' AND ' + where.join(' AND ') : '');
+
+				kpk.raw(query, (err, result) => flowCallback(err, mappedColor, _.chain(result).groupBy((o) => {
+					switch (time) {
+						case 'monthly': return moment(o.date).startOf('month').format(dateFormat);
+						case 'weekly': return moment(o.date).subtract(moment(o.date).diff(moment(startDate, dateFormat), 'days') % 7, 'days').format(dateFormat);
+						default: return moment(o.date).format(dateFormat);
+					}
+				}).mapValues((o) => (_.chain(keys).map((d) => ([ d, _.sumBy(o, d) ])).fromPairs().value())).value()));
+			} else {
+				flowCallback(null, null, null);
+			}
+		},
+		(color, data, flowCallback) => {
+			if (color && data) {
+				let diff	= moment(endDate, dateFormat).diff(moment(startDate, dateFormat), (time == 'monthly' ? 'months' : (time == 'weekly' ? 'weeks' : 'days'))) + 1;
+
+				if (diff == _.size(data)) {
+					flowCallback(null, { color, data: _.map(data, (o, key) => (_.assign(o, { date: key }) )) })
+				} else {
+					let defaultData	= _.chain(color).keys().map((o) => ([o, 0])).fromPairs().value();
+					flowCallback(null, { color, data: _.chain(diff).times((o) => (moment(startDate, dateFormat).add(o, 'days').format(dateFormat))).map((o) => (_.assign({ date: o }, (data[o] || defaultData)))).value() });
+				}
+			} else {
+				flowCallback(null, { data: [], color: {} });
+			}
+		}
 	], (err, asyncResult) => {
 		if (err) {
 			response    = 'FAILED';

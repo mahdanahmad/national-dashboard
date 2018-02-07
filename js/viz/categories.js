@@ -41,11 +41,10 @@ function createCategories() {
 			.attr("transform", "translate(" + (x.bandwidth() / 2) + ",0)")
 			.call(d3.axisTop(x).tickSize(-height).tickFormat(""));
 
-		let grouped	= svg.append("g").attr("id", "categories");
-
-		let groupBar	= grouped.selectAll('group-bar').data(data).enter().append('g')
-			.attr('id', (o) => ('bar-' + o.id))
-			.attr("class", "group-bar cursor-pointer");
+		let groupBar	= svg.append("g").attr("id", "categories").selectAll('group-bar')
+			.data(data).enter().append('g')
+				.attr('id', (o) => ('bar-' + o.id))
+				.attr("class", "group-bar cursor-pointer");
 
 		groupBar.append("rect")
 			.attr("class", "bar fill")
