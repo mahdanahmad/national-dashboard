@@ -6,4 +6,9 @@ svg#volume-viz {
 			&.active { rect { fill: black; }}
 		}
 	}
+	.axis path, .axis line { stroke: white; }
+	.axis text { fill: white; }
+	#context-area { fill: $header-clr; }
+	rect.zoom { cursor: ns-resize; fill: none; pointer-events: all; }
+	.focus-area { clip-path: url(#clip); }
 }

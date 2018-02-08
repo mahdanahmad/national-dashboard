@@ -4,6 +4,7 @@ function getVizMaps(prov_id, callback) { $.get( "api/map/" + monitor_id + (prov_
 	countessa[(prov_id) ? 'regencies' : 'provinces'] = _.chain(data.result).map((o) => ([o.id, o.count])).fromPairs().value();
 	callback(null, data.result); }); }
 function getVizTreemap(callback) { $.get( "api/treemap/" + monitor_id, constructParams(), ( data ) => { callback(data.result); }); }
+function getVizVolume(time, callback) { $.get( "api/volume/" + monitor_id, _.assign({ time }, constructParams()), ( data ) => { callback(data.result); }); }
 
 // COMPONENT
 function getProvinces(callback) { $.get( "api/provinces", (data) => { callback(data.result) }); }
