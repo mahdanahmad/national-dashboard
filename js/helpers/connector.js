@@ -1,6 +1,6 @@
 function refreshContent() {
 	switch ($('#navigation li.active').text()) {
-		case 'Map':
+		case navigation[0]:
 			getVizMaps(null, (err, data) => {
 				data.forEach((o) => { if (o.id) { d3.select('#prov-' + o.id).style('fill', (o.color || defColor)); } });
 			});
@@ -10,7 +10,8 @@ function refreshContent() {
 				});
 			}
 			break;
-		case 'Treemap': createTreemap(); break;
+			case navigation[1]: createVolume(); break;
+			case navigation[2]: createTreemap(); break;
 		default:
 			console.log('undefined');
 	}
@@ -22,8 +23,9 @@ function changeContent(val) {
 		$( '#navigation li.active' ).removeClass('active');
 		$( '#navigation li#' + _.kebabCase(val) ).addClass('active');
 		switch (val) {
-			case 'Map': createMap(); break;
-			case 'Treemap': createTreemap(); break;
+			case navigation[0]: createMap(); break;
+			case navigation[1]: createVolume(); break;
+			case navigation[2]: createTreemap(); break;
 			default: d3.select(content_dest).selectAll("svg").remove();
 		}
 	}
@@ -31,10 +33,11 @@ function changeContent(val) {
 
 function changeFromRegion(prov_id) {
 	let activeContent	= $('#navigation li.active').text();
-	if (activeContent !== 'Map') { centered	= prov_id; }
+	if (activeContent !== navigation[0]) { centered	= prov_id; }
 	switch (activeContent) {
-		case 'Map': zoomProv(prov_id, true); break;
-		case 'Treemap': createTreemap(); break;
+		case navigation[0]: zoomProv(prov_id, true); break;
+		case navigation[1]: createVolume(); break;
+		case navigation[2]: createTreemap(); break;
 		default:
 			console.log('undefined');
 	}

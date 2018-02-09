@@ -64,6 +64,12 @@ function createVolume() {
 	    .extent([[0, 0], [width, height]])
 	    .on("zoom", zoomed);
 
+	let focus	= svg.append('g').attr('id', 'focus-wrapper')
+		.attr('transform', 'translate(0,0)');
+
+	let context	= svg.append('g').attr('id', 'context-wrapper')
+		.attr('transform', 'translate(0,' + (focus_hgt + axishgt) + ')');
+
 	svg.append("defs").append("clipPath")
 		.attr("id", "clip")
 	.append("rect")
@@ -88,14 +94,36 @@ function createVolume() {
 
 			svg.select('.group-time.active').classed('active', false);
 			d3.select( this ).classed('active', true);
+
+			getVizVolume(o, (raw) => {
+				let data	= raw.data.map((o) => (_.assign(o, { date: parseDate(o.date) })));
+				let keys	= _.chain(data).first().pickBy(_.isInteger).keys().value();
+
+				let maxVal	= _.chain(data).map((o) => (_.chain(o).filter(_.isInteger).sum().value())).max().multiply(1.1).value();
+
+				x.focus.domain(d3.extent(data, (o) => (o.date)));
+				y.focus.domain([0, maxVal]);
+				x.context.domain(x.focus.domain());
+				y.context.domain(y.focus.domain());
+
+				let time		= 100;
+				let transition	= d3.transition()
+			        .duration(time)
+			        .ease(d3.easeLinear);
+
+				// let mapped		= _.keyBy(d3.stack().keys(keys)(data), 'key');
+
+				focus.selectAll('.focus-area').data(d3.stack().keys(keys)(data));
+
+				focus.select('.axis').transition(transition).call(d3.axisBottom(x.focus));
+				focus.selectAll('.focus-area').transition(transition).attr('d', areaFunc.focus);
+
+				context.select('.axis').transition(transition).call(d3.axisBottom(x.context));
+				context.select('#context-area').transition(transition).attr('d', areaFunc.context(data.map((o) => ({ date: o.date , val: _.chain(o).filter(_.isInteger).sum().value()}))))
+				context.select(".brush").call(brush.move, x.focus.range());
+			});
 		}
 	});
-
-	let focus	= svg.append('g').attr('id', 'focus-wrapper')
-		.attr('transform', 'translate(0,0)');
-
-	let context	= svg.append('g').attr('id', 'context-wrapper')
-		.attr('transform', 'translate(0,' + (focus_hgt + axishgt) + ')');
 
 	getVizVolume(activeTime, (raw) => {
 		let data	= raw.data.map((o) => (_.assign(o, { date: parseDate(o.date) })));
@@ -106,7 +134,7 @@ function createVolume() {
 		x.focus.domain(d3.extent(data, (o) => (o.date)));
 		y.focus.domain([0, maxVal]);
 		x.context.domain(x.focus.domain());
-		y.context.domain(y.focus.domain())
+		y.context.domain(y.focus.domain());
 
 		focus.selectAll('.focus-area')
 			.data(d3.stack().keys(keys)(data)).enter()

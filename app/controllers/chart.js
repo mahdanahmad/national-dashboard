@@ -212,7 +212,7 @@ module.exports.volume	= (monitor_id, input, callback) => {
 				let diff	= moment(endDate, dateFormat).diff(moment(startDate, dateFormat), (time == 'monthly' ? 'months' : (time == 'weekly' ? 'weeks' : 'days'))) + 1;
 
 				if (diff == _.size(data)) {
-					flowCallback(null, { color, data: _.map(data, (o, key) => (_.assign(o, { date: key }) )) })
+					flowCallback(null, { color, data: _.chain(data).map((o, key) => (_.assign(o, { date: key }) )).sortBy('date').value() })
 				} else {
 					let defaultData	= _.chain(color).keys().map((o) => ([o, 0])).fromPairs().value();
 					flowCallback(null, { color, data: _.chain(diff).times((o) => (moment(startDate, dateFormat).add(o, 'days').format(dateFormat))).map((o) => (_.assign({ date: o }, (data[o] || defaultData)))).value() });
