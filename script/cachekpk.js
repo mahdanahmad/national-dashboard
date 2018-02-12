@@ -64,4 +64,4 @@ async.waterfall([
 	connect.end();
 });
 
-String.prototype.toQuery = function() { return '(?=.*' + this.toLowerCase().replace(/['"]+/g, '').split(' or ').join('|') + ')'; };
+String.prototype.toQuery = function() { return '(?=.*(' + this.toLowerCase().replace(/['"]+/g, '').split(' or ').join('|') + '))'; };

@@ -174,7 +174,7 @@ async.waterfall([
 					if (err) { return flowCallback(err) } else {
 						let query	= 	'INSERT INTO categories (' + columns.join(', ') + ')' +
 										'VALUES ' + data.map((o, i) => ('(' + [1, 'NULL', '\'' + o.Kategori + '\'', 'NULL', '\'' + o.Taksonomi + '\'', '\'' + palette[i] + '\''].join(', ') + ')')).join(', ') + ', ' +
-										_.times(_.size(data), (i) => (kategori.map((o) => ('(' + [1, (i + 1), '\'' + o + '\'', 'NULL', '\'' + o + '\'', 'NULL'].join(', ') + ')')).join(', '))).join(', ') + ';';
+										_.times(_.size(data), (i) => (kategori.map((o) => ('(' + [1, (i + 1), '\'' + o + '\'', 'NULL', '\'' + o.toLowerCase() + '\'', 'NULL'].join(', ') + ')')).join(', '))).join(', ') + ';';
 
 						connect.query(query, (err, result) => flowCallback(err));
 					}
