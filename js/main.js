@@ -48,7 +48,7 @@ $( document ).ready(function() {
 
 	// Create Map (default)
 	createMap();
-	// createVolume();
+	// setTimeout(() => { createVolume() }, 100);
 
 	$( '#cate-preset' ).click((e) => {
 

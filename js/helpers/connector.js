@@ -41,4 +41,6 @@ function changeFromRegion(prov_id) {
 		default:
 			console.log('undefined');
 	}
+
+	getVizCategories((data) => { changeCateHeight(data); });
 }

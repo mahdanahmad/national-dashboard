@@ -76,6 +76,7 @@ module.exports.categories = (monitor_id, input, callback) => {
 	const startDate		= (input.startDate	|| null);
 	const endDate		= (input.endDate	|| null);
 	const datasource	= (input.datasource	|| null);
+	const province		= (input.province	|| null);
 
 	async.waterfall([
 		(flowCallback) => {
@@ -85,7 +86,8 @@ module.exports.categories = (monitor_id, input, callback) => {
 			let where	= [];
 			if (startDate && endDate) { where.push('date BETWEEN \'' + startDate + '\' AND \'' + endDate + '\''); }
 			if (datasource) { where.push('`source` IN (' + datasource.split(',').map((o) => ('\'' + _.trim(o).toLowerCase() + '\'')) + ')'); }
-
+			if (province) { where.push('`province_id` = ' + province); }
+			
 			let query	= 'SELECT ' + cate_value.map((o) => ('SUM(`' + o.id + '`) as `' + o.id + '`')).join(', ') + ' FROM ??' + (!_.isEmpty(where) ? ' WHERE ' + where.join(' AND ') : '');
 
 			kpk.raw(query, (err, result) => flowCallback(err, cate_value.map((o) => (_.assign(o, { count: (result[0][o.id] || 0) })))));

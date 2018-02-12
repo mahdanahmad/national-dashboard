@@ -23,6 +23,9 @@ function createVolume() {
 	let focus_hgt		= (height * .85) - axishgt;
 	let context_hgt		= (height * .15) - axishgt;
 
+	let suppKey			= _.chain(cateValue).map('id').value();
+	let mapped			= {};
+
 	let x				= {
 		focus: d3.scaleTime().range([0, width]),
 		context: d3.scaleTime().range([0, width]),
@@ -106,12 +109,15 @@ function createVolume() {
 				x.context.domain(x.focus.domain());
 				y.context.domain(y.focus.domain());
 
+				mapped	= _.chain(raw.data).keyBy((o) => (moment(o.date).format(dateServer))).mapValues((o) => {
+					let val	= _.omit(o, ['date']);
+					return { data: suppKey.map((o) => ({ id: o, count: (val[o] || 0) })), height: y.focus(_.chain(val).values().sum().value()) };
+				}).value();
+
 				let time		= 100;
 				let transition	= d3.transition()
 			        .duration(time)
 			        .ease(d3.easeLinear);
-
-				// let mapped		= _.keyBy(d3.stack().keys(keys)(data), 'key');
 
 				focus.selectAll('.focus-area').data(d3.stack().keys(keys)(data));
 
@@ -136,6 +142,11 @@ function createVolume() {
 		x.context.domain(x.focus.domain());
 		y.context.domain(y.focus.domain());
 
+		mapped	= _.chain(raw.data).keyBy((o) => (moment(o.date).format(dateServer))).mapValues((o) => {
+			let val	= _.omit(o, ['date']);
+			return { data: suppKey.map((o) => ({ id: o, count: (val[o] || 0) })), height: y.focus(_.chain(val).values().sum().value()) };
+		}).value();
+
 		focus.selectAll('.focus-area')
 			.data(d3.stack().keys(keys)(data)).enter()
 			.append('path')
@@ -149,6 +160,38 @@ function createVolume() {
 			.attr("class", "axis axis--x")
 			.attr("transform", "translate(0," + focus_hgt + ")")
 			.call(d3.axisBottom(x.focus));
+
+		let tooltips	= focus.append('g').attr('id', 'tooltips-wrapper').attr('class', 'hidden');
+		tooltips.append('circle').attr('r', 3);
+		tooltips.append('text').attr('transform', 'translate(0,-8)').attr('text-anchor', 'middle');
+
+		focus.append("rect")
+			.attr("class", "zoom")
+			.attr("width", width)
+			.attr("height", focus_hgt)
+			.attr("transform", "translate(0,0)")
+			.call(zoom)
+			.on('mouseover', function() {})
+			.on('mousemove', function() {
+				tooltips.classed('hidden', false);
+				let currentDate	= x.focus.invert(d3.mouse(this)[0]);
+				let destDate	= '';
+
+				switch (activeTime) {
+					case 'monthly': destDate = moment(currentDate).startOf('month').format(dateServer); break;
+					case 'weekly': destDate = moment(currentDate).subtract(moment(currentDate).diff(moment(activeDate.start, dateServer), 'days') % 7, 'days').format(dateServer); break;
+					default: destDate = moment(currentDate).format(dateServer);
+				}
+
+				tooltips.attr('transform', 'translate(' + (x.focus(parseDate(destDate))) + ', ' + mapped[destDate].height + ')');
+				tooltips.select('text').text(moment(destDate, dateServer).format(dateFormat));
+
+				changeCateHeight(mapped[destDate].data);
+			})
+			.on('mouseout', function() {
+				tooltips.classed('hidden', true);
+				changeCateHeight(cateValue);
+			});
 
 		context.append('path')
 			.datum(data.map((o) => ({ date: o.date , val: _.chain(o).filter(_.isInteger).sum().value()})))
@@ -165,13 +208,6 @@ function createVolume() {
 			.attr("class", "brush")
 			.call(brush)
 			.call(brush.move, x.focus.range());
-
-		svg.append("rect")
-			.attr("class", "zoom")
-			.attr("width", width)
-			.attr("height", focus_hgt)
-			.attr("transform", "translate(0,0)")
-			.call(zoom);
 	});
 
 	function brushed() {

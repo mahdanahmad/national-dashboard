@@ -11,4 +11,8 @@ svg#volume-viz {
 	#context-area { fill: $header-clr; }
 	rect.zoom { cursor: ns-resize; fill: none; pointer-events: all; }
 	.focus-area { clip-path: url(#clip); }
+	#tooltips-wrapper {
+		circle { fill: transparent; stroke: white; stroke-width: 2px; }
+		text { fill: white; }
+	}
 }

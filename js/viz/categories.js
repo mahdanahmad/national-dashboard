@@ -1,3 +1,5 @@
+let textMargin	= 7;
+
 function createCategories() {
 	let canvasWidth		= $(cate_dest).outerWidth(true);
 	let canvasHeight	= $(cate_dest).outerHeight(true);
@@ -18,7 +20,7 @@ function createCategories() {
 
 	getVizCategories((data) => {
 		x.domain(data.map((d) => (d.name)));
-		y.domain([0, _.chain(data).maxBy('count').get('count', 0).multiply(1.1).value()]);
+		y.domain([0, _.chain(data).maxBy('count').get('count', 0).multiply(1).value()]);
 
 		let nameToId	= _.chain(data).map((o) => ([o.name, o.id])).fromPairs().value();
 
@@ -62,6 +64,14 @@ function createCategories() {
 			.attr("width", x.bandwidth())
 			.attr("height", 2);
 
+		groupBar.append('text')
+	  		.attr('class', 'count-cate')
+			.attr('text-anchor', 'middle')
+			.attr("fill", "white")
+	  		.attr('y', (height - textMargin))
+	  		.attr('x', (o) => (x(o.name) + (x.bandwidth() / 2)))
+	  		.text(0);
+
 		groupBar.append("rect")
 			.attr("class", "overlay")
 			.attr("fill", "transparent")
@@ -85,16 +95,19 @@ function changeCateHeight(data) {
 	let canvas		= d3.select('g#' + cate_id + ' #categories');
 	let height		= canvas.node().getBBox().height;
 
-	let y			= d3.scaleLinear().rangeRound([height, 0]).domain([0, _.chain(data).maxBy('count').get('count', 0).multiply(1.1).value()]);
-	let mapped		= _.chain(data).map((o) => ([o.id, y(o.count) > height ? height : y(o.count)])).fromPairs().value();
+	let y			= d3.scaleLinear().rangeRound([height, 0]).domain([0, _.chain(data).maxBy('count').get('count', 0).multiply(1.15).value()]);
+	let mapped		= _.chain(data).keyBy('id').mapValues((o) => ({ height: y(o.count) > height ? height : y(o.count), text: nFormatter(o.count) })).value();
 
 	canvas.selectAll('.bar.fill').transition(transition)
-        .attr('y', (o) => (mapped[o.id]))
-        .attr('height', (o) => (height - mapped[o.id]));
+        .attr('y', (o) => (mapped[o.id].height))
+        .attr('height', (o) => (height - mapped[o.id].height));
 
 	canvas.selectAll('.bar.cream').transition(transition)
-        .attr('y', (o) => (mapped[o.id] - 2));
+        .attr('y', (o) => (mapped[o.id].height - 2));
 
+	canvas.selectAll('.count-cate').transition(transition)
+		.text((o) => (mapped[o.id].text))
+		.attr('y', (o) => (mapped[o.id].height - textMargin));
 }
 
 let categoryTimeout	= null;

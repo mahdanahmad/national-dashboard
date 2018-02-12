@@ -126,7 +126,8 @@ function zoomProv(prov_id, intoodeep) {
 		}
 
 		$( '#region > input' ).val($( '#region-' + (prov_id || 'def') ).text());
-
+		getVizCategories((data) => { changeCateHeight(data); });
+		
 		svg.transition()
 			.duration(750)
 			.attr('transform', 'translate(' + node.width / 2 + ',' + node.height / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');
