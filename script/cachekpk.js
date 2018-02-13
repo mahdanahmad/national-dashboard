@@ -21,8 +21,10 @@ const tabledata	= {
 	context: ['TEXT', 'NOT NULL'],
 	city_id: ['char(4)'],
 	province_id: ['char(2)'],
+	layer1: ['TEXT', 'NOT NULL'],
+	layer2: ['TEXT', 'NOT NULL'],
 }
-const tablecols	= ['date', 'context', 'source', 'city_id', 'province_id'];
+const tablecols	= ['date', 'context', 'source', 'city_id', 'province_id', 'layer1', 'layer2'];
 
 const params	= { headers: true, strictColumnHandling: true, trim: true, quote: "'", delimiter: ';' }
 
@@ -48,11 +50,27 @@ async.waterfall([
 	},
 	(categories, flowCallback) => {
 		let query	= _.mapValues(categories, (o) => (new RegExp(o.query.toQuery() + (o.parent_id ? _.get(categories, o.parent_id + '.query', '').toQuery() : ''))));
-		connect.query('SELECT * FROM kpk_data', (err, result) => flowCallback(err, _.keys(categories), _.map(result, (o) => (_.assign(_.mapValues(o, (d) => ('\'' + d + '\'')), { date: '\'' + moment(o.date).format('YYYY-MM-DD') + '\'' }, _.mapValues(query, (d) => (d.test(o.context.toLowerCase()) ? 1 : 0)))))));
+
+		let layer1_query	= _.chain(categories).filter(['parent_id', null]).map('query').join(' or ').split(' or ').uniq().map((o) => (o.replace(/['"]+/g, '').trim())).value();
+		let layer2_query	= _.chain(categories).reject(['parent_id', null]).map('query').join(' or ').split(' or ').uniq().map((o) => (o.replace(/['"]+/g, '').trim())).value();
+
+		connect.query('SELECT * FROM kpk_data', (err, result) => flowCallback(err, _.keys(categories), _.map(result, (o) => (
+			_.assign(
+				_.mapValues(o, (d) => ('\'' + d + '\'')),
+				{
+					date: '\'' + moment(o.date).format('YYYY-MM-DD') + '\'',
+					layer1: '\'' + _.filter(layer1_query, (d) => ((new RegExp(d.toLowerCase())).test(o.context.toLowerCase()))).join('|') + '\'',
+					layer2: '\'' + _.filter(layer2_query, (d) => ((new RegExp(d.toLowerCase())).test(o.context.toLowerCase()))).join('|') + '\'',
+				},
+				_.mapValues(query, (d) => (d.test(o.context.toLowerCase()) ? 1 : 0))
+			)
+		))));
 	},
 	(keys, final, flowCallback) => {
 		let cols	= _.concat(tablecols, keys);
 		async.each(final, (row, eachCallback) => {
+			// console.log(row);
+			// eachCallback(null);
 			connect.query('INSERT INTO ' + tablename + ' (' + cols.map((o) => ('`' + o + '`')).join(', ') + ') VALUES ' + ('(' + _.chain(cols).map((d) => (_.get(row, d, "'null'"))).map((d) => (d !== "'null'" ? d : 'NULL')).value().join(', ') + ')') + ';', (err, result) => eachCallback(err));
 		}, (err) => {
 			flowCallback(err);
@@ -64,4 +82,4 @@ async.waterfall([
 	connect.end();
 });
 
-String.prototype.toQuery = function() { return '(?=.*(' + this.toLowerCase().replace(/['"]+/g, '').split(' or ').join('|') + '))'; };
+String.prototype.toQuery = function() { return '(?=.*(' + this.toLowerCase().replace(/['"]+/g, '').split(' or ').map((o) => (o.trim())).join('|') + '))'; };
