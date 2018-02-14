@@ -1,0 +1,15 @@
+$keyLine-clr: #eee;
+
+svg#keywords-viz {
+	.grid-wrapper line.grid { stroke-dasharray: 4,2; stroke: $keyLine-clr;  }
+	.x-axis {
+		.tick line { stroke: transparent; }
+		path { stroke: $keyLine-clr; }
+		text { fill: $keyLine-clr; }
+	}
+	.bar-wrapper {
+		rect.bar { fill: $header-clr; }
+		rect.overlay { fill: transparent; }
+		text { fill: $keyLine-clr; }
+	}
+}

@@ -26,6 +26,7 @@ const content_dest	= '#content-wrapper';
 const maps_id		= 'maps-viz';
 const treemap_id	= 'treemap-viz';
 const volume_id		= 'volume-viz';
+const keywords_id	= 'keywords-viz';
 
 const awaitTime		= 800;
 

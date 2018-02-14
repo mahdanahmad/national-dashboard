@@ -87,7 +87,7 @@ module.exports.categories = (monitor_id, input, callback) => {
 			if (startDate && endDate) { where.push('date BETWEEN \'' + startDate + '\' AND \'' + endDate + '\''); }
 			if (datasource) { where.push('`source` IN (' + datasource.split(',').map((o) => ('\'' + _.trim(o).toLowerCase() + '\'')) + ')'); }
 			if (province) { where.push('`province_id` = ' + province); }
-			
+
 			let query	= 'SELECT ' + cate_value.map((o) => ('SUM(`' + o.id + '`) as `' + o.id + '`')).join(', ') + ' FROM ??' + (!_.isEmpty(where) ? ' WHERE ' + where.join(' AND ') : '');
 
 			kpk.raw(query, (err, result) => flowCallback(err, cate_value.map((o) => (_.assign(o, { count: (result[0][o.id] || 0) })))));
@@ -223,6 +223,71 @@ module.exports.volume	= (monitor_id, input, callback) => {
 				flowCallback(null, { data: [], color: {} });
 			}
 		}
+	], (err, asyncResult) => {
+		if (err) {
+			response    = 'FAILED';
+			status_code = 400;
+			message     = err;
+		} else {
+			result      = asyncResult;
+		}
+		callback({ response, status_code, message, result });
+	});
+}
+
+module.exports.keywords	= (monitor_id, input, callback) => {
+	let response        = 'OK';
+	let status_code     = 200;
+	let message         = 'Get categories data success.';
+	let result          = null;
+
+	const dateFormat	= 'YYYY-MM-DD';
+
+	const active		= input.categories ? JSON.parse(input.categories)	: null;
+	const startDate		= (input.startDate	|| moment([2014]).startOf('year').format(dateFormat));
+	const endDate		= (input.endDate	|| moment([2014]).endOf('year').format(dateFormat));
+	const datasource	= (input.datasource	|| null);
+	const province		= (input.province	|| null);
+	const limit			= (input.limit		|| 10);
+
+	async.waterfall([
+		(flowCallback) => {
+			categories.findAll(['name', 'parent_id'], { where: ['monitor_id = ?' + (active ? ' AND (id IN (\'' + active.join("','") + '\') OR parent_id  IN (\'' + active.join("','") + '\'))' : ''), monitor_id] }, {}, (err, result) => flowCallback(err, result));
+		},
+		(cate_value, flowCallback) => {
+			if (cate_value) {
+				let where		= [];
+				if (startDate && endDate) { where.push('date BETWEEN \'' + startDate + '\' AND \'' + endDate + '\''); }
+				if (datasource) { where.push('`source` IN (' + datasource.split(',').map((o) => ('\'' + _.trim(o).toLowerCase() + '\'')) + ')'); }
+				if (province) { where.push('`province_id` = ' + province); }
+
+				async.parallel({
+					keywords: (callback) => {
+						let query	= 'SELECT `layer1` ' +
+						'FROM ?? ' +
+						'WHERE (' + _.filter(cate_value, ['parent_id', null]).map((o) => ('`' + o.id + '` = 1')).join(' OR ') + ')' +
+						(!_.isEmpty(where) ? ' AND ' + where.join(' AND ') : '');
+
+						kpk.raw(query, (err, result) => callback(err, _.chain(result).map('layer1').join('|').split('|').groupBy((o) => (o)).map((o, key) => ({ key, count: o.length })).orderBy('count', 'desc').take(limit).value()));
+					},
+					topics: (callback) => {
+						let mappedParent	= _.chain(cate_value).filter(['parent_id', null]).keyBy('id').mapValues((o) => (o.name)).value();
+						let mappedName		= _.chain(cate_value).reject(['parent_id', null]).keyBy('id').mapValues((o) => (o.name + ' - ' + mappedParent[o.parent_id])).value();
+
+						let query	= 'SELECT ' + _.reject(cate_value, ['parent_id', null]).map((o) => ('SUM(`' + o.id + '`) as `' + o.id + '`')).join(', ') + ' ' +
+						'FROM ?? ' +
+						'WHERE (' + _.filter(cate_value, ['parent_id', null]).map((o) => ('`' + o.id + '` = 1')).join(' OR ') + ')' +
+						(!_.isEmpty(where) ? ' AND ' + where.join(' AND ') : '');
+
+						kpk.raw(query, (err, result) => callback(err, _.chain(result[0]).map((o, key) => ({ key: mappedName[key], id: key, count: o })).orderBy('count', 'desc').take(limit).value()));
+					}
+				}, (err, results) => {
+					flowCallback(null, results);
+				});
+			} else {
+				flowCallback(null, null);
+			}
+		},
 	], (err, asyncResult) => {
 		if (err) {
 			response    = 'FAILED';
