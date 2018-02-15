@@ -1,6 +1,7 @@
 $keyLine-clr: #eee;
 
 svg#keywords-viz {
+	text.keywords-title { fill: white; }
 	.grid-wrapper line.grid { stroke-dasharray: 4,2; stroke: $keyLine-clr;  }
 	.x-axis {
 		.tick line { stroke: transparent; }

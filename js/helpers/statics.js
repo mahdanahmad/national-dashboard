@@ -1,6 +1,6 @@
 const datasource	= ["KPK", "Ombudsman"];
 const periode		= ['Day', 'Week', 'Month', 'Year'];
-const navigation	= ['Map', 'Daily Volume', 'Treemap', 'Keyword', 'Topic Breakdown', 'Spike Alert']
+const navigation	= ['Map', 'Daily Volume', 'Topic Breakdown', 'Treemap', 'Keyword']
 
 const dateFormat	= 'DD MMM YYYY';
 const dateServer	= 'YYYY-MM-DD';

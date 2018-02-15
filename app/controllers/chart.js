@@ -24,9 +24,9 @@ module.exports.map = (monitor_id, prov_id, input, callback) => {
 		},
 		(cate_value, flowCallback) => {
 			if (prov_id) {
-				cities.findAll([], { where: ['province_id = ?', prov_id] }, {}, (err, result) => flowCallback(err, cate_value, _.map(result, 'city_id')));
+				cities.findAll(['city_name'], { where: ['province_id = ?', prov_id] }, {}, (err, result) => flowCallback(err, cate_value, _.map(result, (o) => ({ id: o.city_id, name: o.city_name }))));
 			} else {
-				provinces.findAll([], {}, {}, (err, result) => flowCallback(err, cate_value, _.map(result, 'province_id')));
+				provinces.findAll(['province_name'], {}, {}, (err, result) => flowCallback(err, cate_value, _.map(result, (o) => ({ id: o.province_id, name: o.province_name }))));
 			}
 		},
 		(cate_value, locations, flowCallback) => {
@@ -48,11 +48,11 @@ module.exports.map = (monitor_id, prov_id, input, callback) => {
 				kpk.raw(query, (err, result) => {
 					if (err) { flowCallback(err) } else {
 						let colored	= _.chain(result).groupBy(column).mapValues((o) => (_.chain(keys).map((d) => ({ id: d, count: _.sumBy(o, d)})).maxBy('count').value())).mapValues((o) => (_.chain(o).assign({ color: mappedColor[o.id] }).omit('id').value())).value();
-						flowCallback(null, locations.map((o) => ({ id: o, color: _.get(colored, o + '.color', null), count: _.get(colored, o + '.count', 0) })));
+						flowCallback(null, locations.map((o) => ({ id: o.id, name: o.name, color: _.get(colored, o.id + '.color', null), count: _.get(colored, o.id + '.count', 0) })));
 					}
 				});
 			} else {
-				flowCallback(null, locations.map((o) => ({ id: o, color: null })))
+				flowCallback(null, locations.map((o) => ({ id: o.id, name: o.name, count: 0, color: null })))
 			}
 		}
 	], (err, asyncResult) => {
@@ -279,7 +279,7 @@ module.exports.keywords	= (monitor_id, input, callback) => {
 						'WHERE (' + _.filter(cate_value, ['parent_id', null]).map((o) => ('`' + o.id + '` = 1')).join(' OR ') + ')' +
 						(!_.isEmpty(where) ? ' AND ' + where.join(' AND ') : '');
 
-						kpk.raw(query, (err, result) => callback(err, _.chain(result[0]).map((o, key) => ({ key: mappedName[key], id: key, count: o })).orderBy('count', 'desc').take(limit).value()));
+						kpk.raw(query, (err, result) => callback(err, _.chain(result[0]).map((o, key) => ({ key: mappedName[key], id: key, count: o })).orderBy('count', 'desc').take(limit).reject(['count', 0]).value()));
 					}
 				}, (err, results) => {
 					flowCallback(null, results);

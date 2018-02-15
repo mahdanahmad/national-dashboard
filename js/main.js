@@ -47,8 +47,8 @@ $( document ).ready(function() {
 	createCategories();
 
 	// Create Map (default)
-	// createMap();
-	setTimeout(() => { createKeywords() }, 100);
+	createMap();
+	// setTimeout(() => { createKeywords() }, 100);
 
 	$( '#cate-preset' ).click((e) => {
 
@@ -56,7 +56,7 @@ $( document ).ready(function() {
 
 	$( '#cate-select' ).click((e) => {
 		$( 'g.group-bar.unintended, text.text-on-category.unintended' ).removeClass('unintended');
-		activeCate	= d3.selectAll('g.group-bar').nodes().map(function(o) { return parseInt(d3.select(o).attr('id').replace('bar-', '')); });
+		activeCate	= d3.selectAll('g.group-bar').nodes().map((o) => (parseInt(d3.select(o).attr('id').replace('bar-', ''))));
 		refreshContent();
 	});
 

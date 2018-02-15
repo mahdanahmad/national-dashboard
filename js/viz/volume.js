@@ -55,7 +55,7 @@ function createVolume() {
 		.selectAll('group-time')
 		.data(times).enter().append('g')
 			.attr('transform', (o, i) => ('translate(' + (i * timewdt) + ',0)'))
-			.attr("class", (o, i) => ("group-time cursor-pointer" + (!i ? ' active' : '')));
+			.attr("class", (o, i) => ("group-time cursor-pointer" + (activeTime == o ? ' active' : '')));
 
 	let brush = d3.brushX()
 	    .extent([[0, 0], [width, context_hgt]])

@@ -3,7 +3,7 @@
 	& > div { display: inline-block; }
 	div#header-title {
 		width: $title-width; float: left;
-		span { color: white; font-size: 20px; line-height: $header-height; font-family: 'SF Bold'; }
+		span { color: white; font-size: 18px; line-height: $header-height; font-family: 'SF Bold'; }
 	}
 	div#header-options-wrapper {
 		width: calc(100% - #{$title-width}); max-width: 1150px; float: right; @include transform(translate(0px, -35%)); top: 50%; position: relative;

@@ -6,13 +6,16 @@
 		svg {
 			.group-bar {
 				.bar.fill { fill-opacity: .35; }
+				text { font-size: 7px; }
 				&.unintended {
 					.bar.cream { fill-opacity: .2; }
 					.bar.fill { fill-opacity: .05; }
+					text { fill-opacity: .5; }
 				}
 			}
 			.grid line { stroke: lightgrey; stroke-opacity: 0.15; shape-rendering: crispEdges; }
 			.grid path, .axis path { stroke-width: 0; }
+			.axis { font-size: 7px; }
 			text {
 				fill: white;
 				&.unintended { fill-opacity: 0.35; }

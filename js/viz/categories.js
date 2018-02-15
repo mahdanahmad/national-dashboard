@@ -95,7 +95,7 @@ function changeCateHeight(data) {
 	let canvas		= d3.select('g#' + cate_id + ' #categories');
 	let height		= canvas.node().getBBox().height;
 
-	let y			= d3.scaleLinear().rangeRound([height, 0]).domain([0, _.chain(data).maxBy('count').get('count', 0).multiply(1.15).value()]);
+	let y			= d3.scaleLinear().rangeRound([height, 0]).domain([0, _.chain(data).maxBy('count').get('count', 0).multiply(1.25).value()]);
 	let mapped		= _.chain(data).keyBy('id').mapValues((o) => ({ height: y(o.count) > height ? height : y(o.count), text: nFormatter(o.count) })).value();
 
 	canvas.selectAll('.bar.fill').transition(transition)

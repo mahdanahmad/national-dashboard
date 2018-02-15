@@ -4,20 +4,22 @@ const vals	= ['keywords', 'topics'];
 function createKeywords() {
 	d3.select(content_dest).selectAll("svg").remove();
 
+	let opened			= false;
+
 	let canvasWidth		= $(content_dest).outerWidth(true);
 	let canvasHeight	= $(content_dest).outerHeight(true);
 
-	let margin 			= { top: 75, right: 50, bottom: 25, left: 50 };
+	let margin 			= { top: 50, right: 50, bottom: 25, left: 50 };
 	let width			= (canvasWidth / 2) - margin.right - margin.left;
 	let height			= canvasHeight - margin.top - margin.bottom;
 
-	let svg = d3.select("#content-wrapper").append("svg")
+	let svg = d3.select(content_dest).append("svg")
 		.attr("id", keywords_id)
     	.attr("width", canvasWidth)
         .attr("height", canvasHeight)
 		.append('g');
 
-	let time		= 500;
+	let time		= 750;
 	let transition	= d3.transition()
         .duration(time)
         .ease(d3.easeLinear);
@@ -30,7 +32,15 @@ function createKeywords() {
 
 			let canvas		= svg.append('g').attr('id', key + '-wrapper').attr("transform", "translate(" + ((_.indexOf(vals, key) * (canvasWidth / 2)) + margin.left) + "," + margin.top + ")");
 			let x			= d3.scaleLinear().range([0, width]).domain([0, maxCount]);
-			let y			= d3.scaleBand().range([height, 0]).domain(data.map((o) => (o.key)).reverse()).padding(0.1);
+			let y			= d3.scaleBand().range([height, 0]).domain(_.chain(data).map((o) => (o.key)).concat(_.times(limit - data.length, String)).reverse().value()).padding(0);
+
+			canvas.append('text')
+				.attr('class', 'keywords-title')
+				.attr("alignment-baseline", "central")
+				.attr('font-size', 20)
+				.attr('x', 10)
+				.attr('y', -(margin.top / 2))
+				.text('Top ' + _.capitalize(key));
 
 			canvas.append('g').attr('class', 'grid-wrapper').selectAll('.grid')
 				.data(tickArray).enter()
@@ -55,8 +65,8 @@ function createKeywords() {
 			groupBar.append('rect')
 				.attr('class', 'bar')
 				.attr("x", 0)
-				.attr("y", 0)
-				.attr("height", y.bandwidth())
+				.attr("y", y.bandwidth() * .05)
+				.attr("height", y.bandwidth() * .9)
 				.attr("width", 0);
 
 			groupBar.append('rect')
@@ -71,6 +81,29 @@ function createKeywords() {
 				.attr("x", 10)
 				.attr("y", y.bandwidth() / 2)
 				.text((o) => (o.key));
+
+			groupBar
+				.on('mouseover', (o) => {
+					d3.select('#keywords-tooltips').classed('hidden', false);
+					let tooltips	= $( '#keywords-tooltips' );
+
+					tooltips.text(nFormatter(o.count));
+					tooltips.css({
+						top: margin.top + y(o.key) - tooltips.outerHeight(true) - 10,
+						left: (opened ? 0 : _.indexOf(vals, key) * (canvasWidth / 2)) + margin.left + x(o.count) - (tooltips.outerWidth(true) / 2)
+					});
+				})
+				.on('mouseout', () => { d3.select('#keywords-tooltips').classed('hidden', true); })
+				.on('click', (o) => {
+					opened		= true;
+					let dest	= d3.select('svg#' + keywords_id);
+					if (dest.node().getBoundingClientRect().width !== (canvasWidth / 2)) {
+						if (_.indexOf(vals, key)) { dest.select('g').transition(transition).attr('transform', 'translate(-' + (canvasWidth / 2) + ',0)') }
+						dest.transition(transition)
+							.attr('width', width);
+
+					}
+				});
 
 			canvas.selectAll('.group-bar > rect.bar').transition(transition)
 		        .attr('width', (o) => (x(o.count)));

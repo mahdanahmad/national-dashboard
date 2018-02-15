@@ -8,7 +8,7 @@ function createTreemap() {
 	let width			= canvasWidth - margin.right - margin.left;
 	let height			= canvasHeight - margin.top - margin.bottom;
 
-	let svg = d3.select("#content-wrapper").append("svg")
+	let svg = d3.select(content_dest).append("svg")
 		.attr("id", treemap_id)
     	.attr("width", canvasWidth)
         .attr("height", canvasHeight)
