@@ -7,8 +7,8 @@ province_id,country_id,province_name,name_alt,old_id
 16,ID,Sumatera Selatan,NULL,NULL
 17,ID,Bengkulu,NULL,NULL
 18,ID,Lampung,NULL,NULL
-19,ID,Kepulauan Bangka Belitung,NULL,NULL
-21,ID,Kepulauan Riau,NULL,NULL
+19,ID,Kep. Bangka Belitung,NULL,NULL
+21,ID,Kep. Riau,NULL,NULL
 31,ID,DKI Jakarta,NULL,NULL
 32,ID,Jawa Barat,NULL,NULL
 33,ID,Jawa Tengah,NULL,NULL

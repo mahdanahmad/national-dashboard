@@ -2,4 +2,16 @@ svg#maps-viz {
 	rect#background { fill: none; pointer-events: all; }
 	.province { stroke: $default-back; &.unintended { fill: black!important; } }
 	.kabupaten { stroke: $default-back; fill: #b0b1b5; }
+	g#bar-wrapper {
+		rect#bar-background { fill: $default-back; }
+		g#bar-container {
+			text { fill: white; }
+			rect.bar { fill: $header-clr; }
+			rect.overlay { fill: transparent; }
+		}
+	}
+	g#avg-wrapper {
+		line { stroke: #FFEB94; stroke-width: 1px; }
+		text { fill: white; }
+	}
 }

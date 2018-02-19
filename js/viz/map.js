@@ -1,6 +1,12 @@
 let mappedGeoProv	= {};
 let path;
 
+let bar_canvas		= 'bar-wrapper';
+let maps_canvas		= 'maps-wrapper';
+let maps_ratio		= .75;
+let bar_height		= 12.5;
+let bar_width;
+
 function createMap() {
 	d3.select(content_dest).selectAll("svg").remove();
 
@@ -11,10 +17,13 @@ function createMap() {
 	let width			= canvasWidth - margin.right - margin.left;
 	let height			= canvasHeight - margin.top - margin.bottom;
 
+	let maps_width		= width * maps_ratio;
+	bar_width			= width * (1 - maps_ratio);
+
 	let projection		= d3.geoEquirectangular()
-		.scale(width + 225)
+		.scale(maps_width + 175)
 		.rotate([-120, 1])
-		.translate([(width / 2) + 55, (height / 2) - 50]);
+		.translate([(maps_width / 2) + 35, (height / 2) - 50]);
 	path	= d3.geoPath().projection(projection);
 
 	let svg = d3.select(content_dest).append("svg")
@@ -24,11 +33,24 @@ function createMap() {
 		.append('g')
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-	svg.append('rect')
+	let maps	= svg.append('g')
+		.attr("id", maps_canvas)
+		.attr("transform", "translate(" + bar_width + ",0)");
+
+	maps.append('rect')
 		.attr('id', 'background')
-		.attr('width', width)
+		.attr('width', maps_width)
 		.attr('height', height)
 		.on('click', () => { zoomProv(null) });
+
+	let bar		= svg.append('g')
+		.attr("id", bar_canvas)
+		.attr("transform", "translate(0,0)");
+
+	bar.append('rect')
+		.attr('id', 'bar-background')
+		.attr('width', bar_width)
+		.attr('height', height);
 
 	d3.queue()
 		.defer(getVizMaps, null)
@@ -42,7 +64,7 @@ function createMap() {
 			let states		= topojson.feature(prov, prov.objects.map);
 			mappedGeoProv	= _.chain(states).get('features', []).keyBy('properties.id_provinsi').value();
 
-			svg.selectAll('path.kabupaten')
+			maps.selectAll('path.kabupaten')
 				.data(kabs.features)
 					.enter().append('path')
 					.attr("id", (o) => ('kab-' + (o.properties.id_kabkota)))
@@ -54,7 +76,7 @@ function createMap() {
 					.on('mouseout', onMouseout)
 					.on('mousemove', (o) => { hoverHandler(o.properties.id_kabkota, o.properties.nm_kabkota) });
 
-			svg.selectAll("path.province")
+			maps.selectAll("path.province")
 			    .data(states.features)
 			        .enter().append("path")
 			        .attr("id", (o) => ('prov-' + (o.properties.id_provinsi)))
@@ -68,21 +90,97 @@ function createMap() {
 					.on('mousemove', (o) => { hoverHandler(o.properties.id_provinsi, o.properties.nm_provinsi) });
 
 			if (centered) { zoomProv(centered, true); }
+
+			createBar(data);
 		});
 }
 
 function onMouseover(o) { d3.select('#maps-tooltips').classed('hidden', false); }
 function onMouseout(o) { d3.select('#maps-tooltips').classed('hidden', true); }
 function hoverHandler(id, name) {
-	let currentPos	= d3.mouse(d3.select("svg#" + maps_id).node());
+	let currentPos	= d3.mouse(d3.select("svg#" + maps_id + ' > g').node());
 	let tooltips	= $( '#maps-tooltips' );
 
 	tooltips.text(_.chain(name).lowerCase().startCase().value() + ': ' + (countessa[('' + id).length == 2 ? 'provinces' : 'regencies'][id] || 0));
 	tooltips.css({ top: currentPos[1] - tooltips.outerHeight(true) - 13, left: currentPos[0] - (tooltips.outerWidth(true) / 2) });
 }
 
+function createBar(data) {
+	let transition	= d3.transition()
+        .duration(750)
+        .ease(d3.easeLinear);
+
+	let margin	= { top: 0, right: 25, bottom: 0, left: 125 };
+	let svg		= d3.select("svg#" + maps_id + " g#" + bar_canvas);
+	svg.attr('transform', 'translate(' + margin.left + ',0)')
+
+	let x		= d3.scaleLinear().rangeRound([0, (bar_width - margin.left - margin.right)]).domain([0, d3.max(data, (o) => (o.count))]);
+
+	svg.selectAll('g#bar-container').remove();
+	let groupBar	= svg.append('g')
+		.attr('id', 'bar-container')
+		.selectAll('.group-bar')
+		.data(data).enter().append('g')
+			.attr('id', (o) => ('bar-' + o.id))
+			.attr('class', 'group-bar cursor-pointer')
+			.attr('transform', (o, i) => ('translate(0,' + (i * bar_height) + ')'));
+
+	groupBar.append('text')
+		.attr('transform', 'translate(-5,' + (bar_height / 2) + ')')
+		.attr('alignment-baseline', 'middle')
+		.attr('text-anchor', 'end')
+		.text((o) => (o.name));
+
+	groupBar.append('rect')
+		.attr('class', 'bar')
+		.attr('x', 0)
+		.attr('y', bar_height * .1)
+		.attr('width', 0)
+		.attr('height', bar_height * .9);
+
+	groupBar.append('rect')
+		.attr('class', 'overlay')
+		.attr('x', -margin.left)
+		.attr('y', 0)
+		.attr('width', bar_width - margin.right)
+		.attr('height', bar_height);
+
+	groupBar
+		.on('mouseover', function(o, i) {
+			d3.select('#maps-tooltips').classed('hidden', false);
+
+			let tooltips	= $( '#maps-tooltips' );
+			tooltips.text(o.count);
+			tooltips.css({ top: (i * bar_height) - tooltips.outerHeight(true) - 8, left: (margin.left + x(o.count)) - (tooltips.outerWidth(true) / 2) });
+		})
+		.on('mouseout', onMouseout)
+		.on('click', function(o) {
+
+		})
+
+	let avg_value	= _.chain(data).meanBy('count').round(2).value();
+	let avg_wrapper	= svg.append('g')
+		.attr('id', 'avg-wrapper')
+		.attr('transform', 'translate(' + x(avg_value) + ',0)');
+
+	avg_wrapper.append('line')
+		.attr('x1', 0)
+		.attr('y1', -5)
+		.attr('x2', 0)
+		.attr('y2', data.length * bar_height + 5);
+
+	avg_wrapper.append('text')
+		.attr('text-anchor', 'middle')
+		.attr('x', 0)
+		.attr('y', data.length * bar_height + 17)
+		.text(avg_value);
+
+	svg.selectAll('rect.bar').transition(transition)
+		.attr('width', (o) => (x(o.count)))
+}
+
 function zoomProv(prov_id, intoodeep) {
-	let svg	= d3.select("svg#" + maps_id + " > g");
+	let svg	= d3.select("svg#" + maps_id + " g#" + maps_canvas);
 
 	if (path && svg.node()) {
 		let x, y, k;
@@ -127,9 +225,9 @@ function zoomProv(prov_id, intoodeep) {
 
 		$( '#region > input' ).val($( '#region-' + (prov_id || 'def') ).text());
 		getVizCategories((data) => { changeCateHeight(data); });
-		
+
 		svg.transition()
 			.duration(750)
-			.attr('transform', 'translate(' + node.width / 2 + ',' + node.height / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');
+			.attr('transform', 'translate(' + bar_width + ',0)translate(' + node.width / 2 + ',' + node.height / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');
 	}
 }
