@@ -113,7 +113,7 @@ function createBar(data) {
 	let margin	= { top: 0, right: 25, bottom: 0, left: 125 };
 	let svg		= d3.select("svg#" + maps_id + " g#" + bar_canvas);
 
-	let x		= d3.scaleLinear().rangeRound([0, (bar_width - margin.left - margin.right)]).domain([0, d3.max(data, (o) => (o.count))]);
+	let x		= d3.scaleLinear().rangeRound([0, (bar_width - margin.left - margin.right)]).domain([0, d3.max(data, (o) => (o.total))]);
 
 	svg.selectAll('g').remove();
 	let groupBar	= svg.append('g')
@@ -150,13 +150,13 @@ function createBar(data) {
 			d3.select('#maps-tooltips').classed('hidden', false);
 
 			let tooltips	= $( '#maps-tooltips' );
-			tooltips.text(o.count);
-			tooltips.css({ top: (i * bar_height) - tooltips.outerHeight(true) - 8, left: (margin.left + x(o.count)) - (tooltips.outerWidth(true) / 2) });
+			tooltips.text(o.total);
+			tooltips.css({ top: (i * bar_height) - tooltips.outerHeight(true) - 8, left: (margin.left + x(o.total)) - (tooltips.outerWidth(true) / 2) });
 		})
 		.on('mouseout', onMouseout)
 		.on('click', (o) => { zoomProv(o.id.length == 2 ? o.id : null); })
 
-	let avg_value	= _.chain(data).meanBy('count').round(2).value();
+	let avg_value	= _.chain(data).meanBy('total').round(2).value();
 	let avg_wrapper	= svg.append('g')
 		.attr('id', 'avg-wrapper')
 		.attr('transform', 'translate(' + (margin.left + x(avg_value)) + ',0)');
@@ -177,7 +177,7 @@ function createBar(data) {
 		.attr('y2', data.length * bar_height + 5);
 
 	svg.selectAll('rect.bar').transition(transition)
-		.attr('width', (o) => (x(o.count)));
+		.attr('width', (o) => (x(o.total)));
 }
 
 function zoomProv(prov_id, intoodeep) {
@@ -220,7 +220,7 @@ function zoomProv(prov_id, intoodeep) {
 			d3.select('.province#prov-' + (prov_id || centered)).classed('hidden', false);
 			d3.selectAll('.kabupaten.prov-' + (prov_id || centered)).classed('hidden', true);
 
-			if (centered) { getVizMaps(prov_id, (err, data) => { createBar(data); }); }
+			if (centered) { getVizMaps(null, (err, data) => { createBar(data); }); }
 			centered = null;
 
 			d3.selectAll('.province').classed('unintended', false);
