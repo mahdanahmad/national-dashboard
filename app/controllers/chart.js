@@ -7,6 +7,8 @@ const cities		= require('../models/cities');
 const provinces		= require('../models/provinces');
 const categories	= require('../models/categories');
 
+String.prototype.titlecase	= function() { return this.toLowerCase().replace(/\b\w/g, l => l.toUpperCase()); }
+
 module.exports.map = (monitor_id, prov_id, input, callback) => {
 	let response        = 'OK';
 	let status_code     = 200;
@@ -48,11 +50,11 @@ module.exports.map = (monitor_id, prov_id, input, callback) => {
 				kpk.raw(query, (err, result) => {
 					if (err) { flowCallback(err) } else {
 						let colored	= _.chain(result).groupBy(column).mapValues((o) => (_.chain(keys).map((d) => ({ id: d, count: _.sumBy(o, d)})).maxBy('count').value())).mapValues((o) => (_.chain(o).assign({ color: mappedColor[o.id] }).omit('id').value())).value();
-						flowCallback(null, _.chain(locations).map((o) => ({ id: o.id, name: o.name, color: _.get(colored, o.id + '.color', null), count: _.get(colored, o.id + '.count', 0) })).orderBy('count', 'desc').value());
+						flowCallback(null, _.chain(locations).map((o) => ({ id: o.id, name: o.name.titlecase(), color: _.get(colored, o.id + '.color', null), count: _.get(colored, o.id + '.count', 0) })).orderBy('count', 'desc').value());
 					}
 				});
 			} else {
-				flowCallback(null, locations.map((o) => ({ id: o.id, name: o.name, count: 0, color: null })))
+				flowCallback(null, locations.map((o) => ({ id: o.id, name: o.name.titlecase(), count: 0, color: null })))
 			}
 		}
 	], (err, asyncResult) => {

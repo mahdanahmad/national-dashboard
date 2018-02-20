@@ -40,3 +40,5 @@ function nFormatter(num) {
 	for (i = standar.length - 1; i > 0; i--) { if (num >= standar[i].value) { break; } }
 	return (num / standar[i].value).toFixed(digits).replace(re, "$1") + ' ' + standar[i].symbol;
 }
+
+String.prototype.titlecase	= function() { return this.toLowerCase().replace(/\b\w/g, l => l.toUpperCase()); }

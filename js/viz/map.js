@@ -69,7 +69,7 @@ function createMap() {
 					.enter().append('path')
 					.attr("id", (o) => ('kab-' + (o.properties.id_kabkota)))
 					.attr('d', path)
-					.attr('class', (o) => ('hidden kabupaten cursor-pointer prov-' + o.properties.id_provinsi))
+					.attr('class', (o) => ('hidden kabupaten prov-' + o.properties.id_provinsi))
 					.attr('vector-effect', 'non-scaling-stroke')
 					.on('click', (o) => { zoomProv(parseInt(o.properties.id_provinsi)); })
 					.on('mouseover', onMouseover)
@@ -112,17 +112,17 @@ function createBar(data) {
 
 	let margin	= { top: 0, right: 25, bottom: 0, left: 125 };
 	let svg		= d3.select("svg#" + maps_id + " g#" + bar_canvas);
-	svg.attr('transform', 'translate(' + margin.left + ',0)')
 
 	let x		= d3.scaleLinear().rangeRound([0, (bar_width - margin.left - margin.right)]).domain([0, d3.max(data, (o) => (o.count))]);
 
-	svg.selectAll('g#bar-container').remove();
+	svg.selectAll('g').remove();
 	let groupBar	= svg.append('g')
 		.attr('id', 'bar-container')
+		.attr('transform', 'translate(' + margin.left + ',0)')
 		.selectAll('.group-bar')
 		.data(data).enter().append('g')
 			.attr('id', (o) => ('bar-' + o.id))
-			.attr('class', 'group-bar cursor-pointer')
+			.attr('class', (o) => ('group-bar' + (o.id.length == 2 ? ' cursor-pointer' : '')))
 			.attr('transform', (o, i) => ('translate(0,' + (i * bar_height) + ')'));
 
 	groupBar.append('text')
@@ -154,20 +154,18 @@ function createBar(data) {
 			tooltips.css({ top: (i * bar_height) - tooltips.outerHeight(true) - 8, left: (margin.left + x(o.count)) - (tooltips.outerWidth(true) / 2) });
 		})
 		.on('mouseout', onMouseout)
-		.on('click', function(o) {
-
-		})
+		.on('click', (o) => { zoomProv(o.id.length == 2 ? o.id : null); })
 
 	let avg_value	= _.chain(data).meanBy('count').round(2).value();
 	let avg_wrapper	= svg.append('g')
 		.attr('id', 'avg-wrapper')
-		.attr('transform', 'translate(' + x(avg_value) + ',0)');
+		.attr('transform', 'translate(' + (margin.left + x(avg_value)) + ',0)');
 
 	avg_wrapper.append('line')
 		.attr('x1', 0)
 		.attr('y1', -5)
 		.attr('x2', 0)
-		.attr('y2', data.length * bar_height + 5);
+		.attr('y2', 0);
 
 	avg_wrapper.append('text')
 		.attr('text-anchor', 'middle')
@@ -175,8 +173,11 @@ function createBar(data) {
 		.attr('y', data.length * bar_height + 17)
 		.text(avg_value);
 
+	avg_wrapper.select('line').transition(transition)
+		.attr('y2', data.length * bar_height + 5);
+
 	svg.selectAll('rect.bar').transition(transition)
-		.attr('width', (o) => (x(o.count)))
+		.attr('width', (o) => (x(o.count)));
 }
 
 function zoomProv(prov_id, intoodeep) {
@@ -206,6 +207,7 @@ function zoomProv(prov_id, intoodeep) {
 			d3.selectAll('.province:not(.prov-' + prov_id + ')').classed('unintended', true);
 
 			getVizMaps(prov_id, (err, data) => {
+				createBar(data);
 				data.forEach((o) => {
 					if (o.id) { d3.select('#kab-' + o.id).style('fill', (o.color || defColor)); }
 				});
@@ -218,6 +220,7 @@ function zoomProv(prov_id, intoodeep) {
 			d3.select('.province#prov-' + (prov_id || centered)).classed('hidden', false);
 			d3.selectAll('.kabupaten.prov-' + (prov_id || centered)).classed('hidden', true);
 
+			if (centered) { getVizMaps(prov_id, (err, data) => { createBar(data); }); }
 			centered = null;
 
 			d3.selectAll('.province').classed('unintended', false);
