@@ -6,6 +6,7 @@ function getVizMaps(prov_id, callback) { $.get( "api/map/" + monitor_id + (prov_
 function getVizTreemap(callback) { $.get( "api/treemap/" + monitor_id, constructParams(), ( data ) => { callback(data.result); }); }
 function getVizVolume(time, callback) { $.get( "api/volume/" + monitor_id, _.assign({ time }, constructParams()), ( data ) => { callback(data.result); }); }
 function getVizKeywords(limit, callback) { $.get( "api/keywords/" + monitor_id, _.assign({ limit }, constructParams()), ( data ) => { callback(data.result); }); }
+function getVizBipartite(callback) { $.get( "api/bipartite/" + monitor_id, constructParams(), ( data ) => { callback(data.result); }); }
 
 // COMPONENT
 function getProvinces(callback) { $.get( "api/provinces", (data) => { callback(data.result) }); }

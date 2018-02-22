@@ -16,6 +16,7 @@ function createTopics() {
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	createSunburst();
+	createbiPartite();
 
 	function createSunburst() {
 		let bread_hgt	= 25;
@@ -95,4 +96,54 @@ function createTopics() {
 					.on('mouseout', function(o) { sunburst_cvs.selectAll('text').text(''); sunburst_cvs.selectAll('path').style("opacity", 1); });
 		});
 	}
+
+	function createbiPartite() {
+		let bipartite_cvs	= svg.append('g')
+			.attr('id', 'bipartite-wrapper')
+			.attr('transform', 'translate(' + width * 5 / 8 + ',' + (height / 64) + ')');
+
+		let barSize		= 35;
+		let label_size	= height / 52.5;
+		getVizBipartite((data) => {
+			let bipartite_func	= viz.biPartite()
+				.edgeOpacity(.9)
+				.height(height * 31 / 32)
+				.width(width / 4)
+				.data(data.data)
+				.fill((o) => (data.color[o.primary]))
+				.barSize(barSize)
+				.min(label_size * 1.5);
+
+			bipartite_cvs.call(bipartite_func);
+
+			bipartite_cvs.selectAll('.viz-biPartite-mainBar').append('text')
+				.attr("x", (o) => ((o.part == 'primary'? -1 : 1) * barSize))
+				.attr('class', 'label percent cursor-default')
+				.attr("alignment-baseline", "central")
+				.attr('text-anchor', (o) => (o.part == 'primary' ? 'end' : 'start'))
+				.attr('font-size', label_size)
+				.text((o) => (d3.format(".1%")(o.percent)));
+
+			bipartite_cvs.selectAll('.viz-biPartite-mainBar').append('text')
+				.attr("x", (o) => ((o.part == 'primary'? -1 : 1) * (barSize + 30)))
+				.attr('class', 'label name cursor-default')
+				.attr("alignment-baseline", "central")
+				.attr('text-anchor', (o) => (o.part == 'primary' ? 'end' : 'start'))
+				.attr('font-size', label_size)
+				.text((o) => (o.key)).call(wrapEllipsis, width / 14);
+
+			bipartite_cvs.selectAll('.viz-biPartite-mainBar')
+				.on('mouseover', function(d) {
+					bipartite_func.mouseover(d);
+					bipartite_cvs.selectAll(".viz-biPartite-mainBar").select(".percent").text((o) => (d3.format(".1%")(o.percent)))
+				})
+				.on('mouseout', function(d) {
+					bipartite_func.mouseout(d);
+					bipartite_cvs.selectAll(".viz-biPartite-mainBar").select(".percent").text((o) => (d3.format(".1%")(o.percent)))
+				});
+
+
+		});
+	}
+
 }

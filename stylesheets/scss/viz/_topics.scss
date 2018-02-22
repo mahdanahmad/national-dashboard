@@ -1,6 +1,9 @@
 svg#topics-viz {
+	text { fill: white; }
 	#sunburst-wrapper {
 		.sliced { stroke: $default-back; stroke-width: 0.25; }
-		text { fill: white; }
+	}
+	#bipartite-wrapper {
+		
 	}
 }

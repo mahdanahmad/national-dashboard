@@ -24,6 +24,18 @@ function wrap(text, width) {
 	});
 }
 
+function wrapEllipsis(text, width) {
+	text.each(function() {
+		let text		= d3.select(this);
+		let words		= text.text();
+		let currWidth	= text.node().getComputedTextLength();
+
+		if (currWidth > width) {
+			text.text(words.substring(0, Math.floor(width * words.length / currWidth)) + '...');
+		}
+	})
+}
+
 function nFormatter(num) {
 	let digits	= 2;
 	let standar = [

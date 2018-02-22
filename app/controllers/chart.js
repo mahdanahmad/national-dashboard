@@ -303,3 +303,64 @@ module.exports.keywords	= (monitor_id, input, callback) => {
 		callback({ response, status_code, message, result });
 	});
 }
+
+module.exports.bipartite	= (monitor_id, input, callback) => {
+	let response        = 'OK';
+	let status_code     = 200;
+	let message         = 'Get biPartite data success.';
+	let result          = null;
+
+	const active		= input.categories ? JSON.parse(input.categories)	: null;
+	const startDate		= (input.startDate	|| null);
+	const endDate		= (input.endDate	|| null);
+	const datasource	= (input.datasource	|| null);
+	const province		= (input.province	|| null);
+
+	async.waterfall([
+		(flowCallback) => {
+			if (_.isEmpty(active) && _.isArray(active)) {
+				flowCallback(null, null);
+			} else {
+				let query	= {};
+				if (active) { query.where = ['parent_id IN (' + active.join(',') + ') OR id IN (' + active.join(',') + ')']; }
+
+				categories.findAll(['name', 'parent_id', 'color'], query, {}, (err, result) => flowCallback(err, result));
+			}
+		},
+		(cate_value, flowCallback) => {
+			if (cate_value) {
+				let child_keys	= _.chain(cate_value).reject(['parent_id', null]).map('id').value();
+				let where	= [];
+				if (startDate && endDate) { where.push('date BETWEEN \'' + startDate + '\' AND \'' + endDate + '\''); }
+				if (datasource) { where.push('`source` IN (' + datasource.split(',').map((o) => ('\'' + _.trim(o).toLowerCase() + '\'')) + ')'); }
+				if (province) { where.push('`province_id` = ' + province); }
+
+				let query	= 'SELECT ' + child_keys.map((o) => ('SUM(`' + o + '`) as `' + o + '`')).join(', ') + ' FROM ??' + (!_.isEmpty(where) ? ' WHERE ' + where.join(' AND ') : '');
+
+				kpk.raw(query, (err, result) => {
+					if (err) { flowCallback(err) } else {
+						let summed		= _.omitBy(result[0], (o) => (o == 0));
+						let summed_keys	= _.keys(summed).map((o) => parseInt(o));
+						let parents		= _.chain(cate_value).filter(['parent_id', null]).map((o) => ([o.id, o.name])).fromPairs().value();
+
+						let data		= _.chain(cate_value).filter((o) => (_.includes(summed_keys, o.id))).map((o) => ([parents[o.parent_id], o.name, summed[o.id]])).value();
+						let color		= _.chain(cate_value).filter(['parent_id', null]).map((o) => ([o.name, o.color])).fromPairs().value();
+
+						flowCallback(null, { data, color });
+					}
+				});
+			} else {
+				flowCallback(null, { name: 'treemap', children: [] });
+			}
+		},
+	], (err, asyncResult) => {
+		if (err) {
+			response    = 'FAILED';
+			status_code = 400;
+			message     = err;
+		} else {
+			result      = asyncResult;
+		}
+		callback({ response, status_code, message, result });
+	});
+}

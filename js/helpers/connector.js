@@ -13,7 +13,7 @@ function refreshContent() {
 			}
 			break;
 			case navigation[1]: createVolume(); break;
-			// case navigation[2]: createKeywords(); break;
+			case navigation[2]: createTopics(); break;
 			case navigation[3]: createKeywords(); break;
 			case navigation[4]: createTreemap(); break;
 		default:
@@ -29,7 +29,7 @@ function changeContent(val) {
 		switch (val) {
 			case navigation[0]: createMap(); break;
 			case navigation[1]: createVolume(); break;
-			// case navigation[2]: createKeywords(); break;
+			case navigation[2]: createTopics(); break;
 			case navigation[3]: createKeywords(); break;
 			case navigation[4]: createTreemap(); break;
 			default: d3.select(content_dest).selectAll("svg").remove();
@@ -43,7 +43,7 @@ function changeFromRegion(prov_id) {
 	switch (activeContent) {
 		case navigation[0]: zoomProv(prov_id, true); break;
 		case navigation[1]: createVolume(); break;
-		// case navigation[2]: createKeywords(); break;
+		case navigation[2]: createTopics(); break;
 		case navigation[3]: createKeywords(); break;
 		case navigation[4]: createTreemap(); break;
 		default:
