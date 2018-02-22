@@ -350,7 +350,7 @@ module.exports.bipartite	= (monitor_id, input, callback) => {
 					}
 				});
 			} else {
-				flowCallback(null, { name: 'treemap', children: [] });
+				flowCallback(null, { data: [], color: {} });
 			}
 		},
 	], (err, asyncResult) => {

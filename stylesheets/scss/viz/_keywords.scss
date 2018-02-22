@@ -13,4 +13,7 @@ svg#keywords-viz {
 		rect.overlay { fill: transparent; }
 		text { fill: $keyLine-clr; }
 	}
+	g#messages-wrapper {
+		rect#overlay { fill: $default-back; }
+	}
 }
