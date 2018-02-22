@@ -43,5 +43,8 @@ router.get('/volume/:monitor_id', (req, res, next) => {
 router.get('/keywords/:monitor_id', (req, res, next) => {
 	chart.keywords(req.params.monitor_id, req.query, (result) => { res.status(result.status_code).json(result); });
 });
+router.get('/sunburst/:monitor_id', (req, res, next) => {
+	chart.sunburst(req.params.monitor_id, req.query, (result) => { res.status(result.status_code).json(result); });
+});
 
 module.exports = router;

@@ -111,7 +111,7 @@ module.exports.categories = (monitor_id, input, callback) => {
 module.exports.treemap	= (monitor_id, input, callback) => {
 	let response        = 'OK';
 	let status_code     = 200;
-	let message         = 'Get categories data success.';
+	let message         = 'Get treemap data success.';
 	let result          = null;
 
 	const active		= input.categories ? JSON.parse(input.categories)	: null;
@@ -170,7 +170,7 @@ module.exports.treemap	= (monitor_id, input, callback) => {
 module.exports.volume	= (monitor_id, input, callback) => {
 	let response        = 'OK';
 	let status_code     = 200;
-	let message         = 'Get categories data success.';
+	let message         = 'Get volume data success.';
 	let result          = null;
 
 	const dateFormat	= 'YYYY-MM-DD';
@@ -242,7 +242,7 @@ module.exports.volume	= (monitor_id, input, callback) => {
 module.exports.keywords	= (monitor_id, input, callback) => {
 	let response        = 'OK';
 	let status_code     = 200;
-	let message         = 'Get categories data success.';
+	let message         = 'Get keywords data success.';
 	let result          = null;
 
 	const dateFormat	= 'YYYY-MM-DD';
