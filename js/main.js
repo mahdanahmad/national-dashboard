@@ -47,7 +47,7 @@ $( document ).ready(function() {
 	createCategories();
 
 	// Create Map (default)
-	createMap();
+	// createMap();
 	setTimeout(() => { createTopics() }, 100);
 
 	$( '#cate-preset' ).click((e) => {

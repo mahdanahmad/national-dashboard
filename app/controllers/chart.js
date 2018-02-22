@@ -145,7 +145,7 @@ module.exports.treemap	= (monitor_id, input, callback) => {
 					if (err) { flowCallback(err) } else {
 						let summed		= _.omitBy(result[0], (o) => (o == 0));
 						let summed_keys	= _.keys(summed).map((o) => parseInt(o));
-						let children	= _.chain(cate_value).filter((o) => (_.includes(summed_keys, o.id))).groupBy('parent_id').mapValues((o) => (o.map((d) => ({ name: d.name, size: (summed[d.id] || 0) })))).value();
+						let children	= _.chain(cate_value).filter((o) => (_.includes(summed_keys, o.id))).groupBy('parent_id').mapValues((o) => (_.chain(o).map((d) => ({ name: d.name, size: (summed[d.id] || 0) })).orderBy('size', 'desc').value())).value();
 						// let children	= _.chain(cate_value).reject(['parent_id', null]).groupBy('parent_id').mapValues((o) => (o.map((d) => ({ name: d.name, size: (result[0][d.id] || 0) })))).value();
 
 						flowCallback(null, { name: 'treemap', children: _.chain(cate_value).filter(['parent_id', null]).map((o) => ({ name: o.name, color: o.color, children: (children[o.id] || []) })).value() });

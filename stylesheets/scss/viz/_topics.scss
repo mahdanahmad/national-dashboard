@@ -1,3 +1,6 @@
 svg#topics-viz {
-	
+	#sunburst-wrapper {
+		.sliced { stroke: $default-back; stroke-width: 0.25; }
+		text { fill: white; }
+	}
 }
