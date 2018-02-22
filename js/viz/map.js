@@ -113,7 +113,10 @@ function createBar(data) {
 	let margin	= { top: 0, right: 25, bottom: 0, left: 125 };
 	let svg		= d3.select("svg#" + maps_id + " g#" + bar_canvas);
 
-	let x		= d3.scaleLinear().rangeRound([0, (bar_width - margin.left - margin.right)]).domain([0, d3.max(data, (o) => (o.total))]);
+	let height	= data.length * bar_height;
+	let maxVal	= d3.max(data, (o) => (o.total));
+
+	let x		= d3.scaleLinear().rangeRound([0, (bar_width - margin.left - margin.right)]).domain([0, maxVal]);
 
 	svg.selectAll('g').remove();
 	let groupBar	= svg.append('g')
@@ -159,22 +162,27 @@ function createBar(data) {
 	let avg_value	= _.chain(data).meanBy('total').round(2).value();
 	let avg_wrapper	= svg.append('g')
 		.attr('id', 'avg-wrapper')
-		.attr('transform', 'translate(' + (margin.left + x(avg_value)) + ',0)');
+		.attr('transform', 'translate(' + (margin.left) + ',0)');
 
 	avg_wrapper.append('line')
-		.attr('x1', 0)
+		.attr('x1', x(avg_value))
 		.attr('y1', -5)
-		.attr('x2', 0)
+		.attr('x2', x(avg_value))
 		.attr('y2', 0);
 
-	avg_wrapper.append('text')
-		.attr('text-anchor', 'middle')
-		.attr('x', 0)
-		.attr('y', data.length * bar_height + 17)
-		.text(avg_value);
+	// avg_wrapper.append('text')
+	// 	.attr('text-anchor', 'middle')
+	// 	.attr('x', 0)
+	// 	.attr('y', height + 17)
+	// 	.text(avg_value);
 
 	avg_wrapper.select('line').transition(transition)
-		.attr('y2', data.length * bar_height + 5);
+		.attr('y2', height);
+
+	avg_wrapper.append("g")
+			.attr("class", "x axis")
+			.attr("transform", "translate(0," + height + ")")
+			.call(d3.axisBottom(x).tickValues(_.chain(3).times((i) => (i / 2 * maxVal)).concat(avg_value).value()).tickFormat((o) => (nFormatter(o))));
 
 	svg.selectAll('rect.bar').transition(transition)
 		.attr('width', (o) => (x(o.total)));
