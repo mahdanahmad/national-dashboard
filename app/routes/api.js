@@ -46,5 +46,8 @@ router.get('/keywords/:monitor_id', (req, res, next) => {
 router.get('/bipartite/:monitor_id', (req, res, next) => {
 	chart.bipartite(req.params.monitor_id, req.query, (result) => { res.status(result.status_code).json(result); });
 });
+router.get('/raw/:monitor_id', (req, res, next) => {
+	chart.raw(req.params.monitor_id, req.query, (result) => { res.status(result.status_code).json(result); });
+});
 
 module.exports = router;

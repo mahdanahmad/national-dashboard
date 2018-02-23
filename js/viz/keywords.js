@@ -1,6 +1,8 @@
 const limit	= 10;
 const vals	= ['keywords', 'topics'];
 
+let offset	= 0;
+
 function createKeywords() {
 	d3.select(content_dest).selectAll("svg").remove();
 
@@ -120,5 +122,9 @@ function createKeywords() {
 			.attr('height', canvasHeight);
 
 		canvas.transition(transition).attr('transform', 'translate(' + (canvasWidth / 2) + ',0)');
+
+		getRaw(limit, offset, (data) => {
+			console.log(data);
+		});
 	}
 }

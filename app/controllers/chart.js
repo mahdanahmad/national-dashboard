@@ -7,6 +7,8 @@ const cities		= require('../models/cities');
 const provinces		= require('../models/provinces');
 const categories	= require('../models/categories');
 
+const dateFormat	= 'YYYY-MM-DD';
+
 String.prototype.titlecase	= function() { return this.toLowerCase().replace(/\b\w/g, l => l.toUpperCase()); }
 
 module.exports.map = (monitor_id, prov_id, input, callback) => {
@@ -173,8 +175,6 @@ module.exports.volume	= (monitor_id, input, callback) => {
 	let message         = 'Get volume data success.';
 	let result          = null;
 
-	const dateFormat	= 'YYYY-MM-DD';
-
 	const active		= input.categories ? JSON.parse(input.categories)	: null;
 	const startDate		= (input.startDate	|| moment([2014]).startOf('year').format(dateFormat));
 	const endDate		= (input.endDate	|| moment([2014]).endOf('year').format(dateFormat));
@@ -244,8 +244,6 @@ module.exports.keywords	= (monitor_id, input, callback) => {
 	let status_code     = 200;
 	let message         = 'Get keywords data success.';
 	let result          = null;
-
-	const dateFormat	= 'YYYY-MM-DD';
 
 	const active		= input.categories ? JSON.parse(input.categories)	: null;
 	const startDate		= (input.startDate	|| moment([2014]).startOf('year').format(dateFormat));
@@ -353,6 +351,59 @@ module.exports.bipartite	= (monitor_id, input, callback) => {
 				flowCallback(null, { data: [], color: {} });
 			}
 		},
+	], (err, asyncResult) => {
+		if (err) {
+			response    = 'FAILED';
+			status_code = 400;
+			message     = err;
+		} else {
+			result      = asyncResult;
+		}
+		callback({ response, status_code, message, result });
+	});
+}
+
+module.exports.raw	= (monitor_id, input, callback) => {
+	let response        = 'OK';
+	let status_code     = 200;
+	let message         = 'Get raw data success.';
+	let result          = null;
+
+	const active		= input.categories ? JSON.parse(input.categories)	: null;
+	const startDate		= (input.startDate	|| moment([2014]).startOf('year').format(dateFormat));
+	const endDate		= (input.endDate	|| moment([2014]).endOf('year').format(dateFormat));
+	const datasource	= (input.datasource	|| null);
+	const province		= (input.province	|| null);
+
+	const limit			= (input.limit		|| 10);
+	const offset		= (input.offset		|| 0);
+
+	async.waterfall([
+		(flowCallback) => {
+			if (active) {
+				flowCallback(null, active);
+			} else {
+				categories.findAll([], { where: ['parent_id IS NULL AND monitor_id = ?', monitor_id] }, {}, (err, result) => flowCallback(err, _.map(result, 'id')));
+			}
+		},
+		(cate_value, flowCallback) => {
+			if (!_.isEmpty(cate_value)) {
+				let where		= [];
+				if (startDate && endDate) { where.push('date BETWEEN \'' + startDate + '\' AND \'' + endDate + '\''); }
+				if (datasource) { where.push('`source` IN (' + datasource.split(',').map((o) => ('\'' + _.trim(o).toLowerCase() + '\'')) + ')'); }
+				if (province) { where.push('`province_id` = ' + province); }
+
+				let query	= 'SELECT `date`, `context`, `source` ' +
+				'FROM ?? ' +
+				'WHERE (' + cate_value.map((o) => ('`' + o + '` = 1')).join(' OR ') + ')' +
+				(!_.isEmpty(where) ? ' AND ' + where.join(' AND ') : '') +
+				' LIMIT ' + offset + ',' + limit;
+
+				kpk.raw(query, (err, result) => flowCallback(err, result));
+			} else {
+				flowCallback(null, null);
+			}
+		}
 	], (err, asyncResult) => {
 		if (err) {
 			response    = 'FAILED';
