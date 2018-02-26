@@ -1,8 +1,9 @@
-const limit	= 10;
-const vals	= ['keywords', 'topics'];
+const limit		= 10;
+const vals		= ['keywords', 'topics'];
 
-let offset	= 0;
-
+const rawLimit	= 50;
+let offset		= 0;
+let titleSize	= 20;
 function createKeywords() {
 	d3.select(content_dest).selectAll("svg").remove();
 
@@ -39,7 +40,7 @@ function createKeywords() {
 			canvas.append('text')
 				.attr('class', 'keywords-title')
 				.attr("alignment-baseline", "central")
-				.attr('font-size', 20)
+				.attr('font-size', titleSize)
 				.attr('x', 10)
 				.attr('y', -(margin.top / 2))
 				.text('Top ' + _.capitalize(key));
@@ -96,12 +97,7 @@ function createKeywords() {
 					});
 				})
 				.on('mouseout', () => { d3.select('#keywords-tooltips').classed('hidden', true); })
-				.on('click', (o) => {
-					opened		= true;
-					if (_.indexOf(vals, key)) { svg.transition(transition).attr('transform', 'translate(-' + (canvasWidth / 2) + ',0)') }
-
-					appendMessages();
-				});
+				.on('click', (o) => { onClickHandler(o, key); });
 
 			canvas.selectAll('.group-bar > rect.bar').transition(transition)
 		        .attr('width', (o) => (x(o.count)));
@@ -110,21 +106,60 @@ function createKeywords() {
 		}, (err) => {});
 	});
 
-	const message_id	= 'messages-wrapper';
-	function appendMessages() {
-		let canvas	= d3.select(content_dest + ' > svg').append('g')
+	function onClickHandler(o, key) {
+		d3.select('#' + message_id).remove();
+
+		opened		= true;
+		let dest	= d3.select('svg#' + keywords_id);
+		if (dest.node().getBoundingClientRect().width !== (canvasWidth / 2)) {
+			if (_.indexOf(vals, key)) { dest.select('g').transition(transition).attr('transform', 'translate(-' + (canvasWidth / 2) + ',0)') }
+			dest.transition(transition).attr('width', (canvasWidth / 2));
+		}
+
+		let canvas	= d3.select(content_dest).append('div')
 			.attr('id', message_id)
-			.attr('transform', 'translate(' + (canvasWidth) + ',0)');
+			.style('width', width + 'px')
+			.style('height', canvasHeight + 'px')
+			.style('padding', '0 ' + margin.right + 'px ' + margin.bottom + 'px ' + margin.left + 'px');
 
-		canvas.append('rect')
-			.attr('id', 'overlay')
-			.attr('width', canvasWidth / 2)
-			.attr('height', canvasHeight);
+		canvas.append('div')
+			.attr('id', 'back-button')
+			.attr('class', 'cursor-pointer')
+			.html('<i class="fa fa-chevron-left"></i>')
+			.on('click', back);
 
-		canvas.transition(transition).attr('transform', 'translate(' + (canvasWidth / 2) + ',0)');
+		canvas.append('div')
+			.attr('id', 'title-wrapper')
+			.attr('class', 'cursor-default')
+			.style('font-size', titleSize + 'px')
+			.style('line-height', margin.top + 'px')
+			.text('Messages related to ' + o.key);
 
-		getRaw(limit, offset, (data) => {
-			console.log(data);
+		getRaw(rawLimit, offset, (o.id ? { id: o.id } : { key: o.key }), (data) => {
+			let wrapper	= canvas.append('div')
+				.attr('id', 'messages-wrapper')
+				.style('height', height + 'px')
+				.selectAll('.message-wrapper').data(data).enter()
+					.append('div')
+					.attr('class', 'message-wrapper cursor-default');
+
+			wrapper.append('div')
+				.attr('class', 'content')
+				.text((o) => (o.context));
+
+			wrapper.append('div')
+				.attr('class', 'additional')
+				.html((o) => (o.source + ' &#9679; ' + moment(o.date).format(dateFormat)));
 		});
+	}
+
+	function back() {
+		d3.select('#' + message_id).remove();
+
+		opened		= false;
+		let dest	= d3.select('svg#' + keywords_id);
+
+		dest.select('g').transition(transition).attr('transform', 'translate(0,0)');
+		dest.transition(transition).attr('width', canvasWidth);
 	}
 }

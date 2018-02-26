@@ -29,6 +29,8 @@ const volume_id		= 'volume-viz';
 const keywords_id	= 'keywords-viz';
 const topics_id		= 'topics-viz';
 
+const message_id	= 'messages-content';
+
 const awaitTime		= 800;
 
 let monitor_id		= 1;

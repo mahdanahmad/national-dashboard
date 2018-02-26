@@ -378,6 +378,9 @@ module.exports.raw	= (monitor_id, input, callback) => {
 	const limit			= (input.limit		|| 10);
 	const offset		= (input.offset		|| 0);
 
+	const cate_id		= (input.id			|| null);
+	const layer1_key	= (input. key		|| null);
+
 	async.waterfall([
 		(flowCallback) => {
 			if (active) {
@@ -392,6 +395,9 @@ module.exports.raw	= (monitor_id, input, callback) => {
 				if (startDate && endDate) { where.push('date BETWEEN \'' + startDate + '\' AND \'' + endDate + '\''); }
 				if (datasource) { where.push('`source` IN (' + datasource.split(',').map((o) => ('\'' + _.trim(o).toLowerCase() + '\'')) + ')'); }
 				if (province) { where.push('`province_id` = ' + province); }
+
+				if (cate_id) { where.push('`' + cate_id + '` = 1') }
+				if (layer1_key) { where.push('`layer1` LIKE \'%' + layer1_key + '%\'') }
 
 				let query	= 'SELECT `date`, `context`, `source` ' +
 				'FROM ?? ' +

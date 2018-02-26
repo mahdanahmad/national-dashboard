@@ -17,3 +17,20 @@ svg#keywords-viz {
 		rect#overlay { fill: $default-back; }
 	}
 }
+
+div#messages-content {
+	display: inline-block; position: absolute; color: white;
+	#title-wrapper { @include ellipsis(); }
+	#messages-wrapper {
+		width: 100%; overflow-y: auto;
+		.message-wrapper {
+			padding: 10px; margin-bottom: 10px;
+			.content { font-size: 14px; margin-bottom: 5px; }
+			.additional {  }
+		}
+	}
+	#back-button {
+		position: absolute; left: 0px; top: calc(50% - (35px / 2));
+		i { font-size: 35px; }
+	}
+}

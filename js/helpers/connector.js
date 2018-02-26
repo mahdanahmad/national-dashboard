@@ -24,6 +24,7 @@ function refreshContent() {
 function changeContent(val) {
 	let activeContent	= $('#navigation li.active').text();
 	if (activeContent !== val) {
+		if (activeContent == navigation[3]) { d3.select('#' + message_id).remove(); }
 		$( '#navigation li.active' ).removeClass('active');
 		$( '#navigation li#' + _.kebabCase(val) ).addClass('active');
 		switch (val) {
