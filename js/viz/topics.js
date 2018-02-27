@@ -132,14 +132,28 @@ function createTopics() {
 				.attr('font-size', label_size)
 				.text((o) => (o.key)).call(wrapEllipsis, width / 14);
 
+			bipartite_cvs.selectAll('.viz-biPartite-mainBar').append('rect')
+				.attr('class', 'overlay')
+				.attr('x', (o) => (o.part == 'primary' ? -(width / 8) : 0 ))
+				.attr('y', (o) => -(o.height))
+				.attr('height', (o) => (o.height * 2))
+				.attr('width', width / 8)
+				.attr('fill', 'transparent');
+
 			bipartite_cvs.selectAll('.viz-biPartite-mainBar')
 				.on('mouseover', function(d) {
 					bipartite_func.mouseover(d);
-					bipartite_cvs.selectAll(".viz-biPartite-mainBar").select(".percent").text((o) => (d3.format(".1%")(o.percent)))
+					bipartite_cvs.selectAll(".viz-biPartite-mainBar").select(".percent").text((o) => (d3.format(".1%")(o.percent)));
+					bipartite_cvs.selectAll(".viz-biPartite-mainBar").select(".overlay")
+						.attr('y', (o) => -(o.height))
+						.attr('height', (o) => (o.height * 2));
 				})
 				.on('mouseout', function(d) {
 					bipartite_func.mouseout(d);
-					bipartite_cvs.selectAll(".viz-biPartite-mainBar").select(".percent").text((o) => (d3.format(".1%")(o.percent)))
+					bipartite_cvs.selectAll(".viz-biPartite-mainBar").select(".percent").text((o) => (d3.format(".1%")(o.percent)));
+					bipartite_cvs.selectAll(".viz-biPartite-mainBar").select(".overlay")
+						.attr('y', (o) => -(o.height))
+						.attr('height', (o) => (o.height * 2));
 				});
 
 

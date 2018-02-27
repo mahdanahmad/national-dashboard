@@ -83,6 +83,7 @@ module.exports.categories = (monitor_id, input, callback) => {
 	const endDate		= (input.endDate	|| null);
 	const datasource	= (input.datasource	|| null);
 	const province		= (input.province	|| null);
+	const regency		= (input.regency	|| null);
 
 	async.waterfall([
 		(flowCallback) => {
@@ -93,6 +94,7 @@ module.exports.categories = (monitor_id, input, callback) => {
 			if (startDate && endDate) { where.push('date BETWEEN \'' + startDate + '\' AND \'' + endDate + '\''); }
 			if (datasource) { where.push('`source` IN (' + datasource.split(',').map((o) => ('\'' + _.trim(o).toLowerCase() + '\'')) + ')'); }
 			if (province) { where.push('`province_id` = ' + province); }
+			if (regency) { where.push('`city_id` = ' + regency); }
 
 			let query	= 'SELECT ' + cate_value.map((o) => ('SUM(`' + o.id + '`) as `' + o.id + '`')).join(', ') + ' FROM ??' + (!_.isEmpty(where) ? ' WHERE ' + where.join(' AND ') : '');
 
@@ -121,6 +123,7 @@ module.exports.treemap	= (monitor_id, input, callback) => {
 	const endDate		= (input.endDate	|| null);
 	const datasource	= (input.datasource	|| null);
 	const province		= (input.province	|| null);
+	const regency		= (input.regency	|| null);
 
 	async.waterfall([
 		(flowCallback) => {
@@ -140,6 +143,7 @@ module.exports.treemap	= (monitor_id, input, callback) => {
 				if (startDate && endDate) { where.push('date BETWEEN \'' + startDate + '\' AND \'' + endDate + '\''); }
 				if (datasource) { where.push('`source` IN (' + datasource.split(',').map((o) => ('\'' + _.trim(o).toLowerCase() + '\'')) + ')'); }
 				if (province) { where.push('`province_id` = ' + province); }
+				if (regency) { where.push('`city_id` = ' + regency); }
 
 				let query	= 'SELECT ' + child_keys.map((o) => ('SUM(`' + o + '`) as `' + o + '`')).join(', ') + ' FROM ??' + (!_.isEmpty(where) ? ' WHERE ' + where.join(' AND ') : '');
 
@@ -180,6 +184,7 @@ module.exports.volume	= (monitor_id, input, callback) => {
 	const endDate		= (input.endDate	|| moment([2014]).endOf('year').format(dateFormat));
 	const datasource	= (input.datasource	|| null);
 	const province		= (input.province	|| null);
+	const regency		= (input.regency	|| null);
 	const time			= (input.time		|| 'daily');
 
 	async.waterfall([
@@ -196,6 +201,7 @@ module.exports.volume	= (monitor_id, input, callback) => {
 				if (startDate && endDate) { where.push('date BETWEEN \'' + startDate + '\' AND \'' + endDate + '\''); }
 				if (datasource) { where.push('`source` IN (' + datasource.split(',').map((o) => ('\'' + _.trim(o).toLowerCase() + '\'')) + ')'); }
 				if (province) { where.push('`province_id` = ' + province); }
+				if (regency) { where.push('`city_id` = ' + regency); }
 
 				let query	= 'SELECT `date`, `' + cate_value.map((o) => (o.id)).join('`,`') + '` ' +
 				'FROM ?? ' +
@@ -250,6 +256,7 @@ module.exports.keywords	= (monitor_id, input, callback) => {
 	const endDate		= (input.endDate	|| moment([2014]).endOf('year').format(dateFormat));
 	const datasource	= (input.datasource	|| null);
 	const province		= (input.province	|| null);
+	const regency		= (input.regency	|| null);
 	const limit			= (input.limit		|| 10);
 
 	async.waterfall([
@@ -262,6 +269,7 @@ module.exports.keywords	= (monitor_id, input, callback) => {
 				if (startDate && endDate) { where.push('date BETWEEN \'' + startDate + '\' AND \'' + endDate + '\''); }
 				if (datasource) { where.push('`source` IN (' + datasource.split(',').map((o) => ('\'' + _.trim(o).toLowerCase() + '\'')) + ')'); }
 				if (province) { where.push('`province_id` = ' + province); }
+				if (regency) { where.push('`city_id` = ' + regency); }
 
 				async.parallel({
 					keywords: (callback) => {
@@ -313,6 +321,7 @@ module.exports.bipartite	= (monitor_id, input, callback) => {
 	const endDate		= (input.endDate	|| null);
 	const datasource	= (input.datasource	|| null);
 	const province		= (input.province	|| null);
+	const regency		= (input.regency	|| null);
 
 	async.waterfall([
 		(flowCallback) => {
@@ -332,6 +341,7 @@ module.exports.bipartite	= (monitor_id, input, callback) => {
 				if (startDate && endDate) { where.push('date BETWEEN \'' + startDate + '\' AND \'' + endDate + '\''); }
 				if (datasource) { where.push('`source` IN (' + datasource.split(',').map((o) => ('\'' + _.trim(o).toLowerCase() + '\'')) + ')'); }
 				if (province) { where.push('`province_id` = ' + province); }
+				if (regency) { where.push('`city_id` = ' + regency); }
 
 				let query	= 'SELECT ' + child_keys.map((o) => ('SUM(`' + o + '`) as `' + o + '`')).join(', ') + ' FROM ??' + (!_.isEmpty(where) ? ' WHERE ' + where.join(' AND ') : '');
 
@@ -374,6 +384,7 @@ module.exports.raw	= (monitor_id, input, callback) => {
 	const endDate		= (input.endDate	|| moment([2014]).endOf('year').format(dateFormat));
 	const datasource	= (input.datasource	|| null);
 	const province		= (input.province	|| null);
+	const regency		= (input.regency	|| null);
 
 	const limit			= (input.limit		|| 10);
 	const offset		= (input.offset		|| 0);
@@ -395,7 +406,8 @@ module.exports.raw	= (monitor_id, input, callback) => {
 				if (startDate && endDate) { where.push('date BETWEEN \'' + startDate + '\' AND \'' + endDate + '\''); }
 				if (datasource) { where.push('`source` IN (' + datasource.split(',').map((o) => ('\'' + _.trim(o).toLowerCase() + '\'')) + ')'); }
 				if (province) { where.push('`province_id` = ' + province); }
-
+				if (regency) { where.push('`city_id` = ' + regency); }
+				
 				if (cate_id) { where.push('`' + cate_id + '` = 1') }
 				if (layer1_key) { where.push('`layer1` LIKE \'%' + layer1_key + '%\'') }
 

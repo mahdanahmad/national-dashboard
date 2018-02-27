@@ -16,6 +16,18 @@
 				.options-button { width: $options-height; display: inline-block; float: right; text-align: center; color: $input-clr; border-left: 1px solid #6a7e84; }
 				&:hover { input, .options-button { color: white; }}
 			}
+			&#header-province, &#header-regency {
+				position: relative;
+				.chevron-wrapper {
+					position: absolute; color: white; top: 0px; right: -7px; font-size: 12px; height: 100%;
+					i {
+						position: absolute;
+						&.fa-chevron-up { top: 10% }
+						&.fa-chevron-down { bottom: 34% }
+						&.not-active { opacity: .4; }
+					}
+				}
+			}
 		}
 	}
 }
@@ -32,7 +44,7 @@
 		&.active { background-color: $header-clr; }
 	}
 }
-#dropdown-region {
+#dropdown-region, #dropdown-regency {
 	ul {
 		max-height: 350px; overflow: auto;
 		li {

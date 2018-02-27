@@ -41,3 +41,4 @@ let cateValue		= {};
 
 let countessa		= { provinces: {}, regencies: {} };
 let centered		= null;
+let regency			= null;

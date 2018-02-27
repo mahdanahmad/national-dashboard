@@ -18,7 +18,7 @@ $( document ).ready(function() {
 	});
 
 	// Get Area Options
-	getProvinces(( data ) => {
+	getProvinces(null, ( data ) => {
 		$( '#dropdown-region > ul' ).append(data.map((o) => ("<li id='region-" + o.id + "' value='" + o.id + "'>" + o.name + "</li>")).join(''));
 		$( 'div#dropdown-region > ul > li' ).click(function(e) {
 			$( '#region > input' ).val($( this ).text());
@@ -48,7 +48,6 @@ $( document ).ready(function() {
 
 	// Create Map (default)
 	createMap();
-	// setTimeout(() => { createKeywords() }, 100);
 
 	$( '#cate-preset' ).click((e) => {
 

@@ -1,7 +1,10 @@
 const _			= require('lodash');
 const async		= require('async');
 
+const cities	= require('../models/cities');
 const provinces	= require('../models/provinces');
+
+String.prototype.titlecase	= function() { return this.toLowerCase().replace(/\b\w/g, l => l.toUpperCase()); }
 
 /**
  * Display a listing of the resource.
@@ -83,6 +86,9 @@ module.exports.show = (id, callback) => {
 				flowCallback(null, result);
 			});
 		},
+		(prov_data, flowCallback) => {
+			cities.findAll(['city_id', 'city_name'], { where: ['province_id = ?', id] }, {}, (err, result) => flowCallback(err, { id: prov_data.province_id, name: prov_data.province_name.titlecase(), cities: result.map((o) => ({ id: o.city_id, name: o.city_name.titlecase() })) }));
+		}
 	], (err, asyncResult) => {
 		if (err) {
 			response    = 'FAILED';

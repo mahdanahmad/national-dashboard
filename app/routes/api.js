@@ -9,6 +9,9 @@ const categories	= require('../controllers/categories');
 router.get('/provinces', (req, res, next) => {
 	provinces.index(req.query, (result) => { res.status(result.status_code).json(result); });
 });
+router.get('/provinces/:id', (req, res, next) => {
+	provinces.show(req.params.id, (result) => { res.status(result.status_code).json(result); });
+});
 
 // categories
 router.get('/categories/:monitor_id', (req, res, next) => {

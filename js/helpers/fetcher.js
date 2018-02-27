@@ -10,7 +10,7 @@ function getVizBipartite(callback) { $.get( "api/bipartite/" + monitor_id, const
 function getRaw(limit, offset, additional, callback) { $.get( "api/raw/" + monitor_id, _.assign({ limit, offset }, additional, constructParams()), ( data ) => { callback(data.result); }); }
 
 // COMPONENT
-function getProvinces(callback) { $.get( "api/provinces", (data) => { callback(data.result) }); }
+function getProvinces(id, callback) { $.get( "api/provinces" + (id ? ('/' + id) : ''), (data) => { callback(data.result) }); }
 
 // HELPER
-function constructParams() { return _.omitBy({ categories: JSON.stringify(activeCate), startDate: activeDate.start, endDate: activeDate.end, province: centered, datasource: $('#datasource > input').val() }, _.isNil); }
+function constructParams() { return _.omitBy({ categories: JSON.stringify(activeCate), startDate: activeDate.start, endDate: activeDate.end, province: centered, regency, datasource: $('#datasource > input').val() }, _.isNil); }

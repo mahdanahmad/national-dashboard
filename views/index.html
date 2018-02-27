@@ -63,24 +63,39 @@
 				</div>
 				<div id="header-options-wrapper">
 					<div class="header-options">
-						<div class="options-title">Data Source</div>
+						<div class="options-title cursor-default">Data Source</div>
 						<div class="options-selector cursor-pointer" id="datasource" data-jq-dropdown="#dropdown-datasource">
 							<input type="text" class="cursor-pointer" disabled>
 							<div class="options-button"><i class="fa fa-th" aria-hidden="true"></i></div>
 						</div>
 					</div>
 					<div class="header-options">
-						<div class="options-title">Timeline</div>
+						<div class="options-title cursor-default">Timeline</div>
 						<div class="options-selector cursor-pointer" id="timeline">
 							<input type="text" class="cursor-pointer">
 							<div class="options-button"><i class="fa fa-th" aria-hidden="true"></i></div>
 						</div>
 					</div>
-					<div class="header-options">
-						<div class="options-title">Region</div>
+					<div id="header-province" class="header-options">
+						<div class="options-title cursor-default">Province</div>
 						<div class="options-selector cursor-pointer" id="region" data-jq-dropdown="#dropdown-region">
 							<input type="text" class="cursor-pointer" value="Nasional" disabled>
 							<div class="options-button"><i class="fa fa-th" aria-hidden="true"></i></div>
+						</div>
+						<div class="chevron-wrapper cursor-pointer hidden" onclick="switchDropdown()">
+							<i class="fa fa-chevron-up not-active" aria-hidden="true"></i>
+							<i class="fa fa-chevron-down" aria-hidden="true"></i>
+						</div>
+					</div>
+					<div id="header-regency" class="header-options hidden">
+						<div class="options-title cursor-default">Regency</div>
+						<div class="options-selector cursor-pointer" id="regency" data-jq-dropdown="#dropdown-regency">
+							<input type="text" class="cursor-pointer" value="Seluruh Kabupaten" disabled>
+							<div class="options-button"><i class="fa fa-th" aria-hidden="true"></i></div>
+						</div>
+						<div class="chevron-wrapper cursor-pointer" onclick="switchDropdown()">
+							<i class="fa fa-chevron-up" aria-hidden="true"></i>
+							<i class="fa fa-chevron-down not-active" aria-hidden="true"></i>
 						</div>
 					</div>
 				</div>
@@ -110,5 +125,6 @@
 
 		<div id="dropdown-datasource" class="jq-dropdown jq-dropdown-tip jq-dropdown-anchor-right"><div class="jq-dropdown-panel"></div></div>
 		<div id="dropdown-region" class="jq-dropdown jq-dropdown-tip jq-dropdown-anchor-right"><ul class="jq-dropdown-menu cursor-pointer"><li id="region-def">Nasional</li></ul></div>
+		<div id="dropdown-regency" class="jq-dropdown jq-dropdown-tip jq-dropdown-anchor-right"><ul class="jq-dropdown-menu cursor-pointer"></ul></div>
     </body>
 </html>

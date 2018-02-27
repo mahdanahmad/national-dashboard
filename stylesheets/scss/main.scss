@@ -33,7 +33,7 @@ input::-webkit-inner-spin-button, input::-webkit-outer-spin-button { -webkit-app
 .cursor-pointer { cursor: pointer; @include noselect(); }
 .noselect { @include noselect(); }
 .nopadding { @include nopadding(); }
-.hidden { display: none; }
+.hidden { display: none!important; }
 html, body, body > div#root {
 	width: 100%; height: 100%; margin: 0px; padding: 0px; overflow: hidden; font-family: $def-font-stack; font-size: 10px;
 	-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; color: black;
