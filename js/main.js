@@ -22,6 +22,8 @@ $( document ).ready(function() {
 		$( '#dropdown-region > ul' ).append(data.map((o) => ("<li id='region-" + o.id + "' value='" + o.id + "'>" + o.name + "</li>")).join(''));
 		$( 'div#dropdown-region > ul > li' ).click(function(e) {
 			$( '#region > input' ).val($( this ).text());
+			$( '#regency > input' ).val();
+			
 			$( '#dropdown-region' ).jqDropdown('hide');
 
 			changeFromRegion($( this ).val() || null);

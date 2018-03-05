@@ -6,6 +6,7 @@ let offset		= 0;
 let titleSize	= 20;
 function createKeywords() {
 	d3.select(content_dest).selectAll("svg").remove();
+	d3.select('#' + message_id).remove();
 
 	let opened			= false;
 
@@ -30,8 +31,9 @@ function createKeywords() {
 	getVizKeywords(limit, (raw) => {
 		async.forEachOf(raw, (data, key, eachCallback) => {
 			let maxCount	= d3.max(data, (o) => (o.count)) * 1.15;
-			let maxStop		= Math.floor(maxCount / 100) * 100;
-			let tickArray	= d3.range(0, maxStop + 1, (maxStop / 5));
+			let multiplier	= maxCount < 10 ? 1 : (maxCount < 100 ? 10 : 100);
+			let maxStop		= Math.floor(maxCount / multiplier) * multiplier;
+			let tickArray	= d3.range(0, maxStop + 1, Math.ceil(maxStop / 5));
 
 			let canvas		= svg.append('g').attr('id', key + '-wrapper').attr("transform", "translate(" + ((_.indexOf(vals, key) * (canvasWidth / 2)) + margin.left) + "," + margin.top + ")");
 			let x			= d3.scaleLinear().range([0, width]).domain([0, maxCount]);

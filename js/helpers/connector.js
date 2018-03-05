@@ -91,6 +91,8 @@ function createDropdownKab() {
 	} else {
 		switchDropdown('province');
 		d3.select('#header-province .chevron-wrapper').classed('hidden', true);
+
+		$( '#regency > input' ).val();
 	}
 
 	regency	= null;
